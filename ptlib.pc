@@ -1,0 +1,58 @@
+prefix=/home/jan/voip_compile/opalvoip-cvs/ptlib-2.10.9
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib_linux_x86_64
+includedir=${prefix}/include
+cxxflags= -felide-constructors -Wreorder
+suffix=
+machtype=x86_64
+ostype=linux
+objdir=obj_linux_x86_64${suffix}
+
+Name: ptlib
+Description: PT Library
+Version: 2.10.9
+Libs:  -L${libdir} -lpt${suffix}
+Libs.private:  -lpthread -lrt -lsasl2 -lldap -llber -lldap_r -lssl -lcrypto   -lresolv -ldl
+Cflags: -I${includedir}  -DP_64BIT -DPTRACING=1 -D_REENTRANT     -fno-exceptions
+
+PTLIB_IPV6=yes
+PTLIB_RESOLVER=yes
+PTLIB_OPENSSL=yes
+PTLIB_OPENSSL_AES=yes
+PTLIB_OPENLDAP=yes
+PTLIB_SASL=no
+PTLIB_SASL2=yes
+PTLIB_EXPAT=no
+PTLIB_REGEX=yes
+PTLIB_SDL=no
+PTLIB_VIDEO_CAPTURE=yes
+
+PTLIB_TTS=yes
+PTLIB_ASN=yes
+PTLIB_STUN=yes
+PTLIB_PIPECHAN=yes
+PTLIB_DTMF=yes
+PTLIB_WAVFILE=yes
+PTLIB_SOCKS=yes
+PTLIB_FTP=yes
+PTLIB_SNMP=yes
+PTLIB_TELNET=yes
+PTLIB_REMCONN=yes
+PTLIB_SERIAL=yes
+PTLIB_POP3SMTP=yes
+PTLIB_AUDIO=yes
+PTLIB_VIDEO=yes
+PTLIB_SHM_VIDEO=yes
+
+PTLIB_VXML=no
+PTLIB_JABBER=no
+PTLIB_XMLRPC=no
+PTLIB_SOAP=no
+PTLIB_URL=yes
+PTLIB_HTTP=yes
+PTLIB_HTTPFORMS=yes
+PTLIB_HTTPSVC=yes
+PTLIB_CONFIG_FILE=yes
+PTLIB_VIDFILE=yes
+PTLIB_ODBC=no
+

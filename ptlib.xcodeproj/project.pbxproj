@@ -1,0 +1,791 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXFileReference section */
+		A370C00411E99517008AE956 /* asnber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asnber.h; path = include/ptclib/asnber.h; sourceTree = "<group>"; };
+		A370C00511E99517008AE956 /* asner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asner.h; path = include/ptclib/asner.h; sourceTree = "<group>"; };
+		A370C00611E99517008AE956 /* asnper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asnper.h; path = include/ptclib/asnper.h; sourceTree = "<group>"; };
+		A370C00711E99517008AE956 /* asnxer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asnxer.h; path = include/ptclib/asnxer.h; sourceTree = "<group>"; };
+		A370C00811E99517008AE956 /* cli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cli.h; path = include/ptclib/cli.h; sourceTree = "<group>"; };
+		A370C00911E99517008AE956 /* cypher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cypher.h; path = include/ptclib/cypher.h; sourceTree = "<group>"; };
+		A370C00A11E99517008AE956 /* delaychan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = delaychan.h; path = include/ptclib/delaychan.h; sourceTree = "<group>"; };
+		A370C00B11E99517008AE956 /* dtmf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dtmf.h; path = include/ptclib/dtmf.h; sourceTree = "<group>"; };
+		A370C00C11E99517008AE956 /* enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = enum.h; path = include/ptclib/enum.h; sourceTree = "<group>"; };
+		A370C00D11E99517008AE956 /* ftp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ftp.h; path = include/ptclib/ftp.h; sourceTree = "<group>"; };
+		A370C00E11E99517008AE956 /* guid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guid.h; path = include/ptclib/guid.h; sourceTree = "<group>"; };
+		A370C00F11E99517008AE956 /* html.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = html.h; path = include/ptclib/html.h; sourceTree = "<group>"; };
+		A370C01011E99517008AE956 /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = http.h; path = include/ptclib/http.h; sourceTree = "<group>"; };
+		A370C01111E99517008AE956 /* httpform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = httpform.h; path = include/ptclib/httpform.h; sourceTree = "<group>"; };
+		A370C01211E99517008AE956 /* httpsvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = httpsvc.h; path = include/ptclib/httpsvc.h; sourceTree = "<group>"; };
+		A370C01311E99517008AE956 /* inetmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inetmail.h; path = include/ptclib/inetmail.h; sourceTree = "<group>"; };
+		A370C01411E99517008AE956 /* inetprot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inetprot.h; path = include/ptclib/inetprot.h; sourceTree = "<group>"; };
+		A370C01511E99517008AE956 /* ipacl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ipacl.h; path = include/ptclib/ipacl.h; sourceTree = "<group>"; };
+		A370C01611E99517008AE956 /* lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lua.h; path = include/ptclib/lua.h; sourceTree = "<group>"; };
+		A370C01711E99517008AE956 /* memfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = memfile.h; path = include/ptclib/memfile.h; sourceTree = "<group>"; };
+		A370C01811E99517008AE956 /* mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mime.h; path = include/ptclib/mime.h; sourceTree = "<group>"; };
+		A370C01911E99517008AE956 /* modem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = modem.h; path = include/ptclib/modem.h; sourceTree = "<group>"; };
+		A370C01A11E99517008AE956 /* paec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = paec.h; path = include/ptclib/paec.h; sourceTree = "<group>"; };
+		A370C01B11E99517008AE956 /* pasn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pasn.h; path = include/ptclib/pasn.h; sourceTree = "<group>"; };
+		A370C01C11E99517008AE956 /* pdns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pdns.h; path = include/ptclib/pdns.h; sourceTree = "<group>"; };
+		A370C01D11E99517008AE956 /* pffvdev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pffvdev.h; path = include/ptclib/pffvdev.h; sourceTree = "<group>"; };
+		A370C01E11E99517008AE956 /* pils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pils.h; path = include/ptclib/pils.h; sourceTree = "<group>"; };
+		A370C01F11E99517008AE956 /* pldap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pldap.h; path = include/ptclib/pldap.h; sourceTree = "<group>"; };
+		A370C02011E99517008AE956 /* pnat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pnat.h; path = include/ptclib/pnat.h; sourceTree = "<group>"; };
+		A370C02111E99517008AE956 /* podbc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = podbc.h; path = include/ptclib/podbc.h; sourceTree = "<group>"; };
+		A370C02211E99517008AE956 /* psasl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psasl.h; path = include/ptclib/psasl.h; sourceTree = "<group>"; };
+		A370C02311E99517008AE956 /* psnmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psnmp.h; path = include/ptclib/psnmp.h; sourceTree = "<group>"; };
+		A370C02411E99517008AE956 /* psoap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psoap.h; path = include/ptclib/psoap.h; sourceTree = "<group>"; };
+		A370C02511E99517008AE956 /* psockbun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psockbun.h; path = include/ptclib/psockbun.h; sourceTree = "<group>"; };
+		A370C02611E99517008AE956 /* pssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pssl.h; path = include/ptclib/pssl.h; sourceTree = "<group>"; };
+		A370C02711E99517008AE956 /* pstun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pstun.h; path = include/ptclib/pstun.h; sourceTree = "<group>"; };
+		A370C02811E99517008AE956 /* ptts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ptts.h; path = include/ptclib/ptts.h; sourceTree = "<group>"; };
+		A370C02911E99517008AE956 /* pvfiledev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pvfiledev.h; path = include/ptclib/pvfiledev.h; sourceTree = "<group>"; };
+		A370C02A11E99517008AE956 /* pvidfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pvidfile.h; path = include/ptclib/pvidfile.h; sourceTree = "<group>"; };
+		A370C02B11E99517008AE956 /* pwavfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pwavfile.h; path = include/ptclib/pwavfile.h; sourceTree = "<group>"; };
+		A370C02C11E99517008AE956 /* pwavfiledev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pwavfiledev.h; path = include/ptclib/pwavfiledev.h; sourceTree = "<group>"; };
+		A370C02D11E99517008AE956 /* pxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pxml.h; path = include/ptclib/pxml.h; sourceTree = "<group>"; };
+		A370C02E11E99517008AE956 /* pxmlrpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pxmlrpc.h; path = include/ptclib/pxmlrpc.h; sourceTree = "<group>"; };
+		A370C02F11E99517008AE956 /* pxmlrpcs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pxmlrpcs.h; path = include/ptclib/pxmlrpcs.h; sourceTree = "<group>"; };
+		A370C03011E99517008AE956 /* qchannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qchannel.h; path = include/ptclib/qchannel.h; sourceTree = "<group>"; };
+		A370C03111E99517008AE956 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = random.h; path = include/ptclib/random.h; sourceTree = "<group>"; };
+		A370C03211E99517008AE956 /* rfc1155.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rfc1155.h; path = include/ptclib/rfc1155.h; sourceTree = "<group>"; };
+		A370C03311E99517008AE956 /* shttpsvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shttpsvc.h; path = include/ptclib/shttpsvc.h; sourceTree = "<group>"; };
+		A370C03411E99517008AE956 /* snmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = snmp.h; path = include/ptclib/snmp.h; sourceTree = "<group>"; };
+		A370C03511E99517008AE956 /* socks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = socks.h; path = include/ptclib/socks.h; sourceTree = "<group>"; };
+		A370C03611E99517008AE956 /* telnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = telnet.h; path = include/ptclib/telnet.h; sourceTree = "<group>"; };
+		A370C03711E99517008AE956 /* threadpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = threadpool.h; path = include/ptclib/threadpool.h; sourceTree = "<group>"; };
+		A370C03811E99517008AE956 /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = url.h; path = include/ptclib/url.h; sourceTree = "<group>"; };
+		A370C03911E99517008AE956 /* vsdl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vsdl.h; path = include/ptclib/vsdl.h; sourceTree = "<group>"; };
+		A370C03A11E99517008AE956 /* vxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vxml.h; path = include/ptclib/vxml.h; sourceTree = "<group>"; };
+		A370C03B11E99517008AE956 /* xmpp_c2s.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xmpp_c2s.h; path = include/ptclib/xmpp_c2s.h; sourceTree = "<group>"; };
+		A370C03C11E99517008AE956 /* xmpp_muc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xmpp_muc.h; path = include/ptclib/xmpp_muc.h; sourceTree = "<group>"; };
+		A370C03D11E99517008AE956 /* xmpp_roster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xmpp_roster.h; path = include/ptclib/xmpp_roster.h; sourceTree = "<group>"; };
+		A370C03E11E99517008AE956 /* xmpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xmpp.h; path = include/ptclib/xmpp.h; sourceTree = "<group>"; };
+		A370C03F11E99562008AE956 /* args.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = args.h; path = include/ptlib/args.h; sourceTree = "<group>"; };
+		A370C04011E99562008AE956 /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = include/ptlib/array.h; sourceTree = "<group>"; };
+		A370C04111E99562008AE956 /* channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = channel.h; path = include/ptlib/channel.h; sourceTree = "<group>"; };
+		A370C04211E99562008AE956 /* conchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = conchan.h; path = include/ptlib/conchan.h; sourceTree = "<group>"; };
+		A370C04311E99562008AE956 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = include/ptlib/config.h; sourceTree = "<group>"; };
+		A370C04411E99562008AE956 /* contain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = contain.h; path = include/ptlib/contain.h; sourceTree = "<group>"; };
+		A370C04511E99562008AE956 /* critsec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = critsec.h; path = include/ptlib/critsec.h; sourceTree = "<group>"; };
+		A370C04611E99562008AE956 /* dict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dict.h; path = include/ptlib/dict.h; sourceTree = "<group>"; };
+		A370C04711E99562008AE956 /* dynalink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dynalink.h; path = include/ptlib/dynalink.h; sourceTree = "<group>"; };
+		A370C04811E99562008AE956 /* ethsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ethsock.h; path = include/ptlib/ethsock.h; sourceTree = "<group>"; };
+		A370C04911E99562008AE956 /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file.h; path = include/ptlib/file.h; sourceTree = "<group>"; };
+		A370C04A11E99562008AE956 /* filepath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filepath.h; path = include/ptlib/filepath.h; sourceTree = "<group>"; };
+		A370C04B11E99562008AE956 /* icmpsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = icmpsock.h; path = include/ptlib/icmpsock.h; sourceTree = "<group>"; };
+		A370C04C11E99562008AE956 /* indchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = indchan.h; path = include/ptlib/indchan.h; sourceTree = "<group>"; };
+		A370C04D11E99562008AE956 /* int64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = int64.h; path = include/ptlib/int64.h; sourceTree = "<group>"; };
+		A370C04E11E99562008AE956 /* ipdsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ipdsock.h; path = include/ptlib/ipdsock.h; sourceTree = "<group>"; };
+		A370C04F11E99562008AE956 /* ipsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ipsock.h; path = include/ptlib/ipsock.h; sourceTree = "<group>"; };
+		A370C05011E99562008AE956 /* lists.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lists.h; path = include/ptlib/lists.h; sourceTree = "<group>"; };
+		A370C05111E99562008AE956 /* MacMainIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacMainIf.h; path = include/ptlib/MacMainIf.h; sourceTree = "<group>"; };
+		A370C05211E99562008AE956 /* mail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mail.h; path = include/ptlib/mail.h; sourceTree = "<group>"; };
+		A370C05311E99562008AE956 /* mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutex.h; path = include/ptlib/mutex.h; sourceTree = "<group>"; };
+		A370C05411E99562008AE956 /* notifier_ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = notifier_ext.h; path = include/ptlib/notifier_ext.h; sourceTree = "<group>"; };
+		A370C05511E99562008AE956 /* notifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = notifier.h; path = include/ptlib/notifier.h; sourceTree = "<group>"; };
+		A370C05611E99562008AE956 /* object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = object.h; path = include/ptlib/object.h; sourceTree = "<group>"; };
+		A370C05711E99562008AE956 /* pdirect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pdirect.h; path = include/ptlib/pdirect.h; sourceTree = "<group>"; };
+		A370C05811E99562008AE956 /* pfactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pfactory.h; path = include/ptlib/pfactory.h; sourceTree = "<group>"; };
+		A370C05911E99562008AE956 /* pipechan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pipechan.h; path = include/ptlib/pipechan.h; sourceTree = "<group>"; };
+		A370C05A11E99562008AE956 /* plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = plugin.h; path = include/ptlib/plugin.h; sourceTree = "<group>"; };
+		A370C05B11E99562008AE956 /* pluginmgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pluginmgr.h; path = include/ptlib/pluginmgr.h; sourceTree = "<group>"; };
+		A370C05C11E99562008AE956 /* pprocess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pprocess.h; path = include/ptlib/pprocess.h; sourceTree = "<group>"; };
+		A370C05D11E99562008AE956 /* psharedptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psharedptr.h; path = include/ptlib/psharedptr.h; sourceTree = "<group>"; };
+		A370C05E11E99562008AE956 /* pstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pstring.h; path = include/ptlib/pstring.h; sourceTree = "<group>"; };
+		A370C05F11E99562008AE956 /* psync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = psync.h; path = include/ptlib/psync.h; sourceTree = "<group>"; };
+		A370C06011E99562008AE956 /* ptime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ptime.h; path = include/ptlib/ptime.h; sourceTree = "<group>"; };
+		A370C06111E99562008AE956 /* qos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = qos.h; path = include/ptlib/qos.h; sourceTree = "<group>"; };
+		A370C06211E99562008AE956 /* remconn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remconn.h; path = include/ptlib/remconn.h; sourceTree = "<group>"; };
+		A370C06311E99562008AE956 /* safecoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = safecoll.h; path = include/ptlib/safecoll.h; sourceTree = "<group>"; };
+		A370C06411E99562008AE956 /* semaphor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = semaphor.h; path = include/ptlib/semaphor.h; sourceTree = "<group>"; };
+		A370C06511E99562008AE956 /* serchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = serchan.h; path = include/ptlib/serchan.h; sourceTree = "<group>"; };
+		A370C06611E99562008AE956 /* sfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sfile.h; path = include/ptlib/sfile.h; sourceTree = "<group>"; };
+		A370C06711E99562008AE956 /* smartptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = smartptr.h; path = include/ptlib/smartptr.h; sourceTree = "<group>"; };
+		A370C06811E99562008AE956 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = socket.h; path = include/ptlib/socket.h; sourceTree = "<group>"; };
+		A370C06911E99562008AE956 /* sockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sockets.h; path = include/ptlib/sockets.h; sourceTree = "<group>"; };
+		A370C06A11E99562008AE956 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound.h; path = include/ptlib/sound.h; sourceTree = "<group>"; };
+		A370C06B11E99562008AE956 /* svcproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svcproc.h; path = include/ptlib/svcproc.h; sourceTree = "<group>"; };
+		A370C06C11E99562008AE956 /* syncpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = syncpoint.h; path = include/ptlib/syncpoint.h; sourceTree = "<group>"; };
+		A370C06D11E99562008AE956 /* syncthrd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = syncthrd.h; path = include/ptlib/syncthrd.h; sourceTree = "<group>"; };
+		A370C06E11E99562008AE956 /* syslog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = syslog.h; path = include/ptlib/syslog.h; sourceTree = "<group>"; };
+		A370C06F11E99562008AE956 /* tcpsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tcpsock.h; path = include/ptlib/tcpsock.h; sourceTree = "<group>"; };
+		A370C07011E99562008AE956 /* textfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = textfile.h; path = include/ptlib/textfile.h; sourceTree = "<group>"; };
+		A370C07111E99562008AE956 /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = thread.h; path = include/ptlib/thread.h; sourceTree = "<group>"; };
+		A370C07211E99562008AE956 /* timeint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timeint.h; path = include/ptlib/timeint.h; sourceTree = "<group>"; };
+		A370C07311E99562008AE956 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timer.h; path = include/ptlib/timer.h; sourceTree = "<group>"; };
+		A370C07411E99562008AE956 /* udpsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udpsock.h; path = include/ptlib/udpsock.h; sourceTree = "<group>"; };
+		A370C07511E99562008AE956 /* vconvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vconvert.h; path = include/ptlib/vconvert.h; sourceTree = "<group>"; };
+		A370C07611E99562008AE956 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = include/ptlib/video.h; sourceTree = "<group>"; };
+		A370C07711E99562008AE956 /* videoio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = videoio.h; path = include/ptlib/videoio.h; sourceTree = "<group>"; };
+		A370C07811E99562008AE956 /* videoio1394dc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = videoio1394dc.h; path = include/ptlib/videoio1394dc.h; sourceTree = "<group>"; };
+		A370C07911E99562008AE956 /* wxstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wxstring.h; path = include/ptlib/wxstring.h; sourceTree = "<group>"; };
+		A370C07A11E995C8008AE956 /* beaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = beaudio.h; path = include/ptlib/unix/ptlib/beaudio.h; sourceTree = "<group>"; };
+		A370C07B11E995C8008AE956 /* bevideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bevideo.h; path = include/ptlib/unix/ptlib/bevideo.h; sourceTree = "<group>"; };
+		A370C07C11E995C8008AE956 /* channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = channel.h; path = include/ptlib/unix/ptlib/channel.h; sourceTree = "<group>"; };
+		A370C07D11E995C8008AE956 /* conchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = conchan.h; path = include/ptlib/unix/ptlib/conchan.h; sourceTree = "<group>"; };
+		A370C07E11E995C8008AE956 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = include/ptlib/unix/ptlib/config.h; sourceTree = "<group>"; };
+		A370C07F11E995C8008AE956 /* contain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = contain.h; path = include/ptlib/unix/ptlib/contain.h; sourceTree = "<group>"; };
+		A370C08011E995C8008AE956 /* critsec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = critsec.h; path = include/ptlib/unix/ptlib/critsec.h; sourceTree = "<group>"; };
+		A370C08111E995C8008AE956 /* dynalink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dynalink.h; path = include/ptlib/unix/ptlib/dynalink.h; sourceTree = "<group>"; };
+		A370C08211E995C8008AE956 /* ethsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ethsock.h; path = include/ptlib/unix/ptlib/ethsock.h; sourceTree = "<group>"; };
+		A370C08311E995C8008AE956 /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file.h; path = include/ptlib/unix/ptlib/file.h; sourceTree = "<group>"; };
+		A370C08411E995C8008AE956 /* filepath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filepath.h; path = include/ptlib/unix/ptlib/filepath.h; sourceTree = "<group>"; };
+		A370C08511E995C8008AE956 /* icmpsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = icmpsock.h; path = include/ptlib/unix/ptlib/icmpsock.h; sourceTree = "<group>"; };
+		A370C08611E995C8008AE956 /* ipdsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ipdsock.h; path = include/ptlib/unix/ptlib/ipdsock.h; sourceTree = "<group>"; };
+		A370C08711E995C8008AE956 /* ipsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ipsock.h; path = include/ptlib/unix/ptlib/ipsock.h; sourceTree = "<group>"; };
+		A370C08811E995C8008AE956 /* maccoreaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = maccoreaudio.h; path = include/ptlib/unix/ptlib/maccoreaudio.h; sourceTree = "<group>"; };
+		A370C08911E995C8008AE956 /* mail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mail.h; path = include/ptlib/unix/ptlib/mail.h; sourceTree = "<group>"; };
+		A370C08A11E995C8008AE956 /* mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutex.h; path = include/ptlib/unix/ptlib/mutex.h; sourceTree = "<group>"; };
+		A370C08B11E995C8008AE956 /* pdirect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pdirect.h; path = include/ptlib/unix/ptlib/pdirect.h; sourceTree = "<group>"; };
+		A370C08C11E995C8008AE956 /* pipechan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pipechan.h; path = include/ptlib/unix/ptlib/pipechan.h; sourceTree = "<group>"; };
+		A370C08D11E995C8008AE956 /* pmachdep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pmachdep.h; path = include/ptlib/unix/ptlib/pmachdep.h; sourceTree = "<group>"; };
+		A370C08E11E995C8008AE956 /* pprocess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pprocess.h; path = include/ptlib/unix/ptlib/pprocess.h; sourceTree = "<group>"; };
+		A370C08F11E995C8008AE956 /* ptime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ptime.h; path = include/ptlib/unix/ptlib/ptime.h; sourceTree = "<group>"; };
+		A370C09011E995C8008AE956 /* remconn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remconn.h; path = include/ptlib/unix/ptlib/remconn.h; sourceTree = "<group>"; };
+		A370C09111E995C8008AE956 /* resampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resampler.h; path = include/ptlib/unix/ptlib/resampler.h; sourceTree = "<group>"; };
+		A370C09211E995C8008AE956 /* semaphor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = semaphor.h; path = include/ptlib/unix/ptlib/semaphor.h; sourceTree = "<group>"; };
+		A370C09311E995C8008AE956 /* serchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = serchan.h; path = include/ptlib/unix/ptlib/serchan.h; sourceTree = "<group>"; };
+		A370C09411E995C8008AE956 /* sfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sfile.h; path = include/ptlib/unix/ptlib/sfile.h; sourceTree = "<group>"; };
+		A370C09511E995C8008AE956 /* shmvideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shmvideo.h; path = include/ptlib/unix/ptlib/shmvideo.h; sourceTree = "<group>"; };
+		A370C09611E995C8008AE956 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = socket.h; path = include/ptlib/unix/ptlib/socket.h; sourceTree = "<group>"; };
+		A370C09711E995C8008AE956 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound.h; path = include/ptlib/unix/ptlib/sound.h; sourceTree = "<group>"; };
+		A370C09811E995C8008AE956 /* svcproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svcproc.h; path = include/ptlib/unix/ptlib/svcproc.h; sourceTree = "<group>"; };
+		A370C09911E995C8008AE956 /* syncpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = syncpoint.h; path = include/ptlib/unix/ptlib/syncpoint.h; sourceTree = "<group>"; };
+		A370C09A11E995C8008AE956 /* tcpsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tcpsock.h; path = include/ptlib/unix/ptlib/tcpsock.h; sourceTree = "<group>"; };
+		A370C09B11E995C8008AE956 /* textfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = textfile.h; path = include/ptlib/unix/ptlib/textfile.h; sourceTree = "<group>"; };
+		A370C09C11E995C8008AE956 /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = thread.h; path = include/ptlib/unix/ptlib/thread.h; sourceTree = "<group>"; };
+		A370C09D11E995C8008AE956 /* timeint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timeint.h; path = include/ptlib/unix/ptlib/timeint.h; sourceTree = "<group>"; };
+		A370C09E11E995C8008AE956 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timer.h; path = include/ptlib/unix/ptlib/timer.h; sourceTree = "<group>"; };
+		A370C09F11E995C8008AE956 /* udpsock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udpsock.h; path = include/ptlib/unix/ptlib/udpsock.h; sourceTree = "<group>"; };
+		A370C0A011E995C8008AE956 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = include/ptlib/unix/ptlib/video.h; sourceTree = "<group>"; };
+		A370C0A511E9A3CD008AE956 /* assert.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = assert.cxx; path = src/ptlib/unix/assert.cxx; sourceTree = "<group>"; };
+		A370C0A611E9A3CD008AE956 /* channel.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = channel.cxx; path = src/ptlib/unix/channel.cxx; sourceTree = "<group>"; };
+		A370C0A711E9A3CD008AE956 /* config.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = config.cxx; path = src/ptlib/unix/config.cxx; sourceTree = "<group>"; };
+		A370C0A811E9A3CD008AE956 /* macosaudio.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = macosaudio.cxx; path = src/ptlib/unix/macosaudio.cxx; sourceTree = "<group>"; };
+		A370C0A911E9A3CD008AE956 /* osutil.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = osutil.cxx; path = src/ptlib/unix/osutil.cxx; sourceTree = "<group>"; };
+		A370C0AA11E9A3CD008AE956 /* pipechan.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pipechan.cxx; path = src/ptlib/unix/pipechan.cxx; sourceTree = "<group>"; };
+		A370C0AB11E9A3CD008AE956 /* remconn.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = remconn.cxx; path = src/ptlib/unix/remconn.cxx; sourceTree = "<group>"; };
+		A370C0AC11E9A3CD008AE956 /* serchan.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = serchan.cxx; path = src/ptlib/unix/serchan.cxx; sourceTree = "<group>"; };
+		A370C0AD11E9A3CD008AE956 /* socket.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = socket.cxx; path = src/ptlib/unix/socket.cxx; sourceTree = "<group>"; };
+		A370C0AE11E9A3CD008AE956 /* svcproc.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = svcproc.cxx; path = src/ptlib/unix/svcproc.cxx; sourceTree = "<group>"; };
+		A370C0AF11E9A3CD008AE956 /* tlib.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tlib.cxx; path = src/ptlib/unix/tlib.cxx; sourceTree = "<group>"; };
+		A370C0B011E9A3CD008AE956 /* tlibthrd.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tlibthrd.cxx; path = src/ptlib/unix/tlibthrd.cxx; sourceTree = "<group>"; };
+		A370C0B111E9A3CD008AE956 /* udll.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = udll.cxx; path = src/ptlib/unix/udll.cxx; sourceTree = "<group>"; };
+		A370C0B211E9A3CD008AE956 /* uicmp.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uicmp.cxx; path = src/ptlib/unix/uicmp.cxx; sourceTree = "<group>"; };
+		A370C0B311E9A401008AE956 /* collect.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collect.cxx; path = src/ptlib/common/collect.cxx; sourceTree = "<group>"; };
+		A370C0B411E9A401008AE956 /* contain.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = contain.cxx; path = src/ptlib/common/contain.cxx; sourceTree = "<group>"; };
+		A370C0B511E9A401008AE956 /* getdate.tab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = getdate.tab.c; path = src/ptlib/common/getdate.tab.c; sourceTree = "<group>"; };
+		A370C0B611E9A401008AE956 /* getdate.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = getdate.y; path = src/ptlib/common/getdate.y; sourceTree = "<group>"; };
+		A370C0B711E9A401008AE956 /* jidctflt.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jidctflt.cxx; path = src/ptlib/common/jidctflt.cxx; sourceTree = "<group>"; };
+		A370C0B811E9A401008AE956 /* notifier_ext.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = notifier_ext.cxx; path = src/ptlib/common/notifier_ext.cxx; sourceTree = "<group>"; };
+		A370C0B911E9A401008AE956 /* object.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = object.cxx; path = src/ptlib/common/object.cxx; sourceTree = "<group>"; };
+		A370C0BA11E9A401008AE956 /* osutils.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = osutils.cxx; path = src/ptlib/common/osutils.cxx; sourceTree = "<group>"; };
+		A370C0BB11E9A401008AE956 /* pchannel.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pchannel.cxx; path = src/ptlib/common/pchannel.cxx; sourceTree = "<group>"; };
+		A370C0BC11E9A401008AE956 /* pconfig.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pconfig.cxx; path = src/ptlib/common/pconfig.cxx; sourceTree = "<group>"; };
+		A370C0BD11E9A401008AE956 /* pethsock.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pethsock.cxx; path = src/ptlib/common/pethsock.cxx; sourceTree = "<group>"; };
+		A370C0BE11E9A401008AE956 /* pipechan.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pipechan.cxx; path = src/ptlib/common/pipechan.cxx; sourceTree = "<group>"; };
+		A370C0BF11E9A402008AE956 /* pluginmgr.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pluginmgr.cxx; path = src/ptlib/common/pluginmgr.cxx; sourceTree = "<group>"; };
+		A370C0C011E9A402008AE956 /* ptime.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ptime.cxx; path = src/ptlib/common/ptime.cxx; sourceTree = "<group>"; };
+		A370C0C111E9A402008AE956 /* pvidchan.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pvidchan.cxx; path = src/ptlib/common/pvidchan.cxx; sourceTree = "<group>"; };
+		A370C0C211E9A402008AE956 /* qos.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qos.cxx; path = src/ptlib/common/qos.cxx; sourceTree = "<group>"; };
+		A370C0C411E9A402008AE956 /* cclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cclass.h; sourceTree = "<group>"; };
+		A370C0C511E9A402008AE956 /* cname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cname.h; sourceTree = "<group>"; };
+		A370C0C611E9A402008AE956 /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
+		A370C0C711E9A402008AE956 /* debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = debug.c; sourceTree = "<group>"; };
+		A370C0C811E9A402008AE956 /* engine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = engine.c; sourceTree = "<group>"; };
+		A370C0C911E9A402008AE956 /* engine.ih */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = engine.ih; sourceTree = "<group>"; };
+		A370C0CA11E9A402008AE956 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		A370C0CB11E9A402008AE956 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		A370C0CC11E9A402008AE956 /* mkh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mkh; sourceTree = "<group>"; };
+		A370C0CD11E9A402008AE956 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		A370C0CE11E9A402008AE956 /* regcomp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regcomp.c; sourceTree = "<group>"; };
+		A370C0CF11E9A402008AE956 /* regcomp.ih */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = regcomp.ih; sourceTree = "<group>"; };
+		A370C0D011E9A402008AE956 /* regerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regerror.c; sourceTree = "<group>"; };
+		A370C0D111E9A402008AE956 /* regerror.ih */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = regerror.ih; sourceTree = "<group>"; };
+		A370C0D211E9A402008AE956 /* regex.3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = regex.3; sourceTree = "<group>"; };
+		A370C0D311E9A402008AE956 /* regex.7 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = regex.7; sourceTree = "<group>"; };
+		A370C0D411E9A402008AE956 /* regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = regex.h; sourceTree = "<group>"; };
+		A370C0D511E9A402008AE956 /* regex2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = regex2.h; sourceTree = "<group>"; };
+		A370C0D611E9A402008AE956 /* regexec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regexec.c; sourceTree = "<group>"; };
+		A370C0D711E9A402008AE956 /* regfree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = regfree.c; sourceTree = "<group>"; };
+		A370C0D811E9A402008AE956 /* split.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = split.c; sourceTree = "<group>"; };
+		A370C0D911E9A402008AE956 /* tests */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tests; sourceTree = "<group>"; };
+		A370C0DA11E9A402008AE956 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		A370C0DB11E9A402008AE956 /* WHATSNEW */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WHATSNEW; sourceTree = "<group>"; };
+		A370C0DC11E9A402008AE956 /* safecoll.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = safecoll.cxx; path = src/ptlib/common/safecoll.cxx; sourceTree = "<group>"; };
+		A370C0DD11E9A402008AE956 /* serial.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = serial.cxx; path = src/ptlib/common/serial.cxx; sourceTree = "<group>"; };
+		A370C0DE11E9A402008AE956 /* sfile.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sfile.cxx; path = src/ptlib/common/sfile.cxx; sourceTree = "<group>"; };
+		A370C0DF11E9A402008AE956 /* sockets.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sockets.cxx; path = src/ptlib/common/sockets.cxx; sourceTree = "<group>"; };
+		A370C0E011E9A402008AE956 /* sound.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound.cxx; path = src/ptlib/common/sound.cxx; sourceTree = "<group>"; };
+		A370C0E111E9A402008AE956 /* syslog.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = syslog.cxx; path = src/ptlib/common/syslog.cxx; sourceTree = "<group>"; };
+		A370C0E211E9A402008AE956 /* tinyjpeg-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "tinyjpeg-internal.h"; path = "src/ptlib/common/tinyjpeg-internal.h"; sourceTree = "<group>"; };
+		A370C0E311E9A402008AE956 /* tinyjpeg.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyjpeg.cxx; path = src/ptlib/common/tinyjpeg.cxx; sourceTree = "<group>"; };
+		A370C0E411E9A402008AE956 /* tinyjpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyjpeg.h; path = src/ptlib/common/tinyjpeg.h; sourceTree = "<group>"; };
+		A370C0E511E9A402008AE956 /* vconvert.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vconvert.cxx; path = src/ptlib/common/vconvert.cxx; sourceTree = "<group>"; };
+		A370C0E611E9A402008AE956 /* vfakeio.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vfakeio.cxx; path = src/ptlib/common/vfakeio.cxx; sourceTree = "<group>"; };
+		A370C0E711E9A402008AE956 /* videoio.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = videoio.cxx; path = src/ptlib/common/videoio.cxx; sourceTree = "<group>"; };
+		A370C0E811E9A442008AE956 /* asnber.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asnber.cxx; path = src/ptclib/asnber.cxx; sourceTree = "<group>"; };
+		A370C0E911E9A442008AE956 /* asner.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asner.cxx; path = src/ptclib/asner.cxx; sourceTree = "<group>"; };
+		A370C0EA11E9A442008AE956 /* asnper.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asnper.cxx; path = src/ptclib/asnper.cxx; sourceTree = "<group>"; };
+		A370C0EB11E9A442008AE956 /* asnxer.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asnxer.cxx; path = src/ptclib/asnxer.cxx; sourceTree = "<group>"; };
+		A370C0EC11E9A442008AE956 /* cli.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cli.cxx; path = src/ptclib/cli.cxx; sourceTree = "<group>"; };
+		A370C0ED11E9A442008AE956 /* cypher.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cypher.cxx; path = src/ptclib/cypher.cxx; sourceTree = "<group>"; };
+		A370C0EE11E9A442008AE956 /* delaychan.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = delaychan.cxx; path = src/ptclib/delaychan.cxx; sourceTree = "<group>"; };
+		A370C0EF11E9A442008AE956 /* dtmf.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dtmf.cxx; path = src/ptclib/dtmf.cxx; sourceTree = "<group>"; };
+		A370C0F011E9A442008AE956 /* enum.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = enum.cxx; path = src/ptclib/enum.cxx; sourceTree = "<group>"; };
+		A370C0F111E9A442008AE956 /* ftp.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ftp.cxx; path = src/ptclib/ftp.cxx; sourceTree = "<group>"; };
+		A370C0F211E9A442008AE956 /* ftpclnt.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ftpclnt.cxx; path = src/ptclib/ftpclnt.cxx; sourceTree = "<group>"; };
+		A370C0F311E9A442008AE956 /* ftpsrvr.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ftpsrvr.cxx; path = src/ptclib/ftpsrvr.cxx; sourceTree = "<group>"; };
+		A370C0F411E9A442008AE956 /* guid.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guid.cxx; path = src/ptclib/guid.cxx; sourceTree = "<group>"; };
+		A370C0F511E9A442008AE956 /* html.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = html.cxx; path = src/ptclib/html.cxx; sourceTree = "<group>"; };
+		A370C0F611E9A442008AE956 /* http.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = http.cxx; path = src/ptclib/http.cxx; sourceTree = "<group>"; };
+		A370C0F711E9A442008AE956 /* httpclnt.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = httpclnt.cxx; path = src/ptclib/httpclnt.cxx; sourceTree = "<group>"; };
+		A370C0F811E9A442008AE956 /* httpform.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = httpform.cxx; path = src/ptclib/httpform.cxx; sourceTree = "<group>"; };
+		A370C0F911E9A442008AE956 /* httpsrvr.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = httpsrvr.cxx; path = src/ptclib/httpsrvr.cxx; sourceTree = "<group>"; };
+		A370C0FA11E9A442008AE956 /* httpsvc.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = httpsvc.cxx; path = src/ptclib/httpsvc.cxx; sourceTree = "<group>"; };
+		A370C0FB11E9A442008AE956 /* inetmail.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inetmail.cxx; path = src/ptclib/inetmail.cxx; sourceTree = "<group>"; };
+		A370C0FC11E9A442008AE956 /* inetprot.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inetprot.cxx; path = src/ptclib/inetprot.cxx; sourceTree = "<group>"; };
+		A370C0FD11E9A442008AE956 /* ipacl.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ipacl.cxx; path = src/ptclib/ipacl.cxx; sourceTree = "<group>"; };
+		A370C0FE11E9A442008AE956 /* lua.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = lua.cxx; path = src/ptclib/lua.cxx; sourceTree = "<group>"; };
+		A370C0FF11E9A442008AE956 /* memfile.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = memfile.cxx; path = src/ptclib/memfile.cxx; sourceTree = "<group>"; };
+		A370C10011E9A442008AE956 /* modem.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = modem.cxx; path = src/ptclib/modem.cxx; sourceTree = "<group>"; };
+		A370C10111E9A442008AE956 /* pasn.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pasn.cxx; path = src/ptclib/pasn.cxx; sourceTree = "<group>"; };
+		A370C10211E9A442008AE956 /* pdns.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pdns.cxx; path = src/ptclib/pdns.cxx; sourceTree = "<group>"; };
+		A370C10311E9A442008AE956 /* pffvdev.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pffvdev.cxx; path = src/ptclib/pffvdev.cxx; sourceTree = "<group>"; };
+		A370C10411E9A442008AE956 /* pils.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pils.cxx; path = src/ptclib/pils.cxx; sourceTree = "<group>"; };
+		A370C10511E9A442008AE956 /* pldap.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pldap.cxx; path = src/ptclib/pldap.cxx; sourceTree = "<group>"; };
+		A370C10611E9A442008AE956 /* pnat.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pnat.cxx; path = src/ptclib/pnat.cxx; sourceTree = "<group>"; };
+		A370C10711E9A442008AE956 /* podbc.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = podbc.cxx; path = src/ptclib/podbc.cxx; sourceTree = "<group>"; };
+		A370C10811E9A442008AE956 /* psasl.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = psasl.cxx; path = src/ptclib/psasl.cxx; sourceTree = "<group>"; };
+		A370C10911E9A442008AE956 /* psnmp.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = psnmp.cxx; path = src/ptclib/psnmp.cxx; sourceTree = "<group>"; };
+		A370C10A11E9A442008AE956 /* psoap.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = psoap.cxx; path = src/ptclib/psoap.cxx; sourceTree = "<group>"; };
+		A370C10B11E9A442008AE956 /* psockbun.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = psockbun.cxx; path = src/ptclib/psockbun.cxx; sourceTree = "<group>"; };
+		A370C10C11E9A442008AE956 /* pssl.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pssl.cxx; path = src/ptclib/pssl.cxx; sourceTree = "<group>"; };
+		A370C10D11E9A442008AE956 /* pstun.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pstun.cxx; path = src/ptclib/pstun.cxx; sourceTree = "<group>"; };
+		A370C10E11E9A442008AE956 /* ptts.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ptts.cxx; path = src/ptclib/ptts.cxx; sourceTree = "<group>"; };
+		A370C10F11E9A442008AE956 /* pvfiledev.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pvfiledev.cxx; path = src/ptclib/pvfiledev.cxx; sourceTree = "<group>"; };
+		A370C11011E9A442008AE956 /* pvidfile.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pvidfile.cxx; path = src/ptclib/pvidfile.cxx; sourceTree = "<group>"; };
+		A370C11111E9A442008AE956 /* pwavfile.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pwavfile.cxx; path = src/ptclib/pwavfile.cxx; sourceTree = "<group>"; };
+		A370C11211E9A442008AE956 /* pwavfiledev.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pwavfiledev.cxx; path = src/ptclib/pwavfiledev.cxx; sourceTree = "<group>"; };
+		A370C11311E9A442008AE956 /* pxml.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pxml.cxx; path = src/ptclib/pxml.cxx; sourceTree = "<group>"; };
+		A370C11411E9A442008AE956 /* pxmlrpc.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pxmlrpc.cxx; path = src/ptclib/pxmlrpc.cxx; sourceTree = "<group>"; };
+		A370C11511E9A442008AE956 /* pxmlrpcs.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pxmlrpcs.cxx; path = src/ptclib/pxmlrpcs.cxx; sourceTree = "<group>"; };
+		A370C11611E9A442008AE956 /* qchannel.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qchannel.cxx; path = src/ptclib/qchannel.cxx; sourceTree = "<group>"; };
+		A370C11711E9A442008AE956 /* random.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = random.cxx; path = src/ptclib/random.cxx; sourceTree = "<group>"; };
+		A370C11811E9A442008AE956 /* rfc1155.asn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rfc1155.asn; path = src/ptclib/rfc1155.asn; sourceTree = "<group>"; };
+		A370C11911E9A442008AE956 /* rfc1155.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rfc1155.cxx; path = src/ptclib/rfc1155.cxx; sourceTree = "<group>"; };
+		A370C11A11E9A442008AE956 /* shttpsvc.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shttpsvc.cxx; path = src/ptclib/shttpsvc.cxx; sourceTree = "<group>"; };
+		A370C11B11E9A442008AE956 /* snmp.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = snmp.cxx; path = src/ptclib/snmp.cxx; sourceTree = "<group>"; };
+		A370C11C11E9A442008AE956 /* snmpclnt.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = snmpclnt.cxx; path = src/ptclib/snmpclnt.cxx; sourceTree = "<group>"; };
+		A370C11D11E9A442008AE956 /* snmpserv.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = snmpserv.cxx; path = src/ptclib/snmpserv.cxx; sourceTree = "<group>"; };
+		A370C11E11E9A442008AE956 /* socks.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = socks.cxx; path = src/ptclib/socks.cxx; sourceTree = "<group>"; };
+		A370C11F11E9A442008AE956 /* telnet.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = telnet.cxx; path = src/ptclib/telnet.cxx; sourceTree = "<group>"; };
+		A370C12011E9A442008AE956 /* threadpool.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = threadpool.cxx; path = src/ptclib/threadpool.cxx; sourceTree = "<group>"; };
+		A370C12111E9A442008AE956 /* url.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cxx; path = src/ptclib/url.cxx; sourceTree = "<group>"; };
+		A370C12211E9A442008AE956 /* vsdl.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vsdl.cxx; path = src/ptclib/vsdl.cxx; sourceTree = "<group>"; };
+		A370C12311E9A442008AE956 /* vxml.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vxml.cxx; path = src/ptclib/vxml.cxx; sourceTree = "<group>"; };
+		A370C12411E9A442008AE956 /* xmpp_c2s.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xmpp_c2s.cxx; path = src/ptclib/xmpp_c2s.cxx; sourceTree = "<group>"; };
+		A370C12511E9A442008AE956 /* xmpp_muc.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xmpp_muc.cxx; path = src/ptclib/xmpp_muc.cxx; sourceTree = "<group>"; };
+		A370C12611E9A442008AE956 /* xmpp_roster.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xmpp_roster.cxx; path = src/ptclib/xmpp_roster.cxx; sourceTree = "<group>"; };
+		A370C12711E9A442008AE956 /* xmpp.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xmpp.cxx; path = src/ptclib/xmpp.cxx; sourceTree = "<group>"; };
+		A370C13411E9A941008AE956 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
+		A370C13511E9A941008AE956 /* revision.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = revision.h.in; sourceTree = "<group>"; };
+		A370C15311E9BC88008AE956 /* common.mak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = common.mak; path = make/common.mak; sourceTree = "<group>"; };
+		A370C15411E9BC88008AE956 /* lib.mak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = lib.mak; path = make/lib.mak; sourceTree = "<group>"; };
+		A370C15511E9BC88008AE956 /* plugins.mak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = plugins.mak; path = make/plugins.mak; sourceTree = "<group>"; };
+		A370C15611E9BC88008AE956 /* ptbuildopts.mak.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ptbuildopts.mak.in; path = make/ptbuildopts.mak.in; sourceTree = "<group>"; };
+		A370C15711E9BC88008AE956 /* ptlib.mak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = ptlib.mak; path = make/ptlib.mak; sourceTree = "<group>"; };
+		A370C15811E9BC88008AE956 /* unix.mak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = unix.mak; path = make/unix.mak; sourceTree = "<group>"; };
+		A370C1EE11EB190C008AE956 /* configure.ac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* ptlib */ = {
+			isa = PBXGroup;
+			children = (
+				A370C15211E9BC64008AE956 /* Make */,
+				A370C00011E994AE008AE956 /* Includes */,
+				A370C0A111E995D1008AE956 /* Sources */,
+			);
+			name = ptlib;
+			sourceTree = "<group>";
+		};
+		A370C00011E994AE008AE956 /* Includes */ = {
+			isa = PBXGroup;
+			children = (
+				A370C13511E9A941008AE956 /* revision.h.in */,
+				A370C00311E994E9008AE956 /* Components */,
+				A370C00211E994DE008AE956 /* Common */,
+				A370C00111E994C7008AE956 /* Platform */,
+			);
+			name = Includes;
+			sourceTree = "<group>";
+		};
+		A370C00111E994C7008AE956 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				A370C07A11E995C8008AE956 /* beaudio.h */,
+				A370C07B11E995C8008AE956 /* bevideo.h */,
+				A370C07C11E995C8008AE956 /* channel.h */,
+				A370C07D11E995C8008AE956 /* conchan.h */,
+				A370C07E11E995C8008AE956 /* config.h */,
+				A370C07F11E995C8008AE956 /* contain.h */,
+				A370C08011E995C8008AE956 /* critsec.h */,
+				A370C08111E995C8008AE956 /* dynalink.h */,
+				A370C08211E995C8008AE956 /* ethsock.h */,
+				A370C08311E995C8008AE956 /* file.h */,
+				A370C08411E995C8008AE956 /* filepath.h */,
+				A370C08511E995C8008AE956 /* icmpsock.h */,
+				A370C08611E995C8008AE956 /* ipdsock.h */,
+				A370C08711E995C8008AE956 /* ipsock.h */,
+				A370C08811E995C8008AE956 /* maccoreaudio.h */,
+				A370C08911E995C8008AE956 /* mail.h */,
+				A370C08A11E995C8008AE956 /* mutex.h */,
+				A370C08B11E995C8008AE956 /* pdirect.h */,
+				A370C08C11E995C8008AE956 /* pipechan.h */,
+				A370C08D11E995C8008AE956 /* pmachdep.h */,
+				A370C08E11E995C8008AE956 /* pprocess.h */,
+				A370C08F11E995C8008AE956 /* ptime.h */,
+				A370C09011E995C8008AE956 /* remconn.h */,
+				A370C09111E995C8008AE956 /* resampler.h */,
+				A370C09211E995C8008AE956 /* semaphor.h */,
+				A370C09311E995C8008AE956 /* serchan.h */,
+				A370C09411E995C8008AE956 /* sfile.h */,
+				A370C09511E995C8008AE956 /* shmvideo.h */,
+				A370C09611E995C8008AE956 /* socket.h */,
+				A370C09711E995C8008AE956 /* sound.h */,
+				A370C09811E995C8008AE956 /* svcproc.h */,
+				A370C09911E995C8008AE956 /* syncpoint.h */,
+				A370C09A11E995C8008AE956 /* tcpsock.h */,
+				A370C09B11E995C8008AE956 /* textfile.h */,
+				A370C09C11E995C8008AE956 /* thread.h */,
+				A370C09D11E995C8008AE956 /* timeint.h */,
+				A370C09E11E995C8008AE956 /* timer.h */,
+				A370C09F11E995C8008AE956 /* udpsock.h */,
+				A370C0A011E995C8008AE956 /* video.h */,
+			);
+			name = Platform;
+			sourceTree = "<group>";
+		};
+		A370C00211E994DE008AE956 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A370C03F11E99562008AE956 /* args.h */,
+				A370C04011E99562008AE956 /* array.h */,
+				A370C04111E99562008AE956 /* channel.h */,
+				A370C04211E99562008AE956 /* conchan.h */,
+				A370C04311E99562008AE956 /* config.h */,
+				A370C04411E99562008AE956 /* contain.h */,
+				A370C04511E99562008AE956 /* critsec.h */,
+				A370C04611E99562008AE956 /* dict.h */,
+				A370C04711E99562008AE956 /* dynalink.h */,
+				A370C04811E99562008AE956 /* ethsock.h */,
+				A370C04911E99562008AE956 /* file.h */,
+				A370C04A11E99562008AE956 /* filepath.h */,
+				A370C04B11E99562008AE956 /* icmpsock.h */,
+				A370C04C11E99562008AE956 /* indchan.h */,
+				A370C04D11E99562008AE956 /* int64.h */,
+				A370C04E11E99562008AE956 /* ipdsock.h */,
+				A370C04F11E99562008AE956 /* ipsock.h */,
+				A370C05011E99562008AE956 /* lists.h */,
+				A370C05111E99562008AE956 /* MacMainIf.h */,
+				A370C05211E99562008AE956 /* mail.h */,
+				A370C05311E99562008AE956 /* mutex.h */,
+				A370C05411E99562008AE956 /* notifier_ext.h */,
+				A370C05511E99562008AE956 /* notifier.h */,
+				A370C05611E99562008AE956 /* object.h */,
+				A370C05711E99562008AE956 /* pdirect.h */,
+				A370C05811E99562008AE956 /* pfactory.h */,
+				A370C05911E99562008AE956 /* pipechan.h */,
+				A370C05A11E99562008AE956 /* plugin.h */,
+				A370C05B11E99562008AE956 /* pluginmgr.h */,
+				A370C05C11E99562008AE956 /* pprocess.h */,
+				A370C05D11E99562008AE956 /* psharedptr.h */,
+				A370C05E11E99562008AE956 /* pstring.h */,
+				A370C05F11E99562008AE956 /* psync.h */,
+				A370C06011E99562008AE956 /* ptime.h */,
+				A370C06111E99562008AE956 /* qos.h */,
+				A370C06211E99562008AE956 /* remconn.h */,
+				A370C06311E99562008AE956 /* safecoll.h */,
+				A370C06411E99562008AE956 /* semaphor.h */,
+				A370C06511E99562008AE956 /* serchan.h */,
+				A370C06611E99562008AE956 /* sfile.h */,
+				A370C06711E99562008AE956 /* smartptr.h */,
+				A370C06811E99562008AE956 /* socket.h */,
+				A370C06911E99562008AE956 /* sockets.h */,
+				A370C06A11E99562008AE956 /* sound.h */,
+				A370C06B11E99562008AE956 /* svcproc.h */,
+				A370C06C11E99562008AE956 /* syncpoint.h */,
+				A370C06D11E99562008AE956 /* syncthrd.h */,
+				A370C06E11E99562008AE956 /* syslog.h */,
+				A370C06F11E99562008AE956 /* tcpsock.h */,
+				A370C07011E99562008AE956 /* textfile.h */,
+				A370C07111E99562008AE956 /* thread.h */,
+				A370C07211E99562008AE956 /* timeint.h */,
+				A370C07311E99562008AE956 /* timer.h */,
+				A370C07411E99562008AE956 /* udpsock.h */,
+				A370C07511E99562008AE956 /* vconvert.h */,
+				A370C07611E99562008AE956 /* video.h */,
+				A370C07711E99562008AE956 /* videoio.h */,
+				A370C07811E99562008AE956 /* videoio1394dc.h */,
+				A370C07911E99562008AE956 /* wxstring.h */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		A370C00311E994E9008AE956 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A370C00411E99517008AE956 /* asnber.h */,
+				A370C00511E99517008AE956 /* asner.h */,
+				A370C00611E99517008AE956 /* asnper.h */,
+				A370C00711E99517008AE956 /* asnxer.h */,
+				A370C00811E99517008AE956 /* cli.h */,
+				A370C00911E99517008AE956 /* cypher.h */,
+				A370C00A11E99517008AE956 /* delaychan.h */,
+				A370C00B11E99517008AE956 /* dtmf.h */,
+				A370C00C11E99517008AE956 /* enum.h */,
+				A370C00D11E99517008AE956 /* ftp.h */,
+				A370C00E11E99517008AE956 /* guid.h */,
+				A370C00F11E99517008AE956 /* html.h */,
+				A370C01011E99517008AE956 /* http.h */,
+				A370C01111E99517008AE956 /* httpform.h */,
+				A370C01211E99517008AE956 /* httpsvc.h */,
+				A370C01311E99517008AE956 /* inetmail.h */,
+				A370C01411E99517008AE956 /* inetprot.h */,
+				A370C01511E99517008AE956 /* ipacl.h */,
+				A370C01611E99517008AE956 /* lua.h */,
+				A370C01711E99517008AE956 /* memfile.h */,
+				A370C01811E99517008AE956 /* mime.h */,
+				A370C01911E99517008AE956 /* modem.h */,
+				A370C01A11E99517008AE956 /* paec.h */,
+				A370C01B11E99517008AE956 /* pasn.h */,
+				A370C01C11E99517008AE956 /* pdns.h */,
+				A370C01D11E99517008AE956 /* pffvdev.h */,
+				A370C01E11E99517008AE956 /* pils.h */,
+				A370C01F11E99517008AE956 /* pldap.h */,
+				A370C02011E99517008AE956 /* pnat.h */,
+				A370C02111E99517008AE956 /* podbc.h */,
+				A370C02211E99517008AE956 /* psasl.h */,
+				A370C02311E99517008AE956 /* psnmp.h */,
+				A370C02411E99517008AE956 /* psoap.h */,
+				A370C02511E99517008AE956 /* psockbun.h */,
+				A370C02611E99517008AE956 /* pssl.h */,
+				A370C02711E99517008AE956 /* pstun.h */,
+				A370C02811E99517008AE956 /* ptts.h */,
+				A370C02911E99517008AE956 /* pvfiledev.h */,
+				A370C02A11E99517008AE956 /* pvidfile.h */,
+				A370C02B11E99517008AE956 /* pwavfile.h */,
+				A370C02C11E99517008AE956 /* pwavfiledev.h */,
+				A370C02D11E99517008AE956 /* pxml.h */,
+				A370C02E11E99517008AE956 /* pxmlrpc.h */,
+				A370C02F11E99517008AE956 /* pxmlrpcs.h */,
+				A370C03011E99517008AE956 /* qchannel.h */,
+				A370C03111E99517008AE956 /* random.h */,
+				A370C03211E99517008AE956 /* rfc1155.h */,
+				A370C03311E99517008AE956 /* shttpsvc.h */,
+				A370C03411E99517008AE956 /* snmp.h */,
+				A370C03511E99517008AE956 /* socks.h */,
+				A370C03611E99517008AE956 /* telnet.h */,
+				A370C03711E99517008AE956 /* threadpool.h */,
+				A370C03811E99517008AE956 /* url.h */,
+				A370C03911E99517008AE956 /* vsdl.h */,
+				A370C03A11E99517008AE956 /* vxml.h */,
+				A370C03B11E99517008AE956 /* xmpp_c2s.h */,
+				A370C03C11E99517008AE956 /* xmpp_muc.h */,
+				A370C03D11E99517008AE956 /* xmpp_roster.h */,
+				A370C03E11E99517008AE956 /* xmpp.h */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		A370C0A111E995D1008AE956 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A370C0A211E995E1008AE956 /* Components */,
+				A370C0A311E995EA008AE956 /* Common */,
+				A370C0A411E995F3008AE956 /* Platform */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		A370C0A211E995E1008AE956 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A370C0E811E9A442008AE956 /* asnber.cxx */,
+				A370C0E911E9A442008AE956 /* asner.cxx */,
+				A370C0EA11E9A442008AE956 /* asnper.cxx */,
+				A370C0EB11E9A442008AE956 /* asnxer.cxx */,
+				A370C0EC11E9A442008AE956 /* cli.cxx */,
+				A370C0ED11E9A442008AE956 /* cypher.cxx */,
+				A370C0EE11E9A442008AE956 /* delaychan.cxx */,
+				A370C0EF11E9A442008AE956 /* dtmf.cxx */,
+				A370C0F011E9A442008AE956 /* enum.cxx */,
+				A370C0F111E9A442008AE956 /* ftp.cxx */,
+				A370C0F211E9A442008AE956 /* ftpclnt.cxx */,
+				A370C0F311E9A442008AE956 /* ftpsrvr.cxx */,
+				A370C0F411E9A442008AE956 /* guid.cxx */,
+				A370C0F511E9A442008AE956 /* html.cxx */,
+				A370C0F611E9A442008AE956 /* http.cxx */,
+				A370C0F711E9A442008AE956 /* httpclnt.cxx */,
+				A370C0F811E9A442008AE956 /* httpform.cxx */,
+				A370C0F911E9A442008AE956 /* httpsrvr.cxx */,
+				A370C0FA11E9A442008AE956 /* httpsvc.cxx */,
+				A370C0FB11E9A442008AE956 /* inetmail.cxx */,
+				A370C0FC11E9A442008AE956 /* inetprot.cxx */,
+				A370C0FD11E9A442008AE956 /* ipacl.cxx */,
+				A370C0FE11E9A442008AE956 /* lua.cxx */,
+				A370C0FF11E9A442008AE956 /* memfile.cxx */,
+				A370C10011E9A442008AE956 /* modem.cxx */,
+				A370C10111E9A442008AE956 /* pasn.cxx */,
+				A370C10211E9A442008AE956 /* pdns.cxx */,
+				A370C10311E9A442008AE956 /* pffvdev.cxx */,
+				A370C10411E9A442008AE956 /* pils.cxx */,
+				A370C10511E9A442008AE956 /* pldap.cxx */,
+				A370C10611E9A442008AE956 /* pnat.cxx */,
+				A370C10711E9A442008AE956 /* podbc.cxx */,
+				A370C10811E9A442008AE956 /* psasl.cxx */,
+				A370C10911E9A442008AE956 /* psnmp.cxx */,
+				A370C10A11E9A442008AE956 /* psoap.cxx */,
+				A370C10B11E9A442008AE956 /* psockbun.cxx */,
+				A370C10C11E9A442008AE956 /* pssl.cxx */,
+				A370C10D11E9A442008AE956 /* pstun.cxx */,
+				A370C10E11E9A442008AE956 /* ptts.cxx */,
+				A370C10F11E9A442008AE956 /* pvfiledev.cxx */,
+				A370C11011E9A442008AE956 /* pvidfile.cxx */,
+				A370C11111E9A442008AE956 /* pwavfile.cxx */,
+				A370C11211E9A442008AE956 /* pwavfiledev.cxx */,
+				A370C11311E9A442008AE956 /* pxml.cxx */,
+				A370C11411E9A442008AE956 /* pxmlrpc.cxx */,
+				A370C11511E9A442008AE956 /* pxmlrpcs.cxx */,
+				A370C11611E9A442008AE956 /* qchannel.cxx */,
+				A370C11711E9A442008AE956 /* random.cxx */,
+				A370C11811E9A442008AE956 /* rfc1155.asn */,
+				A370C11911E9A442008AE956 /* rfc1155.cxx */,
+				A370C11A11E9A442008AE956 /* shttpsvc.cxx */,
+				A370C11B11E9A442008AE956 /* snmp.cxx */,
+				A370C11C11E9A442008AE956 /* snmpclnt.cxx */,
+				A370C11D11E9A442008AE956 /* snmpserv.cxx */,
+				A370C11E11E9A442008AE956 /* socks.cxx */,
+				A370C11F11E9A442008AE956 /* telnet.cxx */,
+				A370C12011E9A442008AE956 /* threadpool.cxx */,
+				A370C12111E9A442008AE956 /* url.cxx */,
+				A370C12211E9A442008AE956 /* vsdl.cxx */,
+				A370C12311E9A442008AE956 /* vxml.cxx */,
+				A370C12411E9A442008AE956 /* xmpp_c2s.cxx */,
+				A370C12511E9A442008AE956 /* xmpp_muc.cxx */,
+				A370C12611E9A442008AE956 /* xmpp_roster.cxx */,
+				A370C12711E9A442008AE956 /* xmpp.cxx */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		A370C0A311E995EA008AE956 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A370C0B311E9A401008AE956 /* collect.cxx */,
+				A370C0B411E9A401008AE956 /* contain.cxx */,
+				A370C0B511E9A401008AE956 /* getdate.tab.c */,
+				A370C0B611E9A401008AE956 /* getdate.y */,
+				A370C0B711E9A401008AE956 /* jidctflt.cxx */,
+				A370C0B811E9A401008AE956 /* notifier_ext.cxx */,
+				A370C0B911E9A401008AE956 /* object.cxx */,
+				A370C0BA11E9A401008AE956 /* osutils.cxx */,
+				A370C0BB11E9A401008AE956 /* pchannel.cxx */,
+				A370C0BC11E9A401008AE956 /* pconfig.cxx */,
+				A370C0BD11E9A401008AE956 /* pethsock.cxx */,
+				A370C0BE11E9A401008AE956 /* pipechan.cxx */,
+				A370C0BF11E9A402008AE956 /* pluginmgr.cxx */,
+				A370C0C011E9A402008AE956 /* ptime.cxx */,
+				A370C0C111E9A402008AE956 /* pvidchan.cxx */,
+				A370C0C211E9A402008AE956 /* qos.cxx */,
+				A370C0C311E9A402008AE956 /* regex */,
+				A370C0DC11E9A402008AE956 /* safecoll.cxx */,
+				A370C0DD11E9A402008AE956 /* serial.cxx */,
+				A370C0DE11E9A402008AE956 /* sfile.cxx */,
+				A370C0DF11E9A402008AE956 /* sockets.cxx */,
+				A370C0E011E9A402008AE956 /* sound.cxx */,
+				A370C0E111E9A402008AE956 /* syslog.cxx */,
+				A370C0E211E9A402008AE956 /* tinyjpeg-internal.h */,
+				A370C0E311E9A402008AE956 /* tinyjpeg.cxx */,
+				A370C0E411E9A402008AE956 /* tinyjpeg.h */,
+				A370C0E511E9A402008AE956 /* vconvert.cxx */,
+				A370C0E611E9A402008AE956 /* vfakeio.cxx */,
+				A370C0E711E9A402008AE956 /* videoio.cxx */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		A370C0A411E995F3008AE956 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				A370C0A511E9A3CD008AE956 /* assert.cxx */,
+				A370C0A611E9A3CD008AE956 /* channel.cxx */,
+				A370C0A711E9A3CD008AE956 /* config.cxx */,
+				A370C0A811E9A3CD008AE956 /* macosaudio.cxx */,
+				A370C0A911E9A3CD008AE956 /* osutil.cxx */,
+				A370C0AA11E9A3CD008AE956 /* pipechan.cxx */,
+				A370C0AB11E9A3CD008AE956 /* remconn.cxx */,
+				A370C0AC11E9A3CD008AE956 /* serchan.cxx */,
+				A370C0AD11E9A3CD008AE956 /* socket.cxx */,
+				A370C0AE11E9A3CD008AE956 /* svcproc.cxx */,
+				A370C0AF11E9A3CD008AE956 /* tlib.cxx */,
+				A370C0B011E9A3CD008AE956 /* tlibthrd.cxx */,
+				A370C0B111E9A3CD008AE956 /* udll.cxx */,
+				A370C0B211E9A3CD008AE956 /* uicmp.cxx */,
+			);
+			name = Platform;
+			sourceTree = "<group>";
+		};
+		A370C0C311E9A402008AE956 /* regex */ = {
+			isa = PBXGroup;
+			children = (
+				A370C0C411E9A402008AE956 /* cclass.h */,
+				A370C0C511E9A402008AE956 /* cname.h */,
+				A370C0C611E9A402008AE956 /* COPYRIGHT */,
+				A370C0C711E9A402008AE956 /* debug.c */,
+				A370C0C811E9A402008AE956 /* engine.c */,
+				A370C0C911E9A402008AE956 /* engine.ih */,
+				A370C0CA11E9A402008AE956 /* main.c */,
+				A370C0CB11E9A402008AE956 /* Makefile */,
+				A370C0CC11E9A402008AE956 /* mkh */,
+				A370C0CD11E9A402008AE956 /* README */,
+				A370C0CE11E9A402008AE956 /* regcomp.c */,
+				A370C0CF11E9A402008AE956 /* regcomp.ih */,
+				A370C0D011E9A402008AE956 /* regerror.c */,
+				A370C0D111E9A402008AE956 /* regerror.ih */,
+				A370C0D211E9A402008AE956 /* regex.3 */,
+				A370C0D311E9A402008AE956 /* regex.7 */,
+				A370C0D411E9A402008AE956 /* regex.h */,
+				A370C0D511E9A402008AE956 /* regex2.h */,
+				A370C0D611E9A402008AE956 /* regexec.c */,
+				A370C0D711E9A402008AE956 /* regfree.c */,
+				A370C0D811E9A402008AE956 /* split.c */,
+				A370C0D911E9A402008AE956 /* tests */,
+				A370C0DA11E9A402008AE956 /* utils.h */,
+				A370C0DB11E9A402008AE956 /* WHATSNEW */,
+			);
+			name = regex;
+			path = src/ptlib/common/regex;
+			sourceTree = "<group>";
+		};
+		A370C15211E9BC64008AE956 /* Make */ = {
+			isa = PBXGroup;
+			children = (
+				A370C1EE11EB190C008AE956 /* configure.ac */,
+				A370C15311E9BC88008AE956 /* common.mak */,
+				A370C15411E9BC88008AE956 /* lib.mak */,
+				A370C15511E9BC88008AE956 /* plugins.mak */,
+				A370C15611E9BC88008AE956 /* ptbuildopts.mak.in */,
+				A370C15711E9BC88008AE956 /* ptlib.mak */,
+				A370C15811E9BC88008AE956 /* unix.mak */,
+				A370C13411E9A941008AE956 /* Makefile.in */,
+			);
+			name = Make;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		D28A88AD04BDD90700651E21 /* ptlib */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "DEBUG=$DEBUG $ACTION";
+			buildConfigurationList = 1DEB918F08733D9F0010E9CD /* Build configuration list for PBXLegacyTarget "ptlib" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = ptlib;
+			passBuildSettingsInEnvironment = 1;
+			productName = ptlib;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "ptlib" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* ptlib */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D28A88AD04BDD90700651E21 /* ptlib */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB919008733D9F0010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG = 1;
+				PRODUCT_NAME = ptlib;
+				PTLIBDIR = $SOURCE_ROOT;
+			};
+			name = Debug;
+		};
+		1DEB919108733D9F0010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG = "";
+				PRODUCT_NAME = ptlib;
+				PTLIBDIR = $SOURCE_ROOT;
+			};
+			name = Release;
+		};
+		1DEB919408733D9F0010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SYMROOT = /Users/robertj/ptlib/lib_Darwin_x86;
+			};
+			name = Debug;
+		};
+		1DEB919508733D9F0010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SYMROOT = /Users/robertj/ptlib/lib_Darwin_x86;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB918F08733D9F0010E9CD /* Build configuration list for PBXLegacyTarget "ptlib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB919008733D9F0010E9CD /* Debug */,
+				1DEB919108733D9F0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "ptlib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB919408733D9F0010E9CD /* Debug */,
+				1DEB919508733D9F0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

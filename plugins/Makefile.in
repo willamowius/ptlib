@@ -1,0 +1,122 @@
+all ::
+
+TARGETDIR=@TARGETDIR@
+
+include ../make/ptlib.mak
+
+###############################Alsa
+HAS_ALSA	= @HAS_ALSA@
+
+ifeq (1,$(HAS_ALSA))
+SUBDIRS		+= sound_alsa
+ifeq (,$(DEFAULT_SOUND))
+DEFAULT_SOUND	= sound_alsa
+endif
+endif
+
+###############################audioSHM
+HAS_AUDIOSHM        = @HAS_AUDIOSHM@
+
+ifeq (1,$(HAS_AUDIOSHM))
+SUBDIRS         += sound_shm
+endif
+
+################################OSS
+HAS_OSS		= @HAS_OSS@
+
+ifeq (1,$(HAS_OSS))
+SUBDIRS += sound_oss
+ifeq (,$(DEFAULT_SOUND))
+DEFAULT_SOUND	= sound_oss
+endif
+endif
+
+#################################Pulse
+HAS_PULSE	= @HAS_PULSE@
+
+ifeq (1,$(HAS_PULSE))
+SUBDIRS += sound_pulse
+ifeq (,$(DEFAULT_SOUND))
+DEFAULT_SOUND	= sound_pulse
+endif
+endif
+
+###################################ESD
+HAS_ESD		= @HAS_ESD@
+
+ifeq (1,$(HAS_ESD))
+SUBDIRS += sound_esd
+ifeq (,$(DEFAULT_SOUND))
+DEFAULT_SOUND	= sound_esd
+endif
+endif
+
+#################################SundAudio
+HAS_SUNAUDIO = @HAS_SUNAUDIO@
+
+ifeq (1,$(HAS_SUNAUDIO))
+SUBDIRS += sound_sunaudio
+ifeq (,$(DEFAULT_SOUND))
+DEFAULT_SOUND   = sound_sunaudio
+endif
+endif
+
+##################################V4l
+HAS_V4L		= @HAS_V4L@
+
+ifeq (1,$(HAS_V4L))
+SUBDIRS += vidinput_v4l
+ifeq (,$(DEFAULT_VIDINPUT))
+DEFAULT_VIDINPUT	= vidinput_v4l
+endif
+endif
+
+HAS_V4L2	= @HAS_V4L2@
+
+ifeq (1,$(HAS_V4L2))
+SUBDIRS += vidinput_v4l2
+ifeq (,$(DEFAULT_VIDINPUT))
+DEFAULT_VIDINPUT	= vidinput_v4l2
+endif
+endif
+
+HAS_BSDVIDEOCAP		= @HAS_BSDVIDEOCAP@
+
+ifeq (1,$(HAS_BSDVIDEOCAP))
+SUBDIRS += vidinput_bsd
+ifeq (,$(DEFAULT_VIDINPUT))
+DEFAULT_VIDINPUT	= vidinput_bsd
+endif
+endif
+
+HAS_AVC1394		= @HAS_AVC1394@
+
+ifeq (1,$(HAS_AVC1394))
+SUBDIRS += vidinput_avc
+ifeq (,$(DEFAULT_VIDINPUT))
+DEFAULT_VIDINPUT	= vidinput_avc1394
+endif
+endif
+
+HAS_DC1394		= @HAS_DC1394@
+
+ifeq (1,$(HAS_DC1394))
+SUBDIRS += vidinput_dc
+ifeq (,$(DEFAULT_VIDINPUT))
+DEFAULT_VIDINPUT	= vidinput_dc1394
+endif
+endif
+
+
+ifdef   DEBUG
+TARGET := debug
+else
+TARGET := opt
+endif
+
+
+$(subst tagbuild,,$(STANDARD_TARGETS)) ::
+	set -e; $(foreach dir,$(SUBDIRS),$(MAKE) -C $(dir) $@ ;)
+
+default_sound:
+	@echo $(DEFAULT_SOUND)

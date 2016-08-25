@@ -1,0 +1,78 @@
+Pulse Audio plugin
+
+This pulse audio plugin is designed to provide a an
+easy path to utilise the most recent audio daemon provided
+on linux boxes.
+
+The code in this plugin is very basic, and utilises the simple
+interface provided by the pulse sound daemon.
+
+At the time of writing, no sound volume features have been
+provided. The pulse audio model is such that the user is expected to
+alter the volume level for rec&play using the generic controls on the
+desktop.
+
+
+Information for developers..
+The simplest way to know that ptlib has loaded this plugin is to use the 
+ptlib test application for audio.  In the directory ptlib/samples/audio,
+build this using make opt and run it.
+In the following example, we get the audio tool to report the available 
+sound devices with the -r option.
+
+./obj_linux_x86_64/audio -r
+  0:00.059                        audio                 (0)             Version 1.0alpha0
+ by Roger Hardiman & Derek Smithies code factory on Unix Linux 
+(2.6.24-23-generic-x86_64) with PTLib (v2.7beta0) at 2009/3/4 10:01:56.896
+Audio Test Program
+
+List of play devices
+  "Default"
+  "*.wav"
+  "ptlib pulse plugin"               <<<<<<<< pulse plugin loaded
+  "NVidia CK804"
+  "NVidia CK804 (1)"
+The default play device is "Default"
+List of Record devices
+  "Default"
+  "*.wav"
+  "ptlib pulse plugin"               <<<<<<<< pulse plugin loaded
+  "NVidia CK804"
+  "NVidia CK804 (1)"
+The default record device is "Default"
+
+Play volume is (for Default)100
+Record volume is (for Default)0
+
+
+From the above list, we see
+the names of the various default sound devices
+the alsa names of the sound devices on  video card 
+  (the box has dual monitors, so two sound devices are reported)
+ the pulse plugin has loaded 
+
+We can do a full duplex sound test.
+
+./obj_linux_x86_64/audio  -f -s ptlib\ pulse\ plugin
+  0:00.058                        audio                 (0)             
+Version 1.0alpha0 by Roger Hardiman & Derek Smithies code factory on Unix Linux 
+(2.6.24-23-generic-x86_64) with PTLib (v2.7beta0) at 2009/3/4 10:06:56.083
+
+Audio Test Program
+
+Play volume is (for ptlib pulse plugin)32767
+Record volume is (for ptlib pulse plugin)32767
+(testing sound device for full duplex) Command ?    
+
+at this stage, there is a read and write thread active, reading from
+mic, putting audio into a buffer, and then playing the audio to the
+speaker. You can do h for help and see the different options. Sound is
+processed in chunks that are 30ms long.
+
+If you go to the desktop, and look at the pulse audio manager. There are two
+clients in the list, "pulserec" and "pulseplay". These two clients are from
+the pulse plugin code.
+
+Enjoy,
+
+Derek Smithies, March 2009

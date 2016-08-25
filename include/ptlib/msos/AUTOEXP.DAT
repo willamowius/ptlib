@@ -1,0 +1,665 @@
+; Add the contents of this file to 
+;   C:\Program Files\Microsoft Visual Studio 8\Common7\Packages\Debugger\AUTOEXP.DAT
+;   C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Packages\Debugger\AUTOEXP.DAT
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; from PTLib
+
+PObject=<,t>
+PString=<theArray,s>
+PContainer=<,t> size=<reference->size> ref=<reference->count.m_value>
+PIPSocket::Address=<v.four.S_un.S_un_b.s_b1,u>.<v.four.S_un.S_un_b.s_b2,u>.<v.four.S_un.S_un_b.s_b3,u>.<v.four.S_un.S_un_b.s_b4,u>
+PTimeInterval=<m_milliseconds>
+PTime=<theTime>
+PAtomicInteger=<m_value>
+POrdinalKey=<theKey>
+PURL=<urlString.theArray,s>
+
+; from wxWindows
+PwxString=<m_pchData,su>
+wxString =<m_pchData,su>
+wxPoint =x=<x> y=<y>
+wxSize =w=<x> h=<y>
+wxRect =x=<x> y=<y> w=<width> h=<height>
+wxWindow =<,t> hWnd=<m_hWnd>
+
+; from OPAL
+OpalMediaType=<_Bx._Buf,s>
+OpalMediaFormat=<m_info->formatName.theArray,s>
+OpalMediaOptionValue<*>=<m_name.theArray,s>=<m_value>
+OpalMediaOptionString=<m_name.theArray,s>=<m_value.theArray,s>
+OpalMediaOptionEnum=<m_name.theArray,s>=<m_value>
+OpalMediaOptionOctets=<m_name.theArray,s>=<m_value>
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+; For DevStudio 2005 you can also add after the [Visualizer] keyword
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; from PTLib
+
+PBaseArray<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #array
+         (
+            expr : (($T1 *)$c.theArray)[$i],  
+            size : $c.reference->size,
+            base : 0
+         )
+      )
+   )
+
+   preview
+   ( 
+      #( 
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : (($T1 *)$c.theArray)[$i],  
+            size : $c.reference->size
+         ), 
+         ")"
+      )
+   )
+}
+
+PCharArray {
+   preview
+   (
+     #( (PBaseArray<char> *)&$e )
+   )
+}
+
+PBYTEArray {
+   preview
+   (
+     #( (PBaseArray<unsigned char> *)&$e )
+   )
+}
+
+PScalarArray<*> {
+   preview
+   (
+     #( (PBaseArray<$T1> *)&$e )
+   )
+}
+
+PShortArray {
+   preview
+   (
+     #( (PBaseArray<short int> *)&$e )
+   )
+}
+
+PIntArray {
+   preview
+   (
+     #( (PBaseArray<int> *)&$e )
+   )
+}
+
+PLongArray {
+   preview
+   (
+      #(
+         (PBaseArray<long> *)&$e
+      )
+   )
+}
+
+PWORDArray {
+   preview
+   (
+     #(
+         (PBaseArray<unsigned short> *)&$e
+      )
+   )
+}
+
+PUnsignedArray {
+   preview
+   (
+     #(
+         (PBaseArray<unsigned> *)&$e
+      )
+   )
+}
+
+PDWORDArray {
+   preview
+   (
+     #(
+         (PBaseArray<unsigned long> *)&$e
+      )
+   )
+}
+
+
+PArray<*> {
+   children
+   (
+      #(
+         [members]: [$e,!],
+         [sub members]: [(PContainer *)$e.theArray,!],
+         #array
+         (
+            expr : (($T1 **)((PAbstractArray *)$c.theArray)->theArray)[$i],
+            size : ((PContainer *)$e.theArray)->reference->size,
+            base : 0
+         )
+      )
+   )
+
+   preview
+   (
+      #(
+         "[", ((PContainer *)$e.theArray)->reference->size, ",", ((PContainer *)$e.theArray)->reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : (($T1 **)((PAbstractArray *)$c.theArray)->theArray)[$i],
+            size : ((PContainer *)$e.theArray)->reference->size,
+            base : 0
+         ), 
+         ")"
+       )
+   )
+}
+
+
+PStringArray {
+   preview
+   (
+      #(
+         "[", ((PContainer *)$e.theArray)->reference->size, ",", ((PContainer *)$e.theArray)->reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : [((PString **)((PAbstractArray *)$c.theArray)->theArray)[$i]->theArray,s],
+            size : ((PContainer *)$e.theArray)->reference->size,
+            base : 0
+         ), 
+         ")"
+       )
+   )
+}
+
+
+PList<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #list
+         (
+            head : $c.info->head,
+            size : $c.reference->size,
+            next : next,
+            base : 0
+         ) : $e.data
+      )
+   )
+
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #list
+         (
+            head : $c.info->head,
+            size : $c.reference->size,
+            next : next
+         ) : $e.data,
+         ")"
+      )
+   )			      
+}
+
+PStringList {
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #list
+         (
+            head : $c.info->head,
+            size : $c.reference->size,
+            next : next,
+            base : 0
+         ) : [((PString *)$e.data)->theArray,s],
+         ")"
+       )
+   )
+}
+
+
+PSortedList<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #tree
+         (
+            head : $c.info->root,
+            skip : &$c.info->nil,
+            size : $c.reference->size,
+            left : left,
+            right: right,
+            base : 0
+         ) : $e.data
+      )
+   )
+
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #tree
+         (
+            head : $c.info->root, 
+            skip : &$c.info->nil,
+            size : $c.reference->size, 
+            left : left, 
+            right : right
+         ) : $e.data,
+         ")"
+      )
+   )		     
+}
+
+PSortedStringList {
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #tree
+         (
+            head : $c.info->root, 
+            skip : &$c.info->nil,
+            size : $c.reference->size, 
+            left : left, 
+            right : right
+         ) : [((PString *)$e.data)->theArray,s],
+         ")"
+       )
+   )
+}
+
+
+PHashTableElement {
+   preview
+   (
+      #(
+	 $e.key,
+	 #if( $e.data != 0 )
+	 (
+	    #( "=", $e.data )
+	 )
+      )
+   )
+}
+
+PSet<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size,
+            base : 0
+         ) : #list
+             (
+                head : $e,
+                 next : next
+             ) : $e
+      )
+   )
+
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	  (
+              head : $e,
+              next : next
+	  ) : $e,
+         ")"
+      )
+   )
+}
+
+PStringSet {
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	     (
+                head : $e,
+                next : next
+             ) : [((PString *)$e.key)->theArray,s],
+         ")"
+      )
+   )
+}
+
+
+PDictionary<*,*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size,
+            base : 0
+         ) : #list
+             (
+                head : $e,
+                 next : next
+             ) : $e
+      )
+   )
+   
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	  (
+              head : $e,
+              next : next
+	  ) : $e,
+         ")"
+      )
+   )
+}
+
+PStringDictionary<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size,
+            base : 0
+         ) : #list
+             (
+                head : $e,
+                next : next
+             ) : $e
+      )
+   )
+   
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	     (
+                head : $e,
+                next : next
+             ) : #( *$e.key, [((PString *)$e.data)->theArray,s] ),
+         ")"
+      )
+   )
+}
+
+PStringToString {
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	     (
+                head : $e,
+                next : next
+             ) : #( 
+                    [((PString *)$e.key)->theArray,s],
+                    [((PString *)$e.data)->theArray,s]
+                 ),
+         ")"
+      )
+   )
+}
+
+POrdinalToString {
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	     (
+                head : $e,
+                next : next
+             ) : #( 
+                     ((POrdinalKey *)$e.key)->theKey,
+                    [((PString *)$e.data)->theArray,s]
+                 ),
+         ")"
+      )
+   )
+}
+
+POrdinalDictionary<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size,
+            base : 0
+         ) : #list
+             (
+                head : $e,
+                next : next
+             ) : $e
+      )
+   )
+   
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	     (
+                head : $e,
+                next : next
+             ) : #( *$e.key, ((POrdinalKey *)$e.data)->theKey ),
+         ")"
+      )
+   )
+}
+
+PStringToOrdinal {
+   preview
+   (
+      #(
+         "[", $e.reference->size, ",", $e.reference->count, "] ",
+         "(",
+         #array
+         (
+            expr : ((PHashTableElement * *)$c.hashTable->theArray)[$i],
+            size : $c.hashTable->reference->size
+         ) : #list
+	     (
+                head : $e,
+                next : next
+             ) : #( 
+                    [((PString *)$e.key)->theArray,s],
+                     ((POrdinalKey *)$e.data)->theKey
+                 ),
+         ")"
+      )
+   )
+}
+
+
+PSafePtr<*,*> {
+   children
+   (
+      #(
+         currentObject: ($T1 *)$e.currentObject,
+         collection: $e.collection,
+         lockMode: $e.lockMode,
+         references: $e.currentObject->safeReferenceCount,
+         deleted: $e.currentObject->safelyBeingRemoved,
+         threads: $e.currentObject->safeInUse->m_nestedThreads
+      )
+   )
+   
+   preview
+   (
+      #(
+          "[", $e.currentObject->safeReferenceCount, "] ", ($T1 *)$e.currentObject
+      )
+   )
+}
+
+PSafeArray<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         collection: (PArray<$T1> *)$e.collection,
+         deleteObjects: $e.deleteObjects,
+         toBeRemoved: $e.toBeRemoved
+      )
+   )
+   
+   preview
+   (
+      #(
+          (PArray<$T1> *)$e.collection
+      )
+   )
+}
+
+PSafeList<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         collection: (PList<$T1> *)$e.collection,
+         deleteObjects: $e.deleteObjects,
+         toBeRemoved: $e.toBeRemoved
+      )
+   )
+   
+   preview
+   (
+      #(
+          (PList<$T1> *)$e.collection
+      )
+   )
+}
+
+PSafeSortedList<*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         collection: (PSortedList<$T1> *)$e.collection,
+         deleteObjects: $e.deleteObjects,
+         toBeRemoved: $e.toBeRemoved
+      )
+   )
+   
+   preview
+   (
+      #(
+          (PSortedList<$T1> *)$e.collection
+      )
+   )
+}
+
+PSafeDictionary<*,*> {
+   children
+   (
+      #(
+         [members]: [$c,!],
+         collection: (PDictionary<$T1,$T2> *)$e.collection,
+         deleteObjects: $e.deleteObjects,
+         toBeRemoved: $e.toBeRemoved
+      )
+   )
+   
+   preview
+   (
+      #(
+          (PDictionary<$T1,$T2> *)$e.collection
+      )
+   )
+}
+
+
+; from OPAL
+
+OpalMediaOptionEnum {
+   preview
+   ( 
+       #(
+            [$e.m_name.theArray,s], "=", $e.m_value, "->",
+            [((PString **)((PAbstractArray *)$e.m_enumerations.theArray)->theArray)[$e.m_value]->theArray,s]
+        )
+   )
+}
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
