@@ -405,7 +405,7 @@ ifneq ($(HAS_REGEX),1)
 OBJS	= $(OBJDIR)/regcomp.o $(OBJDIR)/regexec.o $(OBJDIR)/regerror.o $(OBJDIR)/regfree.o
 endif
 
-CLEAN_FILES = $(GETDATE_SOURCE)
+#CLEAN_FILES = $(GETDATE_SOURCE)
 
 
 $(COMMON_SRC_DIR)/osutils.cxx: $(REVISION_FILE)
