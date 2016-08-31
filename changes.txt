@@ -3,3 +3,5 @@ Patches in PTLib 2.10.9
 - provide getdate.tab.c because of Bison 3 issue
 - fix GCC version detection for GCC 5.x and 6.x
 - compile fix for GCC 6.0
+- disable some warnings for GCC 5 and 6
+

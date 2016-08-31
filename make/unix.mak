@@ -98,7 +98,9 @@ endif
 # -Wall must be at the start of the options otherwise
 # any -W overrides won't have any effect
 ifeq ($(USE_GCC),yes)
-STDCCFLAGS += -Wall 
+# avoid warning from gcc 5 and 6
+#STDCCFLAGS += -Wall 
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result
 endif
 
 ifdef RPM_OPT_FLAGS
