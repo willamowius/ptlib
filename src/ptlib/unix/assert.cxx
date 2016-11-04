@@ -144,6 +144,8 @@ void PAssertFunc(const char * msg)
   }
 
   for(;;) {
+// no interactive question, always dump core
+/*
     PError << "\n<A>bort, <C>ore dump"
 #if P_EXCEPTIONS
            << ", <T>hrow exception"
@@ -154,6 +156,8 @@ void PAssertFunc(const char * msg)
            << ", <I>gnore? " << flush;
 
     int c = getchar();
+*/
+    int c = 'C';
 
     if (PAssertAction(c, msg))
       break;
