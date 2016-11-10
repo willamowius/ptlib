@@ -35,6 +35,9 @@
 #ifndef __JPEGDEC_H__
 #define __JPEGDEC_H__
 
+// switch to re-enable TinyJPEG (fix Coverity errors first!)
+//#define INCLUDE_TINYJPEG 1
+
 #ifdef __cplusplus
 extern "C" {
 #endif
