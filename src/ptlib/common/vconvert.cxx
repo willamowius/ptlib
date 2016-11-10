@@ -2682,6 +2682,7 @@ PSTANDARD_COLOUR_CONVERTER(UYV444,YUV420P)
 
 #if  defined (__GNUC__) || defined (__sun)
 #ifndef P_MACOSX
+#ifdef INCLUDE_TINYJPEG
 /*
  * Convert a MJPEG Buffer to one plane pixel format (RGB24, BGR24, GRAY)
  * image need to be same size.
@@ -2865,6 +2866,7 @@ PSTANDARD_COLOUR_CONVERTER(JPEG,YUV420P)
 }
 
 
+#endif // INCLUDE_TINYJPEG
 #endif // P_MACOSX
 #endif // __GNUC__
 

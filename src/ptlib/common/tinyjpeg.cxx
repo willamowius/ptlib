@@ -41,6 +41,9 @@
 #include "tinyjpeg-internal.h"
 #include "ptbuildopts.h"
 
+#ifdef INCLUDE_TINYJPEG
+#error("Code has Coverity errors")
+
 enum std_markers {
    DQT  = 0xDB, /* Define Quantization Table */
    SOF  = 0xC0, /* Start of Frame (size information) */
@@ -2196,4 +2199,6 @@ int tinyjpeg_set_flags(struct jdec_private *priv, int flags)
   priv->flags = flags;
   return oldflags;
 }
+
+#endif // INCLUDE_TINYJPEG
 
