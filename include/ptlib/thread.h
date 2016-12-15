@@ -414,6 +414,7 @@ class PThread : public PObject
 #endif
 
 #ifdef _MSC_VER
+#pragma warning(push)
 #pragma warning(disable:4355)
 #endif
 
@@ -794,7 +795,7 @@ class PThreadLocalStorage
 
 
 #ifdef _MSC_VER
-#pragma warning(default:4355)
+#pragma warning(pop)
 #endif
 
 #endif // PTLIB_THREAD_H
