@@ -24,6 +24,9 @@
  * Contributor(s): ______________________________________.
  *
  * $Log$
+ * Revision 1.1.1.1  2016/08/25 20:01:52  willamowius
+ * PTLib fork based on 2.10.9
+ *
  * Revision 1.93  2005/11/30 12:47:41  csoutheren
  * $Revision$
  * $Author$
@@ -931,7 +934,7 @@ PBoolean PASN_BitString::SetSize(unsigned nBits)
 bool PASN_BitString::operator[](PINDEX bit) const
 {
   if ((unsigned)bit < totalBits)
-    return (bitData[bit>>3] & (1 << (7 - (bit&7)))) != 0;
+    return (bitData[(unsigned)bit>>3] & (1 << (7 - ((unsigned)bit&7)))) != 0;
   return PFalse;
 }
 
