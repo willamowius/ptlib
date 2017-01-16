@@ -286,14 +286,31 @@ PBoolean PServiceProcess::IsServiceProcess() const
 
 static bool IsServiceRunning(PServiceProcess * svc)
 {
-  HANDLE hEvent = OpenEvent(EVENT_MODIFY_STATE, false, svc->GetName());
-  if (hEvent == NULL) {
-    DWORD error = ::GetLastError();
-    return error == ERROR_ACCESS_DENIED;
+  // implementation that works on XP and above, inspired by
+  // http://stackoverflow.com/questions/7808085/how-to-get-the-status-of-a-service-programatically-running-stoped
+
+  SC_HANDLE scm = OpenSCManager(NULL, NULL, SC_MANAGER_ENUMERATE_SERVICE);
+  if (!scm)
+    return false;
+
+  SC_HANDLE theService = OpenService(scm, svc->GetName(), SERVICE_QUERY_STATUS);
+  if (!theService) {
+    CloseServiceHandle(scm);
+    return false;
   }
 
-  CloseHandle(hEvent);
-  return true;
+  SERVICE_STATUS_PROCESS ssStatus;
+  DWORD dwBytesNeeded;
+  int result = QueryServiceStatusEx(theService, SC_STATUS_PROCESS_INFO,
+      reinterpret_cast<LPBYTE>(&ssStatus), sizeof(SERVICE_STATUS_PROCESS), &dwBytesNeeded);
+
+  CloseServiceHandle(theService);
+  CloseServiceHandle(scm);
+
+  if (result == 0)
+    return false;
+
+  return (ssStatus.dwCurrentState == SERVICE_RUNNING);
 }
 
 
