@@ -1280,8 +1280,8 @@ void PPER_Stream::UnsignedEncode(int value, unsigned lower, unsigned upper)
 
 PBoolean PPER_Stream::LengthDecode(unsigned lower, unsigned upper, unsigned & len)
 {
+  len = 0;
   // X.691 section 10.9
-
   if (upper != INT_MAX && !aligned) {
     if (upper - lower > 0xffff)
       return PFalse; // 10.9.4.2 unsupported
