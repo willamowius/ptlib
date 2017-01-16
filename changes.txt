@@ -1,5 +1,6 @@
 Patches in PTLib 2.10.9
 =======================
+- remove start/stop from service tray icon
 - fix IsServiceRunning() for current Windows versions
 - fix LengthDecode() in ASN PER parser
 - disable TinyJPEG due to errors in Coverity scan

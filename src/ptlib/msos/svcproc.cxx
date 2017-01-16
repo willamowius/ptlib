@@ -881,6 +881,8 @@ LPARAM PServiceProcess::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
           AppendMenu(menu, MF_STRING, ControlMenuID, "&Open Properties");
           AppendMenu(menu, MF_SEPARATOR, 0, NULL);
           AppendMenu(menu, MF_STRING, SvcCmdBaseMenuID+SvcCmdVersion, "&Version");
+#ifdef OFF
+          // this code doesn't work on current versions of Windows
           if (IsServiceRunning(this)) {
             MENUITEMINFO inf;
             inf.cbSize = sizeof(inf);
@@ -893,6 +895,7 @@ LPARAM PServiceProcess::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
             EnableMenuItem(menu, ControlMenuID, MF_GRAYED);
             AppendMenu(menu, MF_STRING, SvcCmdBaseMenuID+SvcCmdStart, "&Start Service");
           }
+#endif
           AppendMenu(menu, MF_STRING, SvcCmdBaseMenuID+SvcCmdNoTray, "&Tray Icon");
           CheckMenuItem(menu, SvcCmdBaseMenuID+SvcCmdNoTray,
                         TrayIconRegistry(this, CheckTrayIcon) ? MF_CHECKED : MF_UNCHECKED);
