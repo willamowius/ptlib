@@ -119,7 +119,7 @@ PBoolean PVideoChannel::Write(const void * buf,  //image data to be rendered
 	return Write(buf, len, 0);
 }
 
-PBoolean PVideoChannel::Write(const void * buf, PINDEX /*len*/, void * mark)
+PBoolean PVideoChannel::Write(const void * buf, PINDEX /*len*/, const void * mark)
 {
   PWaitAndSignal m(accessMutex);
 

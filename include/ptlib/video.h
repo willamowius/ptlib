@@ -147,7 +147,7 @@ class PVideoChannel : public PChannel
     virtual PBoolean Write(
       const void * buf,  ///< Pointer to a block of memory to write.
       PINDEX len,        ///< Number of bytes to write.
-	  void * mark        ///< Unique Marker to identify write
+	  const void * mark  ///< Unique Marker to identify write
     );
     
     /**Cause the referenced data to be drawn to the 
