@@ -745,6 +745,8 @@ void PTimer::Construct()
   m_timerList = PProcess::Current().GetTimerList();
   m_timerId = m_timerList->GetNewTimerId();
   m_state = Stopped;
+  m_serialNumber = 0;
+  m_absoluteTime = 0;
 
   StartRunning(PTrue);
 }
