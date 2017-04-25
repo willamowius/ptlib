@@ -92,8 +92,10 @@ static PBoolean PAssertThreadOp(int retval,
     // Give up and assert
   }
 
-#if P_USE_ASSERTS
+#if defined(_DEBUG) && defined( P_USE_ASSERTS)
   PAssertFunc(file, line, NULL, psprintf("Function %s failed", funcname));
+#else
+  PTRACE(1, psprintf("Function %s failed", funcname));
 #endif
   return false;
 }
@@ -1634,7 +1636,8 @@ void PTimedMutex::Signal()
 {
 #if !P_HAS_RECURSIVE_MUTEX
   if (!pthread_equal(m_lockerId, pthread_self())) {
-    PAssertAlways("PMutex signal failed - no matching wait or signal by wrong thread");
+    PTRACE(1, "PMutex signal failed - no matching wait or signal by wrong thread");
+    //PAssertAlways("PMutex signal failed - no matching wait or signal by wrong thread");
     return;
   }
 
