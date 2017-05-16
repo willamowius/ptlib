@@ -128,8 +128,11 @@ PBoolean PPipeChannel::PlatformOpen(const PString & subProgram,
 #else
   childPid = vfork();
 #endif
-  if (childPid < 0)
+  if (childPid < 0) {
+    if (exec_environ != environ)
+      free(exec_environ);
     return PFalse;
+  }
 
   if (childPid > 0) {
     // setup the pipe to the child
@@ -161,16 +164,22 @@ PBoolean PPipeChannel::PlatformOpen(const PString & subProgram,
   // is redirected
   if (toChildPipe[0] != -1) {
     ::close(STDIN_FILENO);
-    if (::dup(toChildPipe[0]) == -1)
+    if (::dup(toChildPipe[0]) == -1) {
+      if (exec_environ != environ)
+        free(exec_environ);
       return false;
+    }
     ::close(toChildPipe[0]);
     ::close(toChildPipe[1]);  
   } else {
     int fd = open("/dev/null", O_RDONLY);
     PAssertOS(fd >= 0);
     ::close(STDIN_FILENO);
-    if (::dup(fd) == -1)
+    if (::dup(fd) == -1) {
+      if (exec_environ != environ)
+        free(exec_environ);
       return false;
+    }
     ::close(fd);
   }
 
@@ -178,20 +187,30 @@ PBoolean PPipeChannel::PlatformOpen(const PString & subProgram,
   // and stderr is redirected
   if (fromChildPipe[1] != -1) {
     ::close(STDOUT_FILENO);
-    if (::dup(fromChildPipe[1]) == -1)
+    if (::dup(fromChildPipe[1]) == -1) {
+      if (exec_environ != environ)
+        free(exec_environ);
       return false;
+    }
     ::close(STDERR_FILENO);
     if (!stderrSeparate)
-      if (::dup(fromChildPipe[1]) == -1)
+      if (::dup(fromChildPipe[1]) == -1) {
+        if (exec_environ != environ)
+          free(exec_environ);
         return false;
+      }
     ::close(fromChildPipe[1]);
     ::close(fromChildPipe[0]); 
   } else if (mode != ReadWriteStd) {
     int fd = ::open("/dev/null", O_WRONLY);
     PAssertOS(fd >= 0);
     ::close(STDOUT_FILENO);
-    if (::dup(fd) == -1)
+    if (::dup(fd) == -1) {
+      if (exec_environ != environ)
+        free(exec_environ);
+      // coverity[leaked_handle] false positive: dup() doesn't create file handle when it returns -1
       return false;
+    }
     ::close(STDERR_FILENO);
     if (!stderrSeparate)
       if (::dup(fd) == -1)
@@ -200,8 +219,12 @@ PBoolean PPipeChannel::PlatformOpen(const PString & subProgram,
   }
 
   if (stderrSeparate) {
-    if (::dup(stderrChildPipe[1]) == -1)
+    // coverity[leaked_handle] false positive: dup() doesn't create file handle when it returns -1
+    if (::dup(stderrChildPipe[1]) == -1) {
+      if (exec_environ != environ)
+        free(exec_environ);
       return false;
+    }
     ::close(stderrChildPipe[1]);
     ::close(stderrChildPipe[0]); 
   }
