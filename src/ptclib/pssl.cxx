@@ -805,9 +805,11 @@ void PSSLContext::Construct(Method method, const void * sessionId, PINDEX idSize
   SSL_METHOD * meth;
 
   switch (method) {
+#if OPENSSL_VERSION_NUMBER < 0x10002000L
     case SSLv3:
       meth = SSLv3_method();
       break;
+#endif
     case TLSv1:
       meth = TLSv1_method(); 
       break;

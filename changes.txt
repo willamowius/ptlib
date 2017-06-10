@@ -1,5 +1,6 @@
 Patches in PTLib 2.10.9
 =======================
+- remove use of SSLv3_method for OpenSSL 1.0.2 and above
 - fix signature of PVideoChannel::Write()
 - remove start/stop from service tray icon
 - fix IsServiceRunning() for current Windows versions
