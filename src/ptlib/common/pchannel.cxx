@@ -153,6 +153,7 @@ PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekpos(pos_type pos, ios_b
 #endif
 
 PChannel::PChannel()
+  // coverity[leaked_storage] false positive: ptr is saved in iostream and deleted in ~PStringStream
   : iostream(new PChannelStreamBuffer(this)),
     readTimeout(PMaxTimeInterval), writeTimeout(PMaxTimeInterval)
 {
