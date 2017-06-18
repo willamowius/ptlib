@@ -950,7 +950,7 @@ void PMemoryHeap::SetAllocationBreakpoint(DWORD objectNumber)
 #if !defined(P_VXWORKS) && !defined(_WIN32_WCE)
 
 #if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
-void * operator new[](size_t nSize) throw (std::bad_alloc)
+void * operator new[](size_t nSize) throw ()
 #else
 void * operator new[](size_t nSize)
 #endif
