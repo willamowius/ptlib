@@ -1152,7 +1152,7 @@ V4L2Names::Update()
   for (int i = 0; i < 10; i++) {
     PString thisDevice = PString("/dev/video") + PString(i);
     int videoFd=::v4l2_open((const char *)thisDevice, O_RDONLY | O_NONBLOCK);
-    if ((videoFd > 0) || (errno == EBUSY)) {
+    if ((videoFd >= 0) || (errno == EBUSY)) {
       PBoolean valid = PFalse;
       struct v4l2_capability videoCaps;
       CLEAR(videoCaps);
@@ -1165,7 +1165,7 @@ V4L2Names::Update()
       else {
         PTRACE(1,"PV4L2Plugin\t" << thisDevice << "is not deemed valid");
       }
-      if (videoFd>0)
+      if (videoFd >= 0)
         ::v4l2_close(videoFd);
       if(valid)
         inputDeviceNames += thisDevice;
@@ -1200,7 +1200,7 @@ V4L2Names::Update()
         if ((entry.Left(5) == "video")) {
           PString thisDevice = "/dev/" + entry;
           int videoFd=::v4l2_open((const char *)thisDevice, O_RDONLY | O_NONBLOCK);
-          if ((videoFd > 0) || (errno == EBUSY)) {
+          if ((videoFd >= 0) || (errno == EBUSY)) {
             PBoolean valid = PFalse;
             struct v4l2_capability videoCaps;
             CLEAR(videoCaps);
@@ -1213,7 +1213,7 @@ V4L2Names::Update()
             else {
               PTRACE(1,"PV4L2Plugin\t" << thisDevice << "is not deemed valid");
             }
-            if (videoFd>0)
+            if (videoFd >= 0)
               ::v4l2_close(videoFd);
             if(valid)
               inputDeviceNames += thisDevice;
