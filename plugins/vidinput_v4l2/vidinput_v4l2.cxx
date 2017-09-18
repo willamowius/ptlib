@@ -179,7 +179,7 @@ PBoolean PVideoInputDevice_V4L2::Open(const PString & devName, PBoolean /* start
   // Don't share the camera device with subprocesses - they could cause
   // EBUSY errors on VIDIOC_STREAMON if the parent tries to close and reopen
   // the camera while the child is still running.
-  ::fcntl(videoFd, F_SETFD, FD_CLOEXEC);
+  (void)::fcntl(videoFd, F_SETFD, FD_CLOEXEC);
 
   /* Note the v4l2_xxx functions are designed so that if they get passed an
      unknown fd, the will behave exactly as their regular xxx counterparts, so
