@@ -1386,7 +1386,7 @@ struct PIntSameOrder {
 template <typename type>
 struct PIntReversedOrder {
   __inline PIntReversedOrder()                                : data(0)              { }
-  __inline PIntReversedOrder(type value)                                             { data(0); ReverseBytes(value, data); } // Coverity doesn't see the initialization in ReverseBytes() so we set data to 0 before to make it happy
+  __inline PIntReversedOrder(type value)                                             { data = 0; ReverseBytes(value, data); } // Coverity doesn't see the initialization in ReverseBytes() so we set data to 0 before to make it happy
   __inline PIntReversedOrder(const PIntReversedOrder & value) : data(value.data)     { }
   __inline PIntReversedOrder & operator=(type value)                                 { ReverseBytes(value, data); return *this; }
   __inline PIntReversedOrder & operator=(const PIntReversedOrder & value)            { data = value.data; return *this; }
