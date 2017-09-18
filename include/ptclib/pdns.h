@@ -224,8 +224,11 @@ PBoolean Lookup(const PString & name, RecordListType & recordList)
                                       NULL, 
                                       &results, 
                                       NULL);
-  if (status != 0)
+  if (status != 0) {
+    if (results != NULL)
+      DnsRecordListFree(results, DnsFreeRecordList);
     return false;
+  }
 
   // find records matching the correct type
   PDNS_RECORD dnsRecord = results;
