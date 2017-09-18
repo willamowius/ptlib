@@ -1025,9 +1025,9 @@ void PFilePath::AssignContents(const PContainer & cont)
 PString PFilePath::GetPath() const
 
 {
-  int i;
+  int i = FindLast('/');
 
-  PAssert((i = FindLast('/')) != P_MAX_INDEX, PInvalidArrayIndex);
+  PAssert(i != P_MAX_INDEX, PInvalidArrayIndex);
   return Left(i+1);
 }
 

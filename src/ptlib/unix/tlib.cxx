@@ -357,7 +357,7 @@ PString PProcess::GetGroupName() const
   char buffer[1024];
   struct group * gr = NULL;
 #if defined (P_LINUX) || defined (P_AIX) || defined(P_IRIX) || (__GNUC__>=3 && defined(P_SOLARIS)) || defined(P_RTEMS) || defined(P_GNU_HURD)
-  ::getgrgid_r(getegid(), &grp, buffer, 1024, &gr);
+  (void)::getgrgid_r(getegid(), &grp, buffer, 1024, &gr);
 #else
   gr = ::getgrgid_r(getegid(), &grp, buffer, 1024);
 #endif
@@ -398,7 +398,7 @@ PBoolean PProcess::SetGroupName(const PString & groupname, PBoolean permanent)
     char buffer[1024];
     struct group * gr = NULL;
 #if defined (P_LINUX) || defined (P_AIX) || defined(P_IRIX) || (__GNUC__>=3 && defined(P_SOLARIS)) || defined(P_RTEMS) || defined(P_GNU_HURD)
-    ::getgrnam_r(groupname, &grp, buffer, 1024, &gr);
+    (void)::getgrnam_r(groupname, &grp, buffer, 1024, &gr);
 #else
     gr = ::getgrnam_r(groupname, &grp, buffer, 1024);
 #endif

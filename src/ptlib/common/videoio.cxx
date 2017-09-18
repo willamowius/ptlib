@@ -804,7 +804,7 @@ PBoolean PVideoDevice::SetFrameSizeConverter(unsigned width, unsigned height, Re
   else
   {
     if (CanCaptureVideo())
-      converter->SetDstFrameSize(width, height);
+      (void)converter->SetDstFrameSize(width, height);
     else
       converter->SetSrcFrameSize(width, height);
     converter->SetResizeMode(resizeMode);

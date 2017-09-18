@@ -200,7 +200,7 @@ PString PFTPClient::GetFileStatus(const PString & path, DataChannelType ctype)
     return PString();
 
   PString str;
-  socket->Read(str.GetPointer(200), 199);
+  (void)socket->Read(str.GetPointer(200), 199);
   str[socket->GetLastReadCount()] = '\0';
   delete socket;
   ReadResponse();

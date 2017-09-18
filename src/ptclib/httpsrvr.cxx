@@ -358,7 +358,7 @@ PString PHTTPServer::ReadEntityBody()
   if (contentLength > 0) {
     entityBody = ReadString((PINDEX)contentLength);
   } else if (contentLength == -2) {
-    ReadLine(entityBody, PFalse);
+    (void)ReadLine(entityBody, PFalse);
   } else if (contentLength < 0) {
     while (Read(entityBody.GetPointer(count+1000)+count, 1000))
       count += GetLastReadCount();

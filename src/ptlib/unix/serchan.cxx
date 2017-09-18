@@ -229,7 +229,7 @@ PBoolean PSerialChannel::Open(const PString & port,
     return PFalse;
   }
 
-  ::fcntl(os_handle, F_SETFD, 1);
+  (void)::fcntl(os_handle, F_SETFD, 1);
 
 #endif // P_VXWORKS
 

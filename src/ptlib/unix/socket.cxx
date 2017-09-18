@@ -173,7 +173,7 @@ int PSocket::os_socket(int af, int type, int protocol)
 #if P_HAS_RECVMSG
   if ((fd != -1) && (type == SOCK_DGRAM)) {
     int v = 1;
-    setsockopt(fd, IPPROTO_IP, IP_RECVERR, &v, sizeof(v));
+    (void)setsockopt(fd, IPPROTO_IP, IP_RECVERR, &v, sizeof(v));
   }
 #endif
 
@@ -605,7 +605,7 @@ PBoolean PSocket::os_recvfrom(
   int r = ::recvmsg(os_handle, &readData, flags);
   if (r == -1) {
     PTRACE(5, "PTLIB\trecvmsg returned error " << errno);
-    ::recvmsg(os_handle, &readData, MSG_ERRQUEUE);
+    (void)::recvmsg(os_handle, &readData, MSG_ERRQUEUE);
   }
 
   if (!ConvertOSError(r, LastReadError))
