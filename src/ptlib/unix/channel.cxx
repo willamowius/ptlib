@@ -36,6 +36,7 @@
 
 #include <ptlib.h>
 #include <sys/ioctl.h>
+#include <sys/uio.h> // needed for gcc 7.2
 
 
 #include "../common/pchannel.cxx"
