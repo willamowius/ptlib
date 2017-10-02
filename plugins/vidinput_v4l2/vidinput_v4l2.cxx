@@ -220,8 +220,9 @@ PBoolean PVideoInputDevice_V4L2::Open(const PString & devName, PBoolean /* start
     if (canSetFrameRate) {
       if (videoStreamParm.parm.capture.timeperframe.numerator == 0) {
         PTRACE(1,"PVidInDev\tnumerator is zero and denominator is " << videoStreamParm.parm.capture.timeperframe.denominator << ", driver bug??");
+      } else {
+        PVideoDevice::SetFrameRate (videoStreamParm.parm.capture.timeperframe.denominator / videoStreamParm.parm.capture.timeperframe.numerator);
       }
-      PVideoDevice::SetFrameRate (videoStreamParm.parm.capture.timeperframe.denominator / videoStreamParm.parm.capture.timeperframe.numerator);
     }
   }
 
