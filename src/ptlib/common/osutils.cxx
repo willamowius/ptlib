@@ -2134,14 +2134,19 @@ void PIntCondMutex::PrintOn(ostream & strm) const
   switch (operation) {
     case LT :
       strm << " < ";
+      break;
     case LE :
       strm << " <= ";
+      break;
     case GE :
       strm << " >= ";
+      break;
     case GT :
       strm << " > ";
+      break;
     default:
       strm << " == ";
+      break;
   }
   strm << target << ')';
 }
