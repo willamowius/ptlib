@@ -178,7 +178,7 @@ static PBoolean ProcessDNSRecords(
         newRecord = (PDNS_RECORD)malloc(sizeof(DnsRecord)); 
         memset(newRecord, 0, sizeof(DnsRecord));
         if (!GetDN(reply, replyEnd, data, newRecord->Data.NS.pNameHost)) {
-          delete newRecord;
+          free(newRecord);
           return PFalse;
         }
         break;
