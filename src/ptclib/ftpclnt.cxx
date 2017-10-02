@@ -42,6 +42,7 @@
 
 PFTPClient::PFTPClient()
 {
+  remotePort = 0;
 }
 
 
