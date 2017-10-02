@@ -59,6 +59,7 @@ PInternetProtocol::PInternetProtocol(const char * svcName,
   stuffingState = DontStuff;
   newLineToCRLF = true;
   unReadCount = 0;
+  lastResponseCode = -1;
 }
 
 

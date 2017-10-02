@@ -910,6 +910,7 @@ PASNSequence::PASNSequence()
   encodedLen = 0;
   type    = ASNTypeToType[Sequence];
   asnType = Sequence;
+  seqLen = 0;
 }
 
 
@@ -919,6 +920,7 @@ PASNSequence::PASNSequence(BYTE selector)
   PAssert(selector < ASN_CONSTRUCTOR, "Sequence selector too big");
   type    = (BYTE)(ASNTypeToType[Choice] | selector);
   asnType = Choice;
+  seqLen = 0;
 }
 
 
@@ -1031,6 +1033,8 @@ PString PASNSequence::GetTypeAsString() const
 PASNSequence::PASNSequence(const PBYTEArray & buffer)
 
 {
+  encodedLen = 0;
+  seqLen = 0;
   PINDEX ptr = 0;
   if (!Decode(buffer, ptr))
     sequence.RemoveAll();

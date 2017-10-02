@@ -71,6 +71,7 @@ PSMTPClient::PSMTPClient()
   haveHello = PFalse;
   extendedHello = PFalse;
   eightBitMIME = PFalse;
+  sendingData = PFalse;
 }
 
 
@@ -302,6 +303,7 @@ void PSMTPServer::ServerReset()
   sendCommand = WasMAIL;
   fromAddress = PString();
   toNames.RemoveAll();
+  endMIMEDetectState = DontStuff;
 }
 
 

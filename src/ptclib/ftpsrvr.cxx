@@ -65,6 +65,7 @@ void PFTPServer::Construct()
   structure = 'F';
   mode      = 'S';
   passiveSocket = NULL;
+  remotePort = 0;
 }
 
 
