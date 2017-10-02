@@ -24,6 +24,9 @@
  * Contributor(s): ______________________________________.
  *
  * $Log$
+ * Revision 1.2  2016/12/19 15:33:04  willamowius
+ * fix typecast for bit indicator
+ *
  * Revision 1.1.1.1  2016/08/25 20:01:52  willamowius
  * PTLib fork based on 2.10.9
  *
@@ -1296,8 +1299,6 @@ void PASN_ConstrainedString::SetCharacterSet(const char * set, PINDEX setSize, C
       if (memchr(set, canonicalSet[i], setSize) != NULL)
         characterSet[count++] = canonicalSet[i];
     }
-    if (count < 0)
-      return;
     characterSet.SetSize(count);
   }
 
