@@ -228,7 +228,10 @@ PBoolean PSoundChannel_WAVFile::Write(const void * data, PINDEX size)
 {
   PBoolean ok = m_WAVFile.Write(data, size);
   lastWriteCount = m_WAVFile.GetLastWriteCount();
-  m_Pacing.Delay(lastWriteCount*8/m_WAVFile.GetSampleSize()*1000/m_WAVFile.GetSampleRate());
+  unsigned sampleRate = m_WAVFile.GetSampleRate();
+  if (sampleRate == 0)
+    return false;
+  m_Pacing.Delay(lastWriteCount*8/m_WAVFile.GetSampleSize()*1000/sampleRate);
   return ok;
 }
 
@@ -256,6 +259,9 @@ PBoolean PSoundChannel_WAVFile::Read(void * data, PINDEX size)
   lastReadCount = 0;
 
   unsigned wavSampleRate = m_WAVFile.GetSampleRate();
+  if (m_sampleRate == 0)
+    return false;
+
   if (wavSampleRate < m_sampleRate) {
     // File has less samples than we want, so we need to interpolate
     unsigned iDutyCycle = m_sampleRate - wavSampleRate;
