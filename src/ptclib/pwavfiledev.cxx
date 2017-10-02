@@ -300,6 +300,9 @@ PBoolean PSoundChannel_WAVFile::Read(void * data, PINDEX size)
     lastReadCount = m_WAVFile.GetLastReadCount();
   }
 
+  if (m_WAVFile.GetSampleSize() == 0)
+    return false;
+
   m_Pacing.Delay(lastReadCount*8/m_WAVFile.GetSampleSize()*1000/m_sampleRate);
   return true;
 }
