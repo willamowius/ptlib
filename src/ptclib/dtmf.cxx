@@ -412,7 +412,7 @@ bool PTones::Juxtapose(unsigned frequency1, unsigned frequency2, unsigned millis
 
 bool PTones::Modulate(unsigned frequency1, unsigned modulator, unsigned milliseconds, unsigned volume)
 {
-  if (frequency1 > m_maxFrequency || frequency1 > m_maxFrequency || modulator < MinModulation || modulator >= frequency1/2)
+  if (frequency1 < MinFrequency || frequency1 > m_maxFrequency || modulator < MinModulation || modulator >= frequency1/2)
     return false;
 
   unsigned samples = CalcSamples(milliseconds, frequency1, modulator);
