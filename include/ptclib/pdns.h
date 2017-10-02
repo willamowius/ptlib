@@ -252,7 +252,7 @@ class SRVRecord : public PObject
   PCLASSINFO(SRVRecord, PObject);
   public:
     SRVRecord()
-    { used = false; }
+    { used = false; port = 0; priority = 0; weight = 0; }
 
     Comparison Compare(const PObject & obj) const;
     void PrintOn(ostream & strm) const;
@@ -337,7 +337,7 @@ class MXRecord : public PObject
   PCLASSINFO(MXRecord, PObject);
   public:
     MXRecord()
-    { used = false; }
+    { used = false; preference = 0; }
     Comparison Compare(const PObject & obj) const;
     void PrintOn(ostream & strm) const;
 

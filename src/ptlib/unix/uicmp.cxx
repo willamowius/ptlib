@@ -235,6 +235,7 @@ PICMPSocket::PingInfo::PingInfo(WORD id)
   sequenceNum = 0;
   ttl = 255;
   buffer = NULL;
+  bufferSize = 0;
   status = PingSuccess;
 }
 

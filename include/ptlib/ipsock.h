@@ -578,7 +578,7 @@ class PIPSocket : public PSocket
       PCLASSINFO(RouteEntry, PObject);
       public:
         /// Create a route table entry from an IP address.
-        RouteEntry(const Address & addr) : network(addr) { }
+        RouteEntry(const Address & addr) : network(addr), metric(0) { }
 
         /// Get the network address associated with the route table entry.
         Address GetNetwork() const { return network; }

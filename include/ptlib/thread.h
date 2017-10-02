@@ -384,7 +384,7 @@ class PThread : public PObject
   public:
     struct TraceInfo {
       TraceInfo()
-      { traceBlockIndentLevel = 0; }
+      { traceLevel = 0; traceBlockIndentLevel = 0; }
 
       PStack<PStringStream> traceStreams;
       unsigned traceLevel;
