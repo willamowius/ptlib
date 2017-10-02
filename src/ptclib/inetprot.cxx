@@ -84,7 +84,7 @@ PBoolean PInternetProtocol::Read(void * buf, PINDEX len)
 
   if (len > 0) {
     PINDEX saveCount = lastReadCount;
-    PIndirectChannel::Read(bufptr, len);
+    (void)PIndirectChannel::Read(bufptr, len);
     lastReadCount += saveCount;
   }
 
