@@ -81,7 +81,6 @@ PString PVideoChannel::GetDefaultDevice(Directions /*dir*/)
 #endif
 }
 
-
 PBoolean PVideoChannel::Open(const PString & dev,
                          Directions dir)
 {
@@ -95,8 +94,6 @@ PBoolean PVideoChannel::Open(const PString & dev,
   return PTrue;
 }
 
-
-
 PBoolean PVideoChannel::Read(void * buf, PINDEX  len)
 {
   PWaitAndSignal m(accessMutex);
@@ -108,9 +105,10 @@ PBoolean PVideoChannel::Read(void * buf, PINDEX  len)
   PINDEX dataLen;
   dataBuf = (BYTE *)buf;
   dataLen = len;
-  return mpInput->GetFrameData(dataBuf, &dataLen);
 
-  // CHANGED  return PTrue;
+  PBoolean result = mpInput->GetFrameData(dataBuf, &dataLen);
+  lastReadCount = dataLen;
+  return result;
 }
 
 PBoolean PVideoChannel::Write(const void * buf,  //image data to be rendered
