@@ -165,7 +165,7 @@ PBoolean PHTTPSpace::DelResource(const PURL & url)
       Node * par = node->parent;
       par->children.Remove(node);
       node = par;
-    } while (node != NULL && node->children.IsEmpty());
+    } while (node != NULL && node->parent != NULL && node->children.IsEmpty());
   }
 
   return PTrue;
