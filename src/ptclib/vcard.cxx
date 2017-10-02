@@ -254,6 +254,7 @@ void PvCard::TextValue::PrintOn(ostream & strm) const
       case ',' :
       case ';' :
         strm << '\\';
+        break;
 
       default :
         strm << Separator(c);

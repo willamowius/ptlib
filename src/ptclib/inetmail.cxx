@@ -765,6 +765,7 @@ PBoolean PSMTPServer::OnMIMEData(PCharArray & buffer, PBoolean & completed)
         buffer[count++] = '\r';
         buffer[count++] = (char)c;
         endMIMEDetectState = StuffIdle;
+        break;
 
       default :
         PAssertAlways("Illegal SMTP state");
