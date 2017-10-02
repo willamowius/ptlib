@@ -1072,6 +1072,7 @@ PServiceMacro::PServiceMacro(const PCaselessString & name, PBoolean isBlock)
 {
   macroName = name;
   isMacroBlock = isBlock;
+  link = NULL;
 }
 
 
