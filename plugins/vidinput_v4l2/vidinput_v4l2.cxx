@@ -226,8 +226,8 @@ PBoolean PVideoInputDevice_V4L2::Open(const PString & devName, PBoolean /* start
     }
   }
 
-  SetVideoFormat(videoFormat);
-  SetColourFormat(colourFormat);
+  (void)SetVideoFormat(videoFormat);
+  (void)SetColourFormat(colourFormat);
 
   return PTrue;
 }
