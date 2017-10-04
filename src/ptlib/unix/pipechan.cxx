@@ -70,6 +70,8 @@ PPipeChannel::PPipeChannel()
   toChildPipe[0] = toChildPipe[1] = -1;
   fromChildPipe[0] = fromChildPipe[1] = -1;
   stderrChildPipe[0] = stderrChildPipe[1] = -1;
+  retVal = 0;
+  childPid = 0;
 }
 
 
@@ -205,6 +207,7 @@ PBoolean PPipeChannel::PlatformOpen(const PString & subProgram,
     int fd = ::open("/dev/null", O_WRONLY);
     PAssertOS(fd >= 0);
     ::close(STDOUT_FILENO);
+    // coverity[negative_returns] false positive: PAssertOS() has checked the condition
     if (::dup(fd) == -1) {
       if (exec_environ != environ)
         free(exec_environ);

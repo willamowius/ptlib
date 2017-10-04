@@ -63,6 +63,8 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+  retVal = 0;
+  childPid = 0;
   PString progName;
   PStringArray arguments;
   if (SplitArgs(subProgram, progName, arguments))
@@ -76,6 +78,8 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+  retVal = 0;
+  childPid = 0;
   PlatformOpen(subProgram, arguments, mode, searchPath, stderrSeparate, NULL);
 }
 
@@ -86,6 +90,8 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+  retVal = 0;
+  childPid = 0;
   PString progName;
   PStringArray arguments;
   if (SplitArgs(subProgram, progName, arguments))
@@ -100,6 +106,8 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+  retVal = 0;
+  childPid = 0;
   PlatformOpen(subProgram, arguments, mode, searchPath, stderrSeparate, &environment);
 }
 

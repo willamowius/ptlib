@@ -484,6 +484,7 @@ PSound::PSound(unsigned channels,
                PINDEX   bufferSize,
                const BYTE * buffer)
 {
+  dwLastError = 0;
   encoding = 0;
   numChannels = channels;
   sampleRate = samplesPerSecond;
@@ -496,6 +497,7 @@ PSound::PSound(unsigned channels,
 
 PSound::PSound(const PFilePath & filename)
 {
+  dwLastError = 0;
   encoding = 0;
   numChannels = 1;
   sampleRate = 8000;

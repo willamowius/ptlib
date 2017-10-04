@@ -184,6 +184,8 @@ ostream & operator<<(ostream & strm, PVideoFrameInfo::ResizeMode mode)
 PVideoFrameInfo::PVideoFrameInfo()
   : frameWidth(CIFWidth)
   , frameHeight(CIFHeight)
+  , sarWidth(0)
+  , sarHeight(0)
   , frameRate(25)
   , colourFormat("YUV420P")
   , resizeMode(eScale)
@@ -198,6 +200,8 @@ PVideoFrameInfo::PVideoFrameInfo(unsigned        width,
                                  ResizeMode      resize)
   : frameWidth(width)
   , frameHeight(height)
+  , sarWidth(0)
+  , sarHeight(0)
   , frameRate(rate)
   , colourFormat(format)
   , resizeMode(resize)
@@ -478,6 +482,11 @@ PVideoDevice::PVideoDevice()
   videoFormat = Auto;
   channelNumber = -1;  // -1 will find the first working channel number.
   nativeVerticalFlip = PFalse;
+  frameBrightness = 0;
+  frameColour = 0;
+  frameContrast = 0;
+  frameHue = 0;
+  frameWhiteness = 0;
 
   converter = NULL;
 }
@@ -1160,6 +1169,7 @@ PVideoOutputDeviceRGB::PVideoOutputDeviceRGB()
   colourFormat = "RGB24";
   bytesPerPixel = 3;
   swappedRedAndBlue = false;
+  scanLineWidth = 0;
 //  SetFrameSize(frameWidth, frameHeight);
 }
 

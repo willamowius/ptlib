@@ -92,6 +92,7 @@ PSystemLog::PSystemLog(Level level)   ///< only messages at this level or higher
 PSystemLog::PSystemLog(const PSystemLog & other)
   : PObject(other)
   , iostream(cout.rdbuf()) 
+  , m_logLevel(other.m_logLevel)
 {
 }
 
@@ -107,6 +108,7 @@ PSystemLog & PSystemLog::operator=(const PSystemLog &)
 PSystemLog::Buffer::Buffer()
 {
   PMEMORY_IGNORE_ALLOCATIONS_FOR_SCOPE;
+  m_log = NULL;
   char * newptr = m_string.GetPointer(32);
   setp(newptr, newptr + m_string.GetSize() - 1);
 }
@@ -195,7 +197,7 @@ PSystemLogTarget::PSystemLogTarget()
 
 
 PSystemLogTarget::PSystemLogTarget(const PSystemLogTarget & other)
-  : PObject(other)
+  : PObject(other), m_thresholdLevel(other.m_thresholdLevel)
 {
 }
 

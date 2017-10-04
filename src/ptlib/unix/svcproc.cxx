@@ -95,6 +95,7 @@ PServiceProcess::PServiceProcess(const char * manuf,
   : PProcess(manuf, name, majorVersion, minorVersion, status, buildNumber)
 {
   isTerminating = PFalse;
+  debugMode = PFalse;
 }
 
 

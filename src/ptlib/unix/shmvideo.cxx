@@ -290,6 +290,8 @@ PVideoInputDevice_Shm::PVideoInputDevice_Shm()
   shmKey = -1;
   shmId = -1;
   shmPtr = NULL;
+  videoFrameSize = 0;
+  grabCount = 0;
 
   PTRACE(4, "SHMV\t Constructor of PVideoInputDevice_Shm");
 }
