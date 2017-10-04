@@ -316,8 +316,10 @@ public:
   
   PSTUNAttribute * GetFirstAttribute() { 
 
+    if (theArray == NULL)
+      return NULL;
     int length = ((PSTUNMessageHeader *)theArray)->msgLength;
-    if (theArray == NULL || length < (int) sizeof(PSTUNMessageHeader))
+    if (length < (int) sizeof(PSTUNMessageHeader))
       return NULL;
 
     PSTUNAttribute * attr = (PSTUNAttribute *)(theArray+sizeof(PSTUNMessageHeader)); 
