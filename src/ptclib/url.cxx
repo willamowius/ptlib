@@ -507,6 +507,9 @@ PBoolean PURL::LegacyParse(const PString & _url, const PURLLegacyScheme * scheme
       relativePath = PTrue;
   }
 
+  if (schemeInfo == NULL)
+    return PFalse;
+
   // parse user/password/host/port
   if (!relativePath && schemeInfo->hasHostPort) {
     PString endHostChars;
