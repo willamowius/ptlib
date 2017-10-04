@@ -1947,20 +1947,21 @@ PBoolean PIPSocket::Address::FromString(const PString & ipAndInterface)
     struct addrinfo hints = { AI_NUMERICHOST, PF_UNSPEC }; // Could be IPv4: x.x.x.x or IPv6: x:x:x:x::x
 
     if (getaddrinfo((const char *)dotNotation, NULL , &hints, &res) == 0) {
-      if (res->ai_family == PF_INET6) {
-        // IPv6 addr
-        version = 6;
-        struct sockaddr_in6 * addr_in6 = (struct sockaddr_in6 *)res->ai_addr;
-        v.six = addr_in6->sin6_addr;
-      } else {
-        // IPv4 addr
-        version = 4;
-        struct sockaddr_in * addr_in = (struct sockaddr_in *)res->ai_addr;
-        v.four = addr_in->sin_addr;
-      }
-      if (res != NULL)
+      if (res != NULL) {
+        if (res->ai_family == PF_INET6) {
+          // IPv6 addr
+          version = 6;
+          struct sockaddr_in6 * addr_in6 = (struct sockaddr_in6 *)res->ai_addr;
+          v.six = addr_in6->sin6_addr;
+        } else {
+          // IPv4 addr
+          version = 4;
+          struct sockaddr_in * addr_in = (struct sockaddr_in *)res->ai_addr;
+          v.four = addr_in->sin_addr;
+        }
         freeaddrinfo(res);
-      return IsValid();
+        return IsValid();
+      }
     }
 
 #else //P_HAS_IPV6
