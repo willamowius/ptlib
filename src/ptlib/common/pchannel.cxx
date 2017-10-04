@@ -161,6 +161,7 @@ PChannel::PChannel()
   memset(lastErrorCode, 0, sizeof(lastErrorCode));
   memset(lastErrorNumber, 0, sizeof(lastErrorNumber));
   lastReadCount = lastWriteCount = 0;
+  abortCommandString = PFalse;
   Construct();
 }
 
@@ -981,6 +982,8 @@ off_t PFile::GetLength() const
 #else
   off_t pos = _lseek(GetHandle(), 0, SEEK_CUR);
   off_t len = _lseek(GetHandle(), 0, SEEK_END);
+  PAssertOS(pos >= 0);
+  // coverity[negative_returns] false positive: PAssertOS() has checked the condition
   PAssertOS(_lseek(GetHandle(), pos, SEEK_SET) != (off_t)-1);
   return len;
 #endif
@@ -1024,6 +1027,8 @@ PBoolean PFile::Copy(const PFilePath & oldname, const PFilePath & newname, PBool
   PCharArray buffer(10000);
 
   off_t amount = oldfile.GetLength();
+  if (amount < 0)
+    return PFalse;
   while (amount > 10000) {
     if (!oldfile.Read(buffer.GetPointer(), 10000))
       return PFalse;
