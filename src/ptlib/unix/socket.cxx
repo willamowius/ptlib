@@ -876,7 +876,8 @@ PBoolean PEthSocket::GetFilter(unsigned & mask, WORD & type)
 
   ifreq ifr;
   memset(&ifr, 0, sizeof(ifr));
-  strcpy(ifr.ifr_name, channelName);
+  strncpy(ifr.ifr_name, channelName, sizeof(ifr.ifr_name)-1);
+  ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';
   if (!ConvertOSError(ioctl(os_handle, SIOCGIFFLAGS, &ifr)))
     return PFalse;
 
@@ -1604,7 +1605,7 @@ class NetLinkRouteTableDetector : public PIPSocket::RouteTableDetector
         sanl.nl_family = AF_NETLINK;
         sanl.nl_groups = RTMGRP_LINK | RTMGRP_IPV4_IFADDR;
 
-        bind(m_fdLink, (struct sockaddr *)&sanl, sizeof(sanl));
+        (void)bind(m_fdLink, (struct sockaddr *)&sanl, sizeof(sanl));
       }
 
       if (pipe(m_fdCancel) == -1)
