@@ -473,6 +473,7 @@ PLDAPSession::SearchContext::SearchContext()
   message = NULL;
   found = PFalse;
   completed = PFalse;
+  msgid = 0;
 }
 
 

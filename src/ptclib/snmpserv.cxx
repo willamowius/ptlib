@@ -54,6 +54,8 @@ PSNMPServer::PSNMPServer(PIPSocket::Address binding, WORD localPort, PINDEX time
  , version(SNMP_VERSION)
  , maxRxSize(rxSize)
  , maxTxSize(txSize)
+ , lastErrorIndex(0)
+ , lastErrorCode(NoError)
 {
   SetReadTimeout(PTimeInterval(0, timeout));
   baseSocket = new PUDPSocket;

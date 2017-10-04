@@ -880,7 +880,7 @@ class PWAVFileFormatG7231 : public PWAVFileFormat
 {
   public:
     PWAVFileFormatG7231(unsigned short _g7231)
-      : g7231(_g7231) { }
+      : g7231(_g7231), cachePos(0), cacheLen(0) { }
 
     virtual ~PWAVFileFormatG7231() {}
 
