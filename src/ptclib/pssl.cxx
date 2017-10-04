@@ -776,7 +776,8 @@ static int VerifyCallBack(int ok, X509_STORE_CTX * ctx)
 static void PSSLAssert(const char * msg)
 {
   char buf[256];
-  strcpy(buf, msg);
+  strncpy(buf, msg, sizeof(buf)-1);
+  buf[sizeof(buf)-1] = '\0';
   ERR_error_string(ERR_peek_error(), &buf[strlen(msg)]);
   PTRACE(1, "SSL\t" << buf);
   PAssertAlways(buf);

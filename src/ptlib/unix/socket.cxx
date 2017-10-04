@@ -757,7 +757,8 @@ PBoolean PEthSocket::Connect(const PString & interfaceName)
   PUDPSocket ifsock;
   struct ifreq ifr;
   ifr.ifr_addr.sa_family = AF_INET;
-  strcpy(ifr.ifr_name, interfaceName);
+  strncpy(ifr.ifr_name, interfaceName, sizeof(ifr.ifr_name)-1);
+  ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';
   if (!ConvertOSError(ioctl(ifsock.GetHandle(), SIO_Get_MAC_Address, &ifr)))
     return PFalse;
 
@@ -778,7 +779,9 @@ PBoolean PEthSocket::OpenSocket()
   struct sockaddr addr;
   memset(&addr, 0, sizeof(addr));
   addr.sa_family = AF_INET;
-  strcpy(addr.sa_data, channelName);
+  strncpy(addr.sa_data, channelName, sizeof(addr.sa_data)-1);
+  addr.sa_data[sizeof(addr.sa_data)-1] = '\0';
+  // coverity[negative_returns] false positive: we handle failiure of bind() instead
   if (!ConvertOSError(bind(os_handle, &addr, sizeof(addr)))) {
     os_close();
     os_handle = -1;
@@ -847,9 +850,10 @@ PBoolean PEthSocket::EnumIpAddress(PINDEX idx,
   PUDPSocket ifsock;
   struct ifreq ifr;
   ifr.ifr_addr.sa_family = AF_INET;
-  if (idx == 0)
-    strcpy(ifr.ifr_name, channelName);
-  else
+  if (idx == 0) {
+    strncpy(ifr.ifr_name, channelName, sizeof(ifr.ifr_name)-1);
+	ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';
+  } else
     sprintf(ifr.ifr_name, "%s:%u", (const char *)channelName, (int)(idx-1));
   if (!ConvertOSError(ioctl(os_handle, SIOCGIFADDR, &ifr)))
     return PFalse;
@@ -901,7 +905,8 @@ PBoolean PEthSocket::SetFilter(unsigned filter, WORD type)
 
   ifreq ifr;
   memset(&ifr, 0, sizeof(ifr));
-  strcpy(ifr.ifr_name, channelName);
+  strncpy(ifr.ifr_name, channelName, sizeof(ifr.ifr_name)-1);
+  ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';
   if (!ConvertOSError(ioctl(os_handle, SIOCGIFFLAGS, &ifr)))
     return PFalse;
 
@@ -997,7 +1002,8 @@ PBoolean PEthSocket::Read(void * buf, PINDEX len)
 PBoolean PEthSocket::Write(const void * buf, PINDEX len)
 {
   sockaddr to;
-  strcpy((char *)to.sa_data, channelName);
+  strncpy((char *)to.sa_data, channelName, sizeof(to.sa_data)-1);
+  to.sa_data[sizeof(to.sa_data)-1] = '\0';
   return os_sendto(buf, len, 0, &to, sizeof(to)) && lastWriteCount >= len;
 }
 

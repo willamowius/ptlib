@@ -378,7 +378,8 @@ static int PPPDeviceStatus(const char * devName)
 
   // attempt to get the status of the ppp connection
   int stat;
-  strcpy(ifr.ifr_name, devName);
+  strncpy(ifr.ifr_name, devName, sizeof(ifr.ifr_name)-1);
+  ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';
   if (ioctl(skfd, SIOCGIFFLAGS, &ifr) < 0)
     stat = -1;
   else 
