@@ -1,4 +1,8 @@
 ptbuildopts.h
+ptbuildopts.mak
+ptlib-config
+ptlib.pc
+ptlib_cfg.dxy
 config.log
 config.cache
 config.status
@@ -6,10 +10,13 @@ Makefile
 obj_*_*_*_s
 obj_*_*_*_d_s
 obj_*_*_*
+lib_*_*_*
 Release
 Debug
 autom4te.cache
 cov-int
+cov-int.tgz
+a.out
 *.proj
 *.save
 *.layout
