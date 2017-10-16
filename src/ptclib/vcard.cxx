@@ -308,8 +308,6 @@ void PvCard::TextValue::ReadFrom(istream & strm)
         break;
 
       case '\\' :
-        if (escaped)
-          break;
         escaped = true;
         break;
 
