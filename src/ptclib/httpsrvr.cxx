@@ -547,7 +547,9 @@ PBoolean PHTTPServer::StartResponse(StatusCode code,
     }
   }
 
+  ios::fmtflags oldflags(flags());
   *this << setfill('\r') << headers;
+  flags(oldflags);
 
 #ifdef STRANGE_NETSCAPE_BUG
   // The following is a work around for a strange bug in Netscape where it

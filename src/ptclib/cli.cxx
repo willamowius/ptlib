@@ -615,6 +615,7 @@ void PCLI::ShowHelp(Context & context)
 {
   PINDEX i;
   CommandMap_t::const_iterator cmd;
+  ios::fmtflags oldflags(context.flags());
 
   PINDEX maxCommandLength = GetHelpCommand().GetLength();
   for (cmd = m_commands.begin(); cmd != m_commands.end(); ++cmd) {
@@ -650,6 +651,7 @@ void PCLI::ShowHelp(Context & context)
   }
 
   context.flush();
+  context.flags(oldflags);
 }
 
 

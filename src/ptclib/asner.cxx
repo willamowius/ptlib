@@ -2265,11 +2265,13 @@ PObject::Comparison PASN_Array::Compare(const PObject & obj) const
 
 void PASN_Array::PrintOn(ostream & strm) const
 {
+  ios::fmtflags oldflags(strm.flags());
   int indent = (int)strm.precision() + 2;
   strm << array.GetSize() << " entries {\n";
   for (PINDEX i = 0; i < array.GetSize(); i++)
     strm << setw(indent+1) << "[" << i << "]=" << setprecision(indent) << array[i] << '\n';
   strm << setw(indent-1) << "}";
+  strm.flags(oldflags);
 }
 
 

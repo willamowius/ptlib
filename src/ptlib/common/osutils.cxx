@@ -1686,10 +1686,12 @@ static void OutputTime(ostream & strm, const char * name, const PTimeInterval & 
 
 ostream & operator<<(ostream & strm, const PThread::Times & times)
 {
+  ios::fmtflags oldflags(strm.flags());
   strm << "real=" << scientific << times.m_real;
   OutputTime(strm, "kernel", times.m_kernel, times.m_real);
   OutputTime(strm, "user", times.m_user, times.m_real);
   OutputTime(strm, "both", times.m_kernel + times.m_user, times.m_real);
+  strm.flags(oldflags);
   return strm;
 }
 
