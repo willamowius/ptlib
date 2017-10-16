@@ -700,12 +700,7 @@ PBoolean PSocket::Read(void * buf, PINDEX len)
     return PFalse;
 
   int lastReadCount = ::recv(os_handle, (char *)buf, len, 0);
-    return lastReadCount > 0;
-  if (ConvertOSError(lastReadCount))
-    return lastReadCount > 0;
-
-  lastReadCount = 0;
-  return PFalse;
+  return lastReadCount > 0;
 }
 
 
