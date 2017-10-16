@@ -442,13 +442,15 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
 #if P_HAS_THREADLOCAL_STORAGE
   {
     threadInfo = AllocateTraceInfo();
-    threadInfo->traceStreams.Push(new PStringStream);
+    if (threadInfo)
+      threadInfo->traceStreams.Push(new PStringStream);
   }
 #else
   {
     if (thread != NULL) {
       threadInfo = &thread->traceInfo;
-      threadInfo->traceStreams.Push(new PStringStream);
+      if (threadInfo)
+        threadInfo->traceStreams.Push(new PStringStream);
     }
   }
 #endif
