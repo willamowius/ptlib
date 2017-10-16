@@ -433,7 +433,7 @@ void PIPCacheData::AddEntry(struct addrinfo * addr_info)
 {
   PINDEX i;
 
-  if (addr_info == NULL)
+  if (addr_info == NULL || addr_info->ai_addr == NULL)
     return;
 
   // Add canonical name
