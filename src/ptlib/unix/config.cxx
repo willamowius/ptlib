@@ -311,7 +311,8 @@ PBoolean PXConfig::WriteToFile(const PFilePath & filename)
   }
 
   file.flush();
-  file.SetLength(file.GetPosition());
+  if (file.GetPosition() >= 0)
+    file.SetLength(file.GetPosition());
   file.Close();
 
   if (file.GetFilePath() != filename) {
