@@ -560,7 +560,7 @@ void PServiceProcess::PXOnAsyncSignal(int sig)
       sprintf(&msg[strlen(msg)], " obj_ptr=%p", thread->second);
     else {
       strcat(msg, " name=");
-      strcat(msg, thread_name);
+      strncat(msg, thread_name, 64); // display first 64 chars of thread name max., avoid buffer overrun
     }
   }
 
