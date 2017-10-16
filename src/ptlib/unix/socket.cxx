@@ -1629,8 +1629,7 @@ class NetLinkRouteTableDetector : public PIPSocket::RouteTableDetector
       if (m_fdCancel[0] == -1)
         return false;
 
-      bool ok = true;
-      while (ok) {
+      while (true) {
         fd_set fds;
         FD_ZERO(&fds);
         FD_SET(m_fdCancel[0], &fds);
