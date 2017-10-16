@@ -113,11 +113,11 @@ PBoolean PPipeChannel::PlatformOpen(const PString & subProgram,
 
   // Set up new environment if one specified.
   char ** exec_environ = environ;
-  if (environment != NULL || !searchPath) {
+  if (environment != NULL && !searchPath) {
     exec_environ = (char **)calloc(environment->GetSize()+1, sizeof(char*));
     for (PINDEX i = 0; i < environment->GetSize(); i++) {
       PString key(environment->GetKeyAt(i));
-      if (searchPath || (key != "PATH")) {
+      if (key != "PATH") {
         PString str = key + '=' + environment->GetDataAt(i);
         exec_environ[i] = strdup(str);
       }
