@@ -2111,14 +2111,14 @@ PStringStream::Buffer::pos_type PStringStream::Buffer::seekpos(pos_type pos, ios
 #endif
 
 PStringStream::PStringStream()
-  // coverity[leaked_storage] false positive: ptr is saved in iostream and deleted in ~PStringStream
+  // coverity[leaked_storage:false] false positive: ptr is saved in iostream and deleted in ~PStringStream
   : iostream(new PStringStream::Buffer(*this, 0))
 {
 }
 
 
 PStringStream::PStringStream(PINDEX fixedBufferSize)
-  // coverity[leaked_storage] false positive: ptr is saved in iostream and deleted in ~PStringStream
+  // coverity[leaked_storage:false] false positive: ptr is saved in iostream and deleted in ~PStringStream
   : iostream(new PStringStream::Buffer(*this, fixedBufferSize))
 {
 }
@@ -2126,7 +2126,7 @@ PStringStream::PStringStream(PINDEX fixedBufferSize)
 
 PStringStream::PStringStream(const PString & str)
   : PString(str),
-    // coverity[leaked_storage] false positive: ptr is saved in iostream and deleted in ~PStringStream
+    // coverity[leaked_storage:false] false positive: ptr is saved in iostream and deleted in ~PStringStream
     iostream(new PStringStream::Buffer(*this, 0))
 {
 }
@@ -2134,7 +2134,7 @@ PStringStream::PStringStream(const PString & str)
 
 PStringStream::PStringStream(const char * cstr)
   : PString(cstr),
-    // coverity[leaked_storage] false positive: ptr is saved in iostream and deleted in ~PStringStream
+    // coverity[leaked_storage:fasle] false positive: ptr is saved in iostream and deleted in ~PStringStream
     iostream(new PStringStream::Buffer(*this, 0))
 {
 }
