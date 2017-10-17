@@ -11,8 +11,6 @@ class ios : public _ios_fields{
 	
 };
 
-int pthread_key_create(void * ptr, void * destr)
-{
-	__coverity_writeall__(ptr);
-}
+#define PLDAP_ATTR_INIT(cls, typ, nam, val) cls::typ nam = val;
+#define PAssertAlways(msg)	 __coverity_panic__();
 
