@@ -301,6 +301,7 @@ void PRemoteConnection::Construct()
   pipeChannel  = NULL;
   status       = Idle;
   osError      = 0;
+  wasConnected = false;
 }
 
 
