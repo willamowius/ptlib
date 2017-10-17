@@ -196,7 +196,7 @@ PSASLClient::~PSASLClient()
     if (m_ConnState)
         End();
 
-    delete (sasl_callback_t *)m_CallBacks;
+    delete[] (sasl_callback_t *)m_CallBacks;
 }
 
 
