@@ -528,11 +528,12 @@ PBoolean PSerialChannel::SetStopBits(BYTE stop)
       break;
   }
 
-  if (flags < 0) {
-    errno = EINVAL;
-    ConvertOSError(-1);
-    return PFalse;
-  }
+// flags is either 0 or CSTOPB, never less than 0
+//  if (flags < 0) {
+//    errno = EINVAL;
+//    ConvertOSError(-1);
+//    return PFalse;
+//  }
 
   if (os_handle < 0)
     return PTrue;
