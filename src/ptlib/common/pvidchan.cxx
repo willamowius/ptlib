@@ -45,6 +45,7 @@ PVideoChannel::PVideoChannel()
 {
   mpInput = NULL;
   mpOutput = NULL;
+  direction = Recorder; // will be overwritten as soon as direction is known
 }
 
 
