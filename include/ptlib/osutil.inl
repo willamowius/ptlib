@@ -279,13 +279,13 @@ PINLINE PChannel * PIndirectChannel::GetWriteChannel() const
 // PDirectory
 
 PINLINE PDirectory::PDirectory()
-  : PFilePathString(".") { Construct(); }
+  : PFilePathString("."), scanMask(0) { Construct(); }
 
 PINLINE PDirectory::PDirectory(const char * cpathname)  
-  : PFilePathString(cpathname) { Construct(); }
+  : PFilePathString(cpathname), scanMask(0) { Construct(); }
   
 PINLINE PDirectory::PDirectory(const PString & pathname)
-  : PFilePathString(pathname) { Construct(); }
+  : PFilePathString(pathname), scanMask(0) { Construct(); }
   
 PINLINE PDirectory & PDirectory::operator=(const PString & str)
   { AssignContents(PDirectory(str)); return *this; }
