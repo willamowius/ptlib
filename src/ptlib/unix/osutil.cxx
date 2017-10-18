@@ -690,7 +690,6 @@ void PFile::SetFilePath(const PString & newName)
 
 
 PBoolean PFile::Open(OpenMode mode, int opt)
-
 {
   Close();
   clear();
@@ -707,7 +706,9 @@ PBoolean PFile::Open(OpenMode mode, int opt)
     memset(&_reent_data, 0, sizeof(_reent_data));
     os_handle = _mkstemp_r(&_reent_data, templateStr);
 #else
+	mode_t old_mask = umask (S_IXUSR | S_IRWXG | S_IRWXO); // 0600
     os_handle = mkstemp(templateStr);
+	(void) umask (old_mask); // restore old umask
 #endif // P_RTEMS
     if (!ConvertOSError(os_handle))
       return PFalse;
