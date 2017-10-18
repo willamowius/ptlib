@@ -42,6 +42,7 @@
 
 PSerialChannel::PSerialChannel()
 {
+  memset(&oldTermio, 0, sizeof(oldTermio));
   Construct();
 }
 
