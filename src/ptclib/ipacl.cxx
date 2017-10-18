@@ -211,7 +211,7 @@ PBoolean PIpAccessControlEntry::Parse(const PString & description)
     mask = postSlash;
   else {
     DWORD bits = postSlash.AsUnsigned();
-    if (bits > 32)
+    if (bits == 0 || bits > 32)
       mask = PSocket::Host2Net(bits);
     else
       mask = PSocket::Host2Net((DWORD)(0xffffffff << (32 - bits)));
