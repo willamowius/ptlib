@@ -51,5 +51,4 @@ void PAssertFunc(const char * file, int line, const char * className, const char
 
 
 #define PLDAP_ATTR_INIT(cls, typ, nam, val) ((cls)::(typ) (nam) = (val));
-#define PAssertAlways(msg)	 __coverity_panic__();
 
