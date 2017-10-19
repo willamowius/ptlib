@@ -182,7 +182,7 @@ void PHouseKeepingThread::Main()
       found = false;
       for (PProcess::ThreadMap::iterator it = process.m_activeThreads.begin(); it != process.m_activeThreads.end(); ++it) {
         PThread * thread = it->second;
-        if (thread->IsAutoDelete() && thread->IsTerminated()) {
+        if ((thread != NULL) && thread->IsAutoDelete() && thread->IsTerminated()) {
           process.m_activeThreads.erase(it);
 
           // unlock the m_activeThreadMutex to avoid deadlocks:
