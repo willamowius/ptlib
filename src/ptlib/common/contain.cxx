@@ -1904,7 +1904,9 @@ PString & PString::sprintf(const char * fmt, ...)
 {
   va_list args;
   va_start(args, fmt);
-  return vsprintf(fmt, args);
+  vsprintf(fmt, args);
+  va_end(args);
+  return *this;
 }
 
 #if defined(__GNUC__) || defined(__SUNPRO_CC)
@@ -1940,7 +1942,9 @@ PString psprintf(const char * fmt, ...)
   PString str;
   va_list args;
   va_start(args, fmt);
-  return str.vsprintf(fmt, args);
+  str.vsprintf(fmt, args);
+  va_end(args);
+  return str;
 }
 
 
