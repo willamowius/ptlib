@@ -954,14 +954,14 @@ PBoolean PCypher::Decode(const PBYTEArray & coded, PBYTEArray & clear)
 // PTEACypher
 
 PTEACypher::PTEACypher(BlockChainMode chainMode)
-  : PCypher(8, chainMode)
+  : PCypher(8, chainMode), k0(0), k1(0), k2(0), k3(0)
 {
   GenerateKey(*(Key*)key.GetPointer(sizeof(Key)));
 }
 
 
 PTEACypher::PTEACypher(const Key & keyData, BlockChainMode chainMode)
-  : PCypher(&keyData, sizeof(Key), 8, chainMode)
+  : PCypher(&keyData, sizeof(Key), 8, chainMode), k0(0), k1(0), k2(0), k3(0)
 {
 }
 
