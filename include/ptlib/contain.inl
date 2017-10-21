@@ -208,7 +208,7 @@ PINLINE PCaselessString & PCaselessString::operator=(char ch)
 ///////////////////////////////////////////////////////////////////////////////
 
 PINLINE PStringStream::Buffer::Buffer(const Buffer & b)
-  : string(b.string) { }
+  : string(b.string), fixedBufferSize(b.fixedBufferSize) { }
 
 PINLINE PStringStream::Buffer& PStringStream::Buffer::operator=(const Buffer&b)
   { string = b.string; return *this; }
