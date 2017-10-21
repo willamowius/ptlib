@@ -450,6 +450,7 @@ PASNInteger::PASNInteger(PASNInt val)
 
 PASNInteger::PASNInteger(const PBYTEArray & buffer, PINDEX & ptr)
 {
+  value = 0; // ensure value is initialized, even in case of decode error
   DecodeASNInteger(buffer, ptr, value, Integer);
 }
 
