@@ -1613,7 +1613,8 @@ PProcess::PProcess(const char * manuf, const char * name,
   // But make sure we have plugins first, to avoid bizarre behaviour where static objects
   // are initialised multiple times when libraries are loaded in Linux.
   PProcessStartupFactory::KeyList_T list = PProcessStartupFactory::GetKeyList();
-  std::swap(list.front(), *std::find(list.begin(), list.end(), PLUGIN_LOADER_STARTUP_NAME));
+  if (std::find(list.begin(), list.end(), PLUGIN_LOADER_STARTUP_NAME) != list.end())
+    std::swap(list.front(), *std::find(list.begin(), list.end(), PLUGIN_LOADER_STARTUP_NAME));
   list.insert(list.begin(), "SetTraceLevel");
   for (PProcessStartupFactory::KeyList_T::const_iterator it = list.begin(); it != list.end(); ++it) {
     PProcessStartup * startup = PProcessStartupFactory::CreateInstance(*it);
