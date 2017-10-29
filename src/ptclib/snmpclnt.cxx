@@ -54,10 +54,10 @@ PSNMPClient::PSNMPClient(PINDEX retry, PINDEX timeout,
  : community(defaultCommunity),
    version(SNMP_VERSION),
    retryMax(retry),
-   maxRxSize(rxSize),
-   maxTxSize(txSize),
    lastErrorIndex(0),
-   lastErrorCode(NoError)
+   lastErrorCode(NoError),
+   maxRxSize(rxSize),
+   maxTxSize(txSize)
 {
   SetReadTimeout(PTimeInterval(0, timeout));
   requestId = rand() % 0x7fffffff;
