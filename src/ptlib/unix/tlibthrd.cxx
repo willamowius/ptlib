@@ -405,7 +405,7 @@ PThread::PThread(PINDEX stackSize,
 #endif
   PX_NewHandle("Thread unblock pipe", PMAX(unblockPipe[0], unblockPipe[1]));
 
-  PTRACE(5, "PTLib\tCreated thread " << this << ' ' << m_threadName);
+  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName);
 }
 
 //
