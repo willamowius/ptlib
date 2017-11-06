@@ -63,8 +63,10 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+#ifndef _WIN32
   retVal = 0;
   childPid = 0;
+#endif
   PString progName;
   PStringArray arguments;
   if (SplitArgs(subProgram, progName, arguments))
@@ -78,8 +80,10 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+#ifndef _WIN32
   retVal = 0;
   childPid = 0;
+#endif
   PlatformOpen(subProgram, arguments, mode, searchPath, stderrSeparate, NULL);
 }
 
@@ -90,8 +94,10 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+#ifndef _WIN32
   retVal = 0;
   childPid = 0;
+#endif
   PString progName;
   PStringArray arguments;
   if (SplitArgs(subProgram, progName, arguments))
@@ -106,8 +112,10 @@ PPipeChannel::PPipeChannel(const PString & subProgram,
                            PBoolean searchPath,
                            PBoolean stderrSeparate)
 {
+#ifndef _WIN32
   retVal = 0;
   childPid = 0;
+#endif
   PlatformOpen(subProgram, arguments, mode, searchPath, stderrSeparate, &environment);
 }
 

@@ -42,7 +42,9 @@
 
 PSerialChannel::PSerialChannel()
 {
+#ifndef _WIN32
   memset(&oldTermio, 0, sizeof(oldTermio));
+#endif
   Construct();
 }
 
