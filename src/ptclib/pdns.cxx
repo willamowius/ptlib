@@ -124,11 +124,14 @@ static PBoolean ProcessDNSRecords(
     cp += 2; // GETSHORT(dnsClass, cp);
     cp += 4; // GETLONG (ttl,      cp);
     GETSHORT(dlen, cp);
+	// sanity check, don't process records larger than ~10K
+    if (dlen > 10240)
+      return PFalse;
 
     BYTE * data = cp;
     cp += dlen;
 
-    PDNS_RECORD newRecord  = NULL;
+    PDNS_RECORD newRecord = NULL;
 
     switch (type) {
       default:
