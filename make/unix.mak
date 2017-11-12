@@ -97,17 +97,17 @@ endif
 
 # get gcc/g++ version
 ifeq "$(CXX)" "g++"
-	GCCMAJORGT5 := $(shell expr 5 \< `$(CXX) -dumpversion | cut -f1 -d.`)
+	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 endif
 
 # -Wall must be at the start of the options otherwise
 # any -W overrides won't have any effect
 ifeq ($(USE_GCC),yes)
 # avoid warning from gcc 5 and 6
-ifeq "$(GCCMAJORGT5)" "1"
-STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result
+ifeq "$(GCCMAJORGTEQ5)" "1"
+STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
 else
-STDCCFLAGS += -Wall 
+STDCCFLAGS += -Wall
 endif
 endif
 
