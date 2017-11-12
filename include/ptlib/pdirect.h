@@ -181,7 +181,24 @@ class PFileInfo : public PObject
  */
 class PDirectory : public PFilePathString
 {
-  PCONTAINERINFO(PDirectory, PFilePathString);
+  PCLASSINFO(PDirectory, PFilePathString) \
+
+  public:
+    PDirectory(const PDirectory & c) : PFilePathString(c), scanMask(PFileInfo::AllFiles)
+      { CopyContents(c); }
+    PDirectory & operator=(const PDirectory & c)
+      { AssignContents(c); return *this; }
+    virtual ~PDirectory() { Destruct(); }
+    virtual PBoolean MakeUnique()
+      { if(PFilePathString::MakeUnique()) return true; CloneContents(this); return false; }
+  protected:
+    PDirectory(int dummy, const PDirectory * c) : PFilePathString(dummy, c), scanMask(PFileInfo::AllFiles)
+      { CloneContents(c); }
+    virtual void DestroyContents();
+    void CloneContents(const PDirectory * c);
+    void CopyContents(const PDirectory & c);
+    virtual void AssignContents(const PContainer & c)
+      { PFilePathString::AssignContents(c); CopyContents((const PDirectory &)c); }
 
   public:
   /**@name Construction */
