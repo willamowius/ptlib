@@ -147,7 +147,19 @@ struct PHashTableElement
     PDECLARE_POOL_ALLOCATOR();
 };
 
-PDECLARE_BASEARRAY(PHashTableInfo, PHashTableElement *)
+class PHashTableInfo : public PBaseArray<PHashTableElement *>
+{
+    PCLASSINFO(PHashTableInfo, PBaseArray<PHashTableElement *>)
+
+    PHashTableInfo(PINDEX initialSize = 0)
+      : PBaseArray<PHashTableElement *>(initialSize), deleteKeys(false) { }
+    PHashTableInfo(PContainerReference & reference)
+      : PBaseArray<PHashTableElement *>(reference), deleteKeys(false) { }
+    PHashTableInfo(PHashTableElement * const * buffer, PINDEX length, PBoolean dynamic = true)
+      : PBaseArray<PHashTableElement *>(buffer, length, dynamic), deleteKeys(false) { }
+    virtual PObject * Clone() const \
+      { return PNEW PHashTableInfo(*this, GetSize()); }
+
 #ifdef DOC_PLUS_PLUS
 {
 #endif
