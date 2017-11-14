@@ -727,7 +727,7 @@ PXMLElement * PXMLRPCBlock::GetParam(PINDEX idx) const
   }
 
   if (param == NULL)
-    return PFalse;
+    return NULL;
 
   for (i = 0; i < param->GetSize(); i++) {
     PXMLObject * parm = param->GetElement(i);
