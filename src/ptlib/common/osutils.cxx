@@ -133,7 +133,7 @@ void PSetErrorStream(ostream * s)
 class PTraceInfo
 {
   /* NOTE you cannot have any complex types in this structure. Anything
-     that might do an asert or PTRACE will crash due to recursion.
+     that might do an assert or PTRACE will crash due to recursion.
    */
 
 public:
