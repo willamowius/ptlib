@@ -729,10 +729,14 @@ void PSSLInitialiser::OnStartup()
   SSL_load_error_strings();
 
   // Seed the random number generator
+#if defined(P_LINUX) || defined (P_FREEBSD)
+  RAND_load_file("/dev/urandom", 1024);
+#else
   BYTE seed[128];
   for (size_t i = 0; i < sizeof(seed); i++)
     seed[i] = (BYTE)rand();
   RAND_seed(seed, sizeof(seed));
+#endif
 
   // set up multithread stuff
   mutexes.resize(CRYPTO_num_locks());
