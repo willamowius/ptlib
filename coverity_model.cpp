@@ -34,7 +34,7 @@ inline bool PAssertFuncInline(bool b, const char * file, int line, const char * 
 		__coverity_panic__();
 	}
 	return b;
-};
+}
 
 bool PAssertFunc(bool b, const char * file, int line, const char * className, const char * msg)
 {
@@ -42,13 +42,16 @@ bool PAssertFunc(bool b, const char * file, int line, const char * className, co
 		__coverity_panic__();
 	}
 	return b;
-};
+}
 
 void PAssertFunc(const char * file, int line, const char * className, const char * msg)
 {
 	__coverity_panic__();
-};
+}
 
+// suppress warnings about rand() in non-security relevant cases
+int rand(void) {
+  /* ignore */
+}
 
-#define PLDAP_ATTR_INIT(cls, typ, nam, val) ((cls)::(typ) (nam) = (val));
 
