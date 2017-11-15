@@ -185,6 +185,7 @@ PODBC::PODBC()
 	m_hDBC              = NULL;
 	m_hEnv              = NULL;
 	m_nReturn           = SQL_ERROR;
+    dbase               = MSSQL;
 }
 
 PODBC::~PODBC()
@@ -404,8 +405,8 @@ PBoolean PODBC::DataSource(DataSources Source, ConnectData Data)
           return ConnectDB_mySQL(Data.DefDir,Data.User,Data.Pass,Data.Host,Data.Port,Data.opt);
         }
      case PODBC::MSSQL:
-       if (Data.Host.GetLength() == 0) 
-         Data.Host = "(local)";
+         if (Data.Host.GetLength() == 0) 
+           Data.Host = "(local)";
          return Connect_MSSQL(Data.User,Data.Pass,Data.Host,Data.Excl_Trust, (MSSQLProtocols)Data.opt);
      case PODBC::Oracle:
          return Connect_Oracle(Data.Host,Data.User, Data.Pass);
@@ -698,7 +699,7 @@ PBoolean PODBC::Field::Post()
 // PODBC::Table
 	  
 PODBC::Table::Table(PODBC * odbc, PString Query)
-	:	stmt(PODBCStmt(odbc))
+	:	stmt(PODBCStmt(odbc)), RowHandler(NULL)
 {
    PString query;
     tableName = PString();
@@ -1247,38 +1248,38 @@ void PODBCRecord::Data(PINDEX Column, PODBC::Field & field)
 
     /// Numeric Data
     case PODBC::BigInt:
-       if (B) 
-        SQLBindCol(m_hStmt, Column,SQL_C_SBIGINT, &b.sbint,0,&b.dataLen);
+        if (B) 
+          SQLBindCol(m_hStmt, Column,SQL_C_SBIGINT, &b.sbint,0,&b.dataLen);
         AddField(field,ColumnName(Column),ctype, PODBC::oPInt64);
         break;
 
      case PODBC::TinyInt:
-       if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_UTINYINT, &b.sbit, 0, &b.dataLen);
+        if (B) 
+          SQLBindCol(m_hStmt, Column, SQL_C_UTINYINT, &b.sbit, 0, &b.dataLen);
         AddField(field,ColumnName(Column),ctype, PODBC::oshort);
         break;
 				
      case PODBC::Bit:
-       if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_BIT, &b.sbit, 0, &b.dataLen);
+        if (B) 
+          SQLBindCol(m_hStmt, Column, SQL_C_BIT, &b.sbit, 0, &b.dataLen);
         AddField(field,ColumnName(Column),ctype, PODBC::oBOOL);
         break;
 	
      case PODBC::Char:
-       if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_CHAR, &b.suchar, 0, &b.dataLen);
+        if (B) 
+          SQLBindCol(m_hStmt, Column, SQL_C_CHAR, &b.suchar, 0, &b.dataLen);
         AddField(field,ColumnName(Column),ctype,PODBC::ochar);
         break;
 
      case PODBC::Integer:
-       if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_LONG, &b.slint, 0, &b.dataLen);
+        if (B) 
+          SQLBindCol(m_hStmt, Column, SQL_C_LONG, &b.slint, 0, &b.dataLen);
         AddField(field,ColumnName(Column),ctype,PODBC::olong);
         break;
 				
      case PODBC::SmallInt:
-       if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_SSHORT, &b.ssint, 0, &b.dataLen);
+        if (B) 
+          SQLBindCol(m_hStmt, Column, SQL_C_SSHORT, &b.ssint, 0, &b.dataLen);
         AddField(field,ColumnName(Column),ctype, PODBC::oint);
         break;
 
@@ -1289,20 +1290,20 @@ void PODBCRecord::Data(PINDEX Column, PODBC::Field & field)
      case PODBC::Double:
        field.Decimals = ColumnPrecision(Column);
        if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_DOUBLE, &b.sdoub, 0, &b.dataLen);
+         SQLBindCol(m_hStmt, Column, SQL_C_DOUBLE, &b.sdoub, 0, &b.dataLen);
        AddField(field,ColumnName(Column),ctype,PODBC::odouble);
        break;
 
      // Data Structures
      case PODBC::Date:  
        if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_TYPE_DATE, &b.date, 0, &b.dataLen);
+         SQLBindCol(m_hStmt, Column, SQL_C_TYPE_DATE, &b.date, 0, &b.dataLen);
        AddField(field,ColumnName(Column),ctype,PODBC::oPTime);
        break;
 
      case PODBC::Time:
        if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_TYPE_TIME, &b.time, 0, &b.dataLen);
+         SQLBindCol(m_hStmt, Column, SQL_C_TYPE_TIME, &b.time, 0, &b.dataLen);
        AddField(field,ColumnName(Column),ctype,PODBC::oPTime);
        break;
 
@@ -1314,7 +1315,7 @@ void PODBCRecord::Data(PINDEX Column, PODBC::Field & field)
 
      case PODBC::Guid:   
        if (B) 
-        SQLBindCol(m_hStmt, Column, SQL_C_GUID, &b.guid, 0, &b.dataLen);
+         SQLBindCol(m_hStmt, Column, SQL_C_GUID, &b.guid, 0, &b.dataLen);
        AddField(field,ColumnName(Column),ctype,PODBC::oPGUID);
        break;
 
@@ -1346,7 +1347,7 @@ void PODBCRecord::Data(PINDEX Column, PODBC::Field & field)
         b.sbin.SetSize(len+1);
         AddField(field,ColumnName(Column),ctype,PODBC::oPString);
         if (B) 
-         SQLBindCol(m_hStmt, Column, SQL_C_CHAR, b.sbin.GetPointer(len), len, &b.dataLen);
+          SQLBindCol(m_hStmt, Column, SQL_C_CHAR, b.sbin.GetPointer(len), len, &b.dataLen);
         break;
    };
 }
@@ -1395,9 +1396,9 @@ PBoolean PODBCRecord::InternalSaveLongData(SQLRETURN nRet, PODBC::Row & rec)
 {
 
    SQLPOINTER pToken;
-   SQLINTEGER cbData;
+   SQLINTEGER cbData = MAX_DATA_LEN;
    PString DataSlice;
-   PINDEX frag, col=0;
+   PINDEX frag=0, col=0;
 
  /// Everything OK but no Long Data
    if (Stmt->SQL_OK(nRet)) 

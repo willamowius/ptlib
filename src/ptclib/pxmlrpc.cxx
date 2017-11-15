@@ -880,6 +880,7 @@ PBoolean PXMLRPCBlock::GetParam(PINDEX idx, PXMLRPCStructBase & data)
 
 PXMLRPC::PXMLRPC(const PURL & _url, PXMLParser::Options opts)
   : url(_url)
+  , faultCode(P_MAX_INDEX)
   , timeout(0, 10) // Seconds
   , m_options(opts)
 {

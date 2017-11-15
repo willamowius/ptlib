@@ -50,7 +50,8 @@
 // If DNS resolver is enabled, we look for a matching SRV record
 XMPP::C2S::TCPTransport::TCPTransport(const PString& hostname)
   : m_Hostname(hostname),
-    m_Port(5222)
+    m_Port(5222),
+    m_Socket(NULL)
 {
 #if P_DNS
   PDNS::SRVRecordList srvRecords;
@@ -70,7 +71,8 @@ XMPP::C2S::TCPTransport::TCPTransport(const PString& hostname)
 // A port was specified, so well connect exactly where we're told
 XMPP::C2S::TCPTransport::TCPTransport(const PString& hostname, WORD port)
   : m_Hostname(hostname),
-    m_Port(port)
+    m_Port(port),
+    m_Socket(NULL)
 {
 }
 

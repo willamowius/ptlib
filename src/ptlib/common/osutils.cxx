@@ -424,8 +424,6 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
   if (level == UINT_MAX || !PProcess::IsInitialised())
     return *info.stream;
 
-  info.Lock();
-
   if (!info.m_filename.IsEmpty() && (info.options&RotateLogMask) != 0) {
     unsigned rotateVal = GetRotateVal(info.options);
     if (rotateVal != info.lastRotate) {
@@ -435,6 +433,8 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
         info.SetStream(&cerr);
     }
   }
+
+  info.Lock();
 
   PThread * thread = PThread::Current();
   PThread::TraceInfo * threadInfo = NULL;

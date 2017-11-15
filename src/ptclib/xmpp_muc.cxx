@@ -42,6 +42,7 @@
 #if P_EXPAT
 
 XMPP::MUC::User::User()
+  : m_Role(XMPP::MUC::User::None), m_Affiliation(XMPP::MUC::User::None_a)
 {
 
 }

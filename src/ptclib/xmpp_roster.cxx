@@ -42,7 +42,7 @@
 #if P_EXPAT
 
 XMPP::Roster::Item::Item(PXMLElement * item)
-  : m_IsDirty(PFalse)
+  : m_Type(XMPP::Roster::None), m_IsDirty(PFalse)
 {
   if (item != NULL)
     operator=(*item);

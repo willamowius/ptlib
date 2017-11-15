@@ -2412,6 +2412,8 @@ PVXMLChannel::PVXMLChannel(unsigned frameDelay, PINDEX frameSize)
   , m_paused(false)
   , m_totalData(0)
   , m_recordable(NULL)
+  , m_finalSilence(0)
+  , m_silenceRun(0)
   , m_currentPlayItem(NULL)
 {
 }

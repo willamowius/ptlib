@@ -505,6 +505,7 @@ PSOAPMessage PSOAPServerResource::FormatFault( PINDEX code, const PString & str 
 
 PSOAPClient::PSOAPClient( const PURL & _url )
   : url(_url),
+  faultCode(P_MAX_INDEX),
   soapAction( " " )
 {
   timeout = 10000;
