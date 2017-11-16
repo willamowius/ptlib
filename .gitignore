@@ -14,6 +14,8 @@ lib_*_*_*
 Release
 Debug
 autom4te.cache
+doxygen.out
+html/
 cov-int
 cov-int.tgz
 a.out
