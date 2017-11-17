@@ -37,7 +37,7 @@
 #include <string>
 
 
-#define VERSION "1.02"
+#define VERSION "1.1"
 
 using namespace std;
 
@@ -58,38 +58,7 @@ int main(int argc, char* argv[])
 
   const char * define = argc < 4 ? "SVN_REVISION" : argv[3];
 
-  char revision[20];
-  revision[0] = '\0';
-
-
-  ifstream file(".svn\\entries", ios::in);
-  if (!file.is_open()) {
-    file.clear();
-    file.open("_svn\\entries", ios::in);
-  }
-
-  if (file.is_open()) {
-    file.ignore(1000, '\n');
-    file.ignore(1000, '\n');
-    file.ignore(1000, '\n');
-
-    file.getline(revision, sizeof(revision));
-
-    file.close();
-  }
-
-  if (revision[0] == '\0')
-    cout << "Cannot determine revision, using default." << endl;
-  else
-    cout << "Changing to revision " << revision << endl;
-
-
-  file.clear();
-  file.open(argv[1], ios::in);
-  if (!file.is_open()) {
-    cerr << "Could not open \"" << argv[1] << '"' << endl;
-    return 1;
-  }
+  char revision[20] = "0";
 
   ofstream out(argv[2], ios::out);
   if (!out.is_open()) {
@@ -97,24 +66,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  while (!file.eof()) {
-    char line[250];
-    file.getline(line, sizeof(line));
-    if (revision[0] == '\0' && strstr(line, "$Revision: ") != NULL) {
-      char * digits = line;
-      while (!isdigit(*digits))
-        ++digits;
-      char * end = digits;
-      while (isdigit(*end))
-        ++end;
-      *end = '\0';
-      strcpy(revision, digits);
-    }
-    if (revision[0] != '\0' && strstr(line, define) != NULL)
-      out << "#define " << define << ' ' << revision << '\n';
-    else
-      out << line << '\n';
-  }
+  out << "#define " << define << ' ' << revision << '\n';
 
   return 0;
 }

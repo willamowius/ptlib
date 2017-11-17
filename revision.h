@@ -28,7 +28,7 @@
 #ifndef _PTLib_REVISION_H
 #define _PTLib_REVISION_H
 
-#define SVN_REVISION 28574
+#define SVN_REVISION 0
 
 #endif  // _PTLib_REVISION_H
 
