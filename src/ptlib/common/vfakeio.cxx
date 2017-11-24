@@ -1609,8 +1609,8 @@ PBoolean PVideoInputDevice_FakeVideo::SetFrameRate(unsigned rate)
 {
   if (rate < 1)
     rate = 1;
-  else if (rate > 50)
-    rate = 50;
+  else if (rate > 60)
+    rate = 60;
 
   return PVideoDevice::SetFrameRate(rate);
 }
