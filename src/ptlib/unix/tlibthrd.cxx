@@ -188,7 +188,7 @@ void PHouseKeepingThread::Main()
           // unlock the m_activeThreadMutex to avoid deadlocks:
           // if somewhere in the destructor a call to PTRACE() is made,
           // which itself calls PThread::Current(), deadlocks are possible
-          thread->m_threadId = 0;
+          thread->m_threadIdValid = false;
           process.m_activeThreadMutex.Signal();
           delete thread;
           process.m_activeThreadMutex.Wait();
@@ -342,6 +342,7 @@ PThread::PThread(bool isProcess)
   , m_autoDelete(!isProcess)
   , m_originalStackSize(0) // 0 indicates external thread
   , m_threadId(pthread_self())
+  , m_threadIdValid(true)
   , PX_priority(NormalPriority)
 #if defined(P_LINUX)
   , PX_linuxId(syscall(SYS_gettid))
@@ -359,6 +360,8 @@ PThread::PThread(bool isProcess)
 #else
   PAssertOS(::pipe(unblockPipe) == 0);
 #endif
+
+  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName << " (id = " << ::hex << m_threadId << ::dec << ")");
 
   if (isProcess)
     return;
@@ -383,7 +386,8 @@ PThread::PThread(PINDEX stackSize,
   , m_autoDelete(deletion == AutoDeleteThread)
   , m_originalStackSize(stackSize) // 0 indicates PTLib created thread
   , m_threadName(name)
-  , m_threadId(0)  // 0 indicates thread has not started
+  , m_threadId(0)
+  , m_threadIdValid(false)
   , PX_priority(priorityLevel)
 #if defined(P_LINUX)
   , PX_linuxId(0)
@@ -404,8 +408,6 @@ PThread::PThread(PINDEX stackSize,
   PAssertOS(::pipe(unblockPipe) == 0);
 #endif
   PX_NewHandle("Thread unblock pipe", PMAX(unblockPipe[0], unblockPipe[1]));
-
-  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName);
 }
 
 //
@@ -426,18 +428,18 @@ PThread::~PThread()
     PProcess & process = PProcess::Current();
 
     // need to terminate the thread if it was ever started and it is not us
-    if ((id != 0) && (id != pthread_self()))
+    if (m_threadIdValid && id != pthread_self())
       Terminate();
 
     // cause the housekeeping thread to be created, if not already running
     process.SignalTimerChange();
 
     // last gasp tracing
-    PTRACE(5, "PTLib\tDestroyed thread " << this << ' ' << m_threadName << "(id = " << ::hex << id << ::dec << ")");
+    PTRACE(5, "PTLib\tDestroyed thread " << this << ' ' << m_threadName << " (id = " << ::hex << id << ::dec << ")");
 
 
     // if thread was started, remove it from the active thread list and detach it to release thread resources
-    if (id != 0) {
+    if (m_threadIdValid) {
       process.m_activeThreadMutex.Wait();
       if (m_originalStackSize != 0)
         pthread_detach(id);
@@ -555,6 +557,8 @@ void PThread::Restart()
 
   // create the thread
   PAssertPTHREAD(pthread_create, (&m_threadId, &threadAttr, PX_ThreadStart, this));
+  m_threadIdValid = true;
+  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName << " (id = " << ::hex << m_threadId << ::dec << ")");
 
   // put the thread into the thread list
   process.PXSetThread(m_threadId, this);
@@ -927,8 +931,7 @@ PBoolean PThread::IsTerminated() const
     return false; // Process is always still running
 
   // See if thread is still running
-  pthread_t id = m_threadId;
-  return id == 0 || pthread_kill(id, 0) != 0;
+  return !m_threadIdValid || pthread_kill(m_threadId, 0) != 0;
 }
 
 
@@ -941,7 +944,7 @@ void PThread::WaitForTermination() const
 PBoolean PThread::WaitForTermination(const PTimeInterval & maxWait) const
 {
   pthread_t id = m_threadId;
-  if (id == 0 || this == Current()) {
+  if (!m_threadIdValid || this == Current()) {
     PTRACE(2, "WaitForTermination on 0x" << hex << id << dec << " short circuited");
     return true;
   }

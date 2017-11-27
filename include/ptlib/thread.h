@@ -379,6 +379,7 @@ class PThread : public PObject
     PMutex  m_threadNameMutex;
 
     PThreadIdentifier m_threadId;
+    PBoolean m_threadIdValid;
 
 #if PTRACING
   public:
