@@ -558,7 +558,6 @@ void PThread::Restart()
   // create the thread
   PAssertPTHREAD(pthread_create, (&m_threadId, &threadAttr, PX_ThreadStart, this));
   m_threadIdValid = true;
-  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName << " (id = " << ::hex << m_threadId << ::dec << ")");
 
   // put the thread into the thread list
   process.PXSetThread(m_threadId, this);
@@ -574,6 +573,7 @@ void PThread::Restart()
 
   pthread_attr_destroy(&threadAttr);
 
+  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName << " (id = " << ::hex << m_threadId << ::dec << ")");
   PTRACE_IF(newHighWaterMark%100 == 0 ? 2 : 4, newHighWaterMark > 0,
             "PTLib\tThread high water mark set: " << newHighWaterMark);
 
