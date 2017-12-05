@@ -361,8 +361,6 @@ PThread::PThread(bool isProcess)
   PAssertOS(::pipe(unblockPipe) == 0);
 #endif
 
-  PTRACE(3, "PTLib\tCreated thread " << this << ' ' << m_threadName << " (id = " << ::hex << m_threadId << ::dec << ")");
-
   if (isProcess)
     return;
 
