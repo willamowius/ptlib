@@ -44,6 +44,7 @@
 
 static PBoolean PAssertAction(int c, const char * msg)
 {
+  // TODO: exit here if NDEBUG is defined so we don't core in production code ?
   switch (c) {
     case 'a' :
     case 'A' :
