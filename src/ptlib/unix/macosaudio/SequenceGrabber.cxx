@@ -153,7 +153,7 @@ OSStatus SequenceGrabberOpenRecorder(const char *name, const soundParams *params
 
 OSStatus SequenceGrabberCloseRecorder(unsigned long /* handle */)
 {
-    int err;
+    int err = 0;
     using namespace SequenceGrabber;
     if (m_audiochannel) {
         fprintf(stderr,"closing recorder channel\n");
