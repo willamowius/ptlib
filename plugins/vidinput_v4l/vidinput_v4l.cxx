@@ -1039,9 +1039,8 @@ PBoolean PVideoInputDevice_V4L::GetFrameDataNoDelay(BYTE * buffer, PINDEX * byte
 
   // trigger capture of next frame in this buffer.
   // fallback to read() on errors.
-  int ret = -1;
   
-  ret = ::ioctl(videoFd, VIDIOCMCAPTURE, &frameBuffer[ 1 - currentFrame ]);
+  int ret = ::ioctl(videoFd, VIDIOCMCAPTURE, &frameBuffer[ 1 - currentFrame ]);
   if ( ret < 0 ) {
     PTRACE(1,"PVideoInputDevice_V4L::GetFrameData mcapture2 failed : " << ::strerror(errno));
     ClearMapping();

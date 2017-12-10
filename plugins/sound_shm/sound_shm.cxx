@@ -132,6 +132,7 @@ PSoundChannelSHM::PSoundChannelSHM()
 //printf("ashm constructor\n");
   card_nr = 0;
   os_handle = NULL;
+  numChannels = 0;
 }
 
 

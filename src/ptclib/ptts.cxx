@@ -469,8 +469,7 @@ PBoolean PTextToSpeech_Festival::Invoke(const PString & otext, const PFilePath &
 
   PTRACE(3, "TTS\tCreating " << fname << " using " << cmdLine);
   cmd.Execute();
-  int code = -1;
-  code = cmd.WaitForTermination();
+  int code = cmd.WaitForTermination();
   if (code >= 0) {
     PTRACE(4, "TTS\tdata generated");
   } else {
