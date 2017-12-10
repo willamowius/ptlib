@@ -457,7 +457,7 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
     char ifaceName[255];
     PBoolean found = PFalse;
     if ((file = fopen("/proc/net/if_inet6", "r")) != NULL) {
-      while (!found && (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %255s\n",
+      while (!found && (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %254s\n",
               &addr6[0],  &addr6[1],  &addr6[2],  &addr6[3], 
               &addr6[4],  &addr6[5],  &addr6[6],  &addr6[7], 
               &addr6[8],  &addr6[9],  &addr6[10], &addr6[11], 
@@ -1506,8 +1506,8 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   PAssertAlways("PIPSocket::GetRouteTable()");
   for(;;){
     char iface[20];
-    unsigned long net_addr, dest_addr, net_mask;
-    int  metric;
+    unsigned long net_addr, dest_addr = 0, net_mask = 0;
+    int  metric = 0;
     RouteEntry * entry = new RouteEntry(net_addr);
     entry->net_mask = net_mask;
     entry->destination = dest_addr;
@@ -1988,7 +1988,7 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
   int addr[16];
   char ifaceName[255];
   if ((file = fopen("/proc/net/if_inet6", "r")) != NULL) {
-    while (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %255s\n",
+    while (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %254s\n",
             &addr[0],  &addr[1],  &addr[2],  &addr[3], 
             &addr[4],  &addr[5],  &addr[6],  &addr[7], 
             &addr[8],  &addr[9],  &addr[10], &addr[11], 
