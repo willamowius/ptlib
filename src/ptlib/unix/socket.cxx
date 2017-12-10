@@ -849,7 +849,7 @@ PBoolean PEthSocket::EnumIpAddress(PINDEX idx,
     strncpy(ifr.ifr_name, channelName, sizeof(ifr.ifr_name)-1);
 	ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';
   } else
-    sprintf(ifr.ifr_name, "%s:%u", (const char *)channelName, (int)(idx-1));
+    sprintf(ifr.ifr_name, "%s:%u", (const char *)channelName, (unsigned int)(idx-1));
   if (!ConvertOSError(ioctl(os_handle, SIOCGIFADDR, &ifr)))
     return PFalse;
 

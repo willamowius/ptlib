@@ -454,7 +454,7 @@ void PProcess::_PXShowSystemWarning(PINDEX code, const PString & str)
 void PXSignalHandler(int sig)
 {
 #ifdef SIGNALS_DEBUG
-  fprintf(stderr,"\nSIGNAL<%u>\n",sig);
+  fprintf(stderr,"\nSIGNAL<%u>\n", (unsigned int)sig);
 #endif
 
   PProcess & process = PProcess::Current();
