@@ -50,6 +50,7 @@ PSoundChannelALSA::PSoundChannelALSA()
 {
   card_nr = 0;
   os_handle = NULL;
+  mNumChannels = 0;
 }
 
 

@@ -54,8 +54,9 @@ static SoundHandleDict & handleDict()
 
 SoundHandleEntry::SoundHandleEntry()
 {
-  handle    = -1;
+  handle = -1;
   direction = 0;
+  numChannels' = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

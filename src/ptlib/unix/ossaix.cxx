@@ -168,8 +168,9 @@ PBoolean PSound::PlayFile(const PFilePath & file, PBoolean wait)
 
 SoundHandleEntry::SoundHandleEntry()
 {
-  handle    = -1;
+  handle = -1;
   direction = 0;
+  numChannels = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
