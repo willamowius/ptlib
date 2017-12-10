@@ -763,7 +763,7 @@ int main(int argc, char* argv[])
               "usage: configure args\n"
               "  --no-search           Do not search disk for libraries.\n"
               "  --extern-dir=dir      Specify where to search disk for libraries.\n"
-              "  --exclude-dir=dir     Exclude dir from search path.\n";
+              "  --exclude-dir=dir     Exclude dir from search path.\n"
               "  --exclude-env=var     Exclude dirs decribed by specified env var from search path.\n";
       for (feature = features.begin(); feature != features.end(); feature++) {
         if (feature->featureName[0] != '\0') {
