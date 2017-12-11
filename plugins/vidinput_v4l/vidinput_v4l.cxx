@@ -469,6 +469,7 @@ PVideoInputDevice_V4L::PVideoInputDevice_V4L()
 {
   videoFd       = -1;
   hint_index    = PARRAYSIZE(driver_hints) - 1;
+  colourFormatCode = -1;
 
   canMap           = -1;
   for (int i=0; i<2; i++)
