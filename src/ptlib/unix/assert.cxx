@@ -78,7 +78,7 @@ static PBoolean PAssertAction(int c, const char * msg)
     case 'c' :
     case 'C' :
       PError << "\nDumping core.\n";
-      raise(SIGABRT);
+      abort();
       break; // not needed, but helping Coverity
 
     case 'i' :
