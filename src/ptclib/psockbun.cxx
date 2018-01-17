@@ -135,7 +135,7 @@ void PInterfaceMonitor::Stop()
 
   // shutdown the update thread
   if (m_changedDetector != NULL) {
-    PTRACE(4, "IfaceMon\tAwaiting thread termination");
+    //PTRACE(4, "IfaceMon\tAwaiting thread termination");
 
     m_changedDetector->Cancel();
 
