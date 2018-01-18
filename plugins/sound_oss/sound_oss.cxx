@@ -57,6 +57,11 @@ SoundHandleEntry::SoundHandleEntry()
   handle = -1;
   direction = 0;
   numChannels = 0;
+  sampleRate = 0;
+  bitsPerSample = 0;
+  fragmentValue = 0;
+  isInitialised = false;
+  resampleRate = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -81,6 +86,13 @@ PSoundChannelOSS::PSoundChannelOSS(const PString & device,
 void PSoundChannelOSS::Construct()
 {
   os_handle = -1;
+  mNumChannels = 0;
+  mSampleRate = 0;
+  mBitsPerSample = 0;
+  actualSampleRate = 0;
+  direction = Player;
+  isInitialised = false;
+  resampleRate = 0;
 }
 
 
@@ -468,8 +480,8 @@ PBoolean PSoundChannelOSS::Close()
 
   // the device must be in the dictionary
   dictMutex.Wait();
-  SoundHandleEntry * entry;
-  PAssert((entry = handleDict().GetAt(device)) != NULL, "Unknown sound device \"" + device + "\" found");
+  SoundHandleEntry * entry = handleDict().GetAt(device);
+  PAssert(entry != NULL, "Unknown sound device \"" + device + "\" found");
 
   // modify the directions bit mask in the dictionary
   entry->direction ^= (direction+1);
