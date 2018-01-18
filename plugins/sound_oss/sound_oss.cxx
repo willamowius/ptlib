@@ -56,7 +56,7 @@ SoundHandleEntry::SoundHandleEntry()
 {
   handle = -1;
   direction = 0;
-  numChannels' = 0;
+  numChannels = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
