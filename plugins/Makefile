@@ -22,7 +22,7 @@ SUBDIRS         += sound_shm
 endif
 
 ################################OSS
-HAS_OSS		= 
+HAS_OSS		= 1
 
 ifeq (1,$(HAS_OSS))
 SUBDIRS += sound_oss

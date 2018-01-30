@@ -1106,11 +1106,17 @@ PBoolean PPER_Stream::MultiBitDecode(unsigned nBits, unsigned & value)
 
   if (nBits < bitOffset) {
     bitOffset -= nBits;
-    value = (theArray[byteOffset] >> bitOffset) & ((1 << nBits) - 1);
+    if (nBits == sizeof(value)*8)
+      value = (theArray[byteOffset] >> bitOffset) & (-1);
+    else
+      value = (theArray[byteOffset] >> bitOffset) & ((1 << nBits) - 1);
     return PTrue;
   }
 
-  value = theArray[byteOffset] & ((1 << bitOffset) - 1);
+  if (bitOffset == sizeof(value)*8)
+    value = theArray[byteOffset] & (-1);
+  else
+    value = theArray[byteOffset] & ((1 << bitOffset) - 1);
   nBits -= bitOffset;
   bitOffset = 8;
   byteOffset++;
@@ -1141,7 +1147,7 @@ void PPER_Stream::MultiBitEncode(unsigned value, unsigned nBits)
     SetSize(byteOffset+10);
 
   // Make sure value is in bounds of bit available.
-  if (nBits < sizeof(int)*8)
+  if (nBits < sizeof(value)*8)
     value &= ((1 << nBits) - 1);
 
   if (!CheckByteOffset(byteOffset))
