@@ -2096,6 +2096,8 @@ void PSyncPointAck::Acknowledge()
 
 /////////////////////////////////////////////////////////////////////////////
 
+#ifdef DISABLED_DUE_TO_COVERITY_ISSUES
+
 void PCondMutex::WaitCondition()
 {
   for (;;) {
@@ -2219,6 +2221,7 @@ PIntCondMutex & PIntCondMutex::operator-=(int dec)
   return *this;
 }
 
+#endif // disabled
 
 /////////////////////////////////////////////////////////////////////////////
 

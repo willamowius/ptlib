@@ -95,6 +95,8 @@ class PSyncPointAck : public PSyncPoint
 };
 
 
+#ifdef DISABLED_DUE_TO_COVERITY_ISSUES
+
 /**This class defines a thread synchronisation object.
 
    This is a special type of mutual exclusion, where a thread wishes to get
@@ -240,6 +242,7 @@ class PIntCondMutex : public PCondMutex
     Operation operation;
 };
 
+#endif // disabled
 
 /** This class defines a thread synchronisation object.
 
