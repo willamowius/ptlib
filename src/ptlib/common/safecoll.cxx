@@ -65,7 +65,7 @@ PBoolean PSafeObject::SafeReference()
 #endif
   }
 
-  PTRACE(7, "SafeColl\tIncrement reference count to " << tracedReferenceCount << " for " << GetClass() << ' ' << (void *)this);
+  //PTRACE(7, "SafeColl\tIncrement reference count to " << tracedReferenceCount << " for " << GetClass() << ' ' << (void *)this);
   return PTrue;
 }
 
@@ -95,7 +95,7 @@ PBoolean PSafeObject::SafeDereference()
 
 PBoolean PSafeObject::LockReadOnly() const
 {
-  PTRACE(7, "SafeColl\tWaiting read ("<<(void *)this<<")");
+  //PTRACE(7, "SafeColl\tWaiting read ("<<(void *)this<<")");
   safetyMutex.Wait();
 
   if (safelyBeingRemoved) {
@@ -120,7 +120,7 @@ void PSafeObject::UnlockReadOnly() const
 
 PBoolean PSafeObject::LockReadWrite()
 {
-  PTRACE(7, "SafeColl\tWaiting readWrite ("<<(void *)this<<")");
+  //PTRACE(7, "SafeColl\tWaiting readWrite ("<<(void *)this<<")");
   safetyMutex.Wait();
 
   if (safelyBeingRemoved) {
