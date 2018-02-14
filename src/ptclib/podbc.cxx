@@ -76,7 +76,7 @@ static void Convert(short int & data, PString field)
 
 static void Convert(unsigned char * data, PString field)
 {
-    data = (unsigned char *)(const char *)field;
+    data = (unsigned char *)(const char *)field; // TODO: this looks like a bug
 }
 
 
