@@ -671,7 +671,7 @@ PASNObjectID::PASNObjectID(const PString & str)
   while (i < strLen) {
 
     // find the first non-dot character
-    while (str[i] == '.' && i < strLen)
+    while (i < strLen && str[i] == '.')
       i++;
 
     // find the next dot
