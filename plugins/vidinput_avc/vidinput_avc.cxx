@@ -82,6 +82,7 @@ PVideoInputDevice_1394AVC::PVideoInputDevice_1394AVC()
   handle = NULL;
   is_capturing = PFalse;
   dv_decoder = NULL;
+  port = 0;
 }
 
 PVideoInputDevice_1394AVC::~PVideoInputDevice_1394AVC()
