@@ -670,7 +670,7 @@ PSSLDiffieHellman::~PSSLDiffieHellman()
     DH_free(dh);
 }
 
-#ifdef P_d2i_DHparams_bio_OLD
+#if defined(P_d2i_DHparams_bio_OLD) && OPENSSL_VERSION_NUMBER < 0x100020efL
 // 2/21/04 Yuri Kiryanov - fix for compiler choke on BeOS for usage of
 // SSL function d2i_DHparams_bio below in PSSLDiffieHellman::Load
 // 5/26/06 Hannes Friederich - Mac OS X seems to need that fix too...
