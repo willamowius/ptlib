@@ -102,6 +102,22 @@ extern "C" {
 
 };
 
+#if defined(__cpp_threadsafe_static_init) && (__cpp_threadsafe_static_init+0) >= 200806
+#if !defined(P_THREADSAFE_STATIC_INIT)
+#define P_THREADSAFE_STATIC_INIT
+#endif
+#endif
+
+#if defined(P_THREADSAFE_STATIC_INIT) && defined(P_EXCEPTIONS)
+#include <stdexcept>
+#elif defined(P_PTHREADS)
+#include <stdlib.h> // atexit
+#include <pthread.h>
+#else
+#include <stdlib.h> // atexit
+#include <ptlib/mutex.h>
+#include <ptlib/psync.h>
+#endif
 
 #ifdef _MSC_VER
   #pragma comment(lib, P_SSL_LIB1)
@@ -1155,7 +1171,7 @@ static int Psock_new(BIO * bio)
 {
 #if OPENSSL_VERSION_NUMBER >= 0x10100000l
   BIO_set_init (bio, 0);
-  BIO_set_data (bio, NULL);;    // this is really (PSSLChannel *)
+  BIO_set_data (bio, NULL);    // this is really (PSSLChannel *)
   BIO_set_flags (bio, 0);
 #else
   bio->init     = 0;
@@ -1283,19 +1299,16 @@ static int Psock_puts(BIO * bio, const char * str)
   return ret;
 }
 
-};
+} // extern "C"
 
+namespace {
 
-
-PBoolean PSSLChannel::OnOpen()
-{
 #if OPENSSL_VERSION_NUMBER >= 0x10100000l
-  static BIO_METHOD *methods_pSock = NULL;
 
-  if (methods_pSock == NULL) {
-    methods_pSock = BIO_meth_new (BIO_TYPE_SOCKET, "PTLib-PSSLChannel");
-    if (!methods_pSock)
-      return FALSE;
+inline BIO_METHOD* CreatePsockMethods()
+{
+  BIO_METHOD* methods_pSock = BIO_meth_new (BIO_TYPE_SOCKET, "PTLib-PSSLChannel");
+  if (methods_pSock) {
     BIO_meth_set_write (methods_pSock, Psock_write);
     BIO_meth_set_read (methods_pSock, Psock_read);
     BIO_meth_set_puts (methods_pSock, Psock_puts);
@@ -1303,34 +1316,136 @@ PBoolean PSSLChannel::OnOpen()
     BIO_meth_set_create (methods_pSock, Psock_new);
     BIO_meth_set_destroy (methods_pSock, Psock_free);
   }
+  return methods_pSock;
+}
 
-  BIO * bio = BIO_new(methods_pSock);
-#else
-  static BIO_METHOD methods_Psock =
+#if defined(P_THREADSAFE_STATIC_INIT) && defined(P_EXCEPTIONS)
+
+struct PsockMethodsInitializer
+{
+  BIO_METHOD* methods;
+
+  PsockMethodsInitializer() : methods(CreatePsockMethods())
   {
-    BIO_TYPE_SOCKET,
-    "PTLib-PSSLChannel",
-  #if (OPENSSL_VERSION_NUMBER < 0x00906000)
-    (ifptr)Psock_write,
-    (ifptr)Psock_read,
-    (ifptr)Psock_puts,
-    NULL,
-    (lfptr)Psock_ctrl,
-    (ifptr)Psock_new,
-    (ifptr)Psock_free
-  #else
-    Psock_write,
-    Psock_read,
-    Psock_puts,
-    NULL,
-    Psock_ctrl,
-    Psock_new,
-    Psock_free
-  #endif
-  };
+    if (!methods)
+      throw std::runtime_error("Failed to create Psock methods");
+  }
+  ~PsockMethodsInitializer()
+  {
+    BIO_meth_free (methods);
+  }
+};
 
-  BIO * bio = BIO_new(&methods_Psock);
+inline BIO_METHOD* GetPsockMethods()
+{
+  try {
+    static const PsockMethodsInitializer meth_init;
+    return meth_init.methods;
+  }
+  catch (...) {
+    return NULL;
+  }
+}
+
+#elif defined(P_PTHREADS)
+
+static pthread_mutex_t g_methods_pSock_mutex = PTHREAD_MUTEX_INITIALIZER;
+static BIO_METHOD *g_methods_pSock = NULL;
+
+extern "C" void PTLibFreePsockMethods()
+{
+  BIO_meth_free (g_methods_pSock);
+  g_methods_pSock = NULL;
+}
+
+inline BIO_METHOD* GetPsockMethods()
+{
+  pthread_mutex_lock(&g_methods_pSock_mutex);
+
+  BIO_METHOD* methods = g_methods_pSock;
+  if (!methods) {
+    methods = CreatePsockMethods();
+    if (methods) {
+      g_methods_pSock = methods;
+      atexit(&PTLibFreePsockMethods);
+    }
+  }
+
+  pthread_mutex_unlock(&g_methods_pSock_mutex);
+
+  return methods;
+}
+
+#else
+
+static PMutex g_methods_pSock_mutex;
+static BIO_METHOD *g_methods_pSock = NULL;
+
+extern "C" void PTLibFreePsockMethods()
+{
+  BIO_meth_free (g_methods_pSock);
+  g_methods_pSock = NULL;
+}
+
+inline BIO_METHOD* GetPsockMethods()
+{
+  PWaitAndSignal lock(g_methods_pSock_mutex);
+
+  BIO_METHOD* methods = g_methods_pSock;
+  if (!methods) {
+    methods = CreatePsockMethods();
+    if (methods) {
+      g_methods_pSock = methods;
+      atexit(&PTLibFreePsockMethods);
+    }
+  }
+
+  return methods;
+}
+
 #endif
+
+#else // OPENSSL_VERSION_NUMBER >= 0x10100000l
+
+static BIO_METHOD g_methods_Psock =
+{
+  BIO_TYPE_SOCKET,
+  "PTLib-PSSLChannel",
+#if (OPENSSL_VERSION_NUMBER < 0x00906000)
+  (ifptr)Psock_write,
+  (ifptr)Psock_read,
+  (ifptr)Psock_puts,
+  NULL,
+  (lfptr)Psock_ctrl,
+  (ifptr)Psock_new,
+  (ifptr)Psock_free
+#else
+  Psock_write,
+  Psock_read,
+  Psock_puts,
+  NULL,
+  Psock_ctrl,
+  Psock_new,
+  Psock_free
+#endif
+};
+
+inline BIO_METHOD* GetPsockMethods()
+{
+  return &g_methods_Psock;
+}
+
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000l
+
+} // namespace
+
+PBoolean PSSLChannel::OnOpen()
+{
+  BIO_METHOD *methods_pSock = GetPsockMethods();
+  if (methods_pSock == NULL)
+    return PFalse;
+
+  BIO *bio = BIO_new(methods_pSock);
   if (bio == NULL) {
     SSLerr(SSL_F_SSL_SET_FD,ERR_R_BUF_LIB);
     return PFalse;
