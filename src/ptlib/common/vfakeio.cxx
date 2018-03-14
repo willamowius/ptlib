@@ -1879,32 +1879,34 @@ void PVideoInputDevice_FakeVideo::GrabMovingBlocksTestFrame(BYTE * resFrame)
   // Provides a difference if run on two ohphone sessions.
   colNo = (colourIndex / 10) % 7;   //Every 10 seconds, coloured background blocks move.
 
-  for(hi = 0; hi < 8; hi++) //Fill the background in.
+  for(hi = 0; hi < 8; hi++) { //Fill the background in.
     for(wi = 0 ; wi < 8; wi++) {
       FillRect(resFrame,
                columns[wi], heights[hi], columns[wi + 1] - columns[wi], heights[hi + 1] - heights[hi],
                background[COL(colNo, wi, hi)][0], background[COL(colNo, wi, hi)][1], background[COL(colNo, wi, hi)][2]);
     }
+  }
 
-    //Draw a black box rapidly moving down the left of the window.
-    boxSize= frameHeight / 10;
-    hi = ((3 * colourIndex) % (frameHeight-boxSize)) & 0xffe; //Make certain hi is even.
-    FillRect(resFrame, 10, hi, boxSize, boxSize, 0, 0, 0); //Black Box.
+  //Draw a black box rapidly moving down the left of the window.
+  boxSize= frameHeight / 10;
+  hi = ((3 * colourIndex) % (frameHeight-boxSize)) & 0xffe; //Make certain hi is even.
+  FillRect(resFrame, 10, hi, boxSize, boxSize, 0, 0, 0); //Black Box.
 
-    //Draw four parallel black lines, which move up the middle of the window.
-    colourIndex = colourIndex / 3;     //Every three seconds, lines move.
+  //Draw four parallel black lines, which move up the middle of the window.
+  colourIndex = colourIndex / 3;     //Every three seconds, lines move.
 
-    for(wi = 0; wi < 2; wi++) 
-      columns[wi]= (((wi + 1)  * frameWidth) / 3) & 0xffe;// Force columns to be even.
+  for(wi = 0; wi < 2; wi++) 
+    columns[wi]= (((wi + 1)  * frameWidth) / 3) & 0xffe;// Force columns to be even.
 
-    hi = colourIndex % ((frameHeight - 16) / 2);
-    hi = (frameHeight - 16) - (hi * 2);     //hi is even, Lines move in opp. direction to box.
+  hi = colourIndex % ((frameHeight - 16) / 2);
+  hi = (frameHeight - 16) - (hi * 2);     //hi is even, Lines move in opp. direction to box.
 
-    unsigned yi;    
-    for(yi = 0; yi < 4; yi++) 
-      FillRect(resFrame,
-               columns[0], hi+(yi * 4), columns[1] - columns[0], 2,
-               0, 0, 0);
+  unsigned yi;    
+  for(yi = 0; yi < 4; yi++) {
+    FillRect(resFrame,
+             columns[0], hi+(yi * 4), columns[1] - columns[0], 2,
+             0, 0, 0);
+  }
 }
 
 
