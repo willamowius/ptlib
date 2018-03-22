@@ -205,8 +205,6 @@ static PBoolean ProcessDNSRecords(
     }
   }
 
-  if (lastRecord != NULL)
-    free(lastRecord);
   return PTrue;
 }
 
