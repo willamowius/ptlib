@@ -96,7 +96,7 @@ P_SHAREDLIB=1
 endif
 
 # why do we need this hack to get the following ifeg working on Fedora 28 ???
-STDCCFLAGS += -DCXX-HACK=$(CXX)
+STDCCFLAGS += -DCXXHACK=$(CXX)
 # get gcc/g++ version
 ifeq "$(CXX)" "g++"
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
