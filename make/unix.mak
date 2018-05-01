@@ -95,6 +95,8 @@ ifndef P_SHAREDLIB
 P_SHAREDLIB=1
 endif
 
+# why do we need this hack to get the following ifeg working on Fedora 28 ???
+STDCCFLAGS += -DCXX-HACK=$(CXX)
 # get gcc/g++ version
 ifeq "$(CXX)" "g++"
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
@@ -103,7 +105,7 @@ endif
 # -Wall must be at the start of the options otherwise
 # any -W overrides won't have any effect
 ifeq ($(USE_GCC),yes)
-# avoid warning from gcc 5 and 6
+# avoid warning from gcc >= 5
 ifeq "$(GCCMAJORGTEQ5)" "1"
 STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
 else
