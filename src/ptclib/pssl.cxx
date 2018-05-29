@@ -835,26 +835,23 @@ void PSSLContext::Construct(Method method, const void * sessionId, PINDEX idSize
 #if OPENSSL_VERSION_NUMBER >= 0x00909000L
   const
 #endif
-  SSL_METHOD * meth;
-
-  switch (method) {
-#if OPENSSL_VERSION_NUMBER < 0x10002000L
-    case SSLv3:
-      meth = SSLv3_method();
-      break;
-#endif
-    case TLSv1:
-      meth = TLSv1_method(); 
-      break;
-    case SSLv23:
-    default:
-      meth = SSLv23_method();
-      break;
-  }
+  SSL_METHOD * meth = SSLv23_method();
 
   context  = SSL_CTX_new(meth);
   if (context == NULL)
     PSSLAssert("Error creating context: ");
+
+  // Always disable unsafe SSLv2 and SSLv3 (the latter - unless specifically requested).
+  // Always disable TLS compression as it is unsafe.
+  // https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+  switch (method) {
+    case SSLv3:
+      SSL_CTX_set_options(context, SSL_OP_NO_COMPRESSION | SSL_OP_NO_SSLv2);
+      break;
+    default:
+      SSL_CTX_set_options(context, SSL_OP_NO_COMPRESSION | SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3);
+      break;
+  }
 
   // Shutdown
   SSL_CTX_set_quiet_shutdown(context, 1);
