@@ -185,15 +185,15 @@ int PX_NewHandle(const char * clsName, int fd)
     lowWaterMark = fd;
 
     int maxHandles = PProcess::Current().GetMaxHandles();
-    if (fd < (maxHandles-maxHandles/20))
-      PTRACE(4, "PWLib\tFile handle high water mark set: " << fd << ' ' << clsName);
-    else
-      PTRACE(1, "PWLib\tFile handle high water mark within 5% of maximum: " << fd << ' ' << clsName);
+//    if (fd < (maxHandles-maxHandles/20))
+//      PTRACE(4, "PWLib\tFile handle high water mark set: " << fd << ' ' << clsName);
+//    else
+//      PTRACE(1, "PWLib\tFile handle high water mark within 5% of maximum: " << fd << ' ' << clsName);
   }
 
   if (fd < lowWaterMark) {
     lowWaterMark = fd;
-    PTRACE(4, "PWLib\tFile handle low water mark set: " << fd << ' ' << clsName);
+//    PTRACE(4, "PWLib\tFile handle low water mark set: " << fd << ' ' << clsName);
   }
 
   return fd;
