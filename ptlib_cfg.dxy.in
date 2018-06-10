@@ -568,7 +568,7 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = ./ptlib.dxy \
+INPUT                  = ./ptlib.dox \
                          ./include/ptlib \
                          ./include/ptclib
 
