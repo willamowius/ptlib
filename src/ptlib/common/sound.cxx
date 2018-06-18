@@ -602,6 +602,7 @@ class PSoundChannelNull : public PSoundChannel
                   unsigned sampleRate,
                   unsigned bitsPerSample)
     {
+      os_handle = 1; // mark PChannel as open
       activeDirection = dir;
       return SetFormat(numChannels, sampleRate, bitsPerSample);
     }
@@ -613,11 +614,12 @@ class PSoundChannelNull : public PSoundChannel
 
     PBoolean Close()
     {
+      os_handle = -1; // mark PChannel as closed
       m_sampleRate = 0;
       return true;
     }
 
-    PBoolean IsOpen() const
+    virtual PBoolean IsOpen() const
     {
       return m_sampleRate > 0;
     }
