@@ -1162,7 +1162,7 @@ void PArgList::SetArgs(const PStringArray & theArgs)
 
 PBoolean PArgList::Parse(const char * spec, PBoolean optionsBeforeParams)
 {
-  if (PAssertNULL(spec) == NULL)
+  if (spec == NULL)
     return PFalse;
 
   // Find starting point, start at shift if first Parse() call.
@@ -1183,10 +1183,15 @@ PBoolean PArgList::Parse(const char * spec, PBoolean optionsBeforeParams)
     while (*spec != '\0' && isspace(*spec))
       ++spec;
 
+    if (*spec == '\0')
+      break;
     if (*spec == '-')
       optionLetters += ' ';
     else {
-      PAssert(optionLetters.Find(*spec) == P_MAX_INDEX, "Multiple occurrences of same option letter");
+      if (optionLetters.Find(*spec) != P_MAX_INDEX) {
+        PTRACE(0, "Error: Duplicate option letter: " << *spec);
+        PAssert(optionLetters.Find(*spec) == P_MAX_INDEX, "Multiple occurrences of same option letter");
+      }
       optionLetters += *spec++;
     }
 
