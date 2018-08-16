@@ -447,6 +447,7 @@ TestAudio::TestAudio(TestAudioDevice &master)
 {
     iterations = 0;
     keepGoing = PTrue;
+    currentVolume = 0;
 }
 
 TestAudio::~TestAudio()

@@ -107,7 +107,7 @@ void TimingTest::Main()
   oldSec++;
   PTimeInterval newTick = PTimer::Tick();
   PTimeInterval oldTick = newTick;
-  unsigned count = 0;
+  unsigned count = 1;
 
   while (oldSec == time(NULL)) {  // For one full second
     while (newTick == oldTick)

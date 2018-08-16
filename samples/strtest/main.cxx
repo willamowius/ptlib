@@ -118,7 +118,7 @@ class StringHolder
       const char * ptr = C::ToConstCharStar(s);
       //const char * ptr = s.c_str();
       char buffer[20];
-      strncpy(buffer, ptr, 20);
+      strncpy(buffer, ptr, sizeof(buffer)-1);
 
       if (strcmp((const char *)buffer, SPECIALNAME)) {
         finishFlag = PTrue;
