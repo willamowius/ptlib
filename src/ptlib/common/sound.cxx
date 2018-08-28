@@ -190,7 +190,7 @@ PSoundChannel::PSoundChannel(const PString & device,
   : m_baseChannel(NULL)
   , activeDirection(dir)
 {
-  Open(device, dir, numChannels, sampleRate, bitsPerSample);
+  (void)Open(device, dir, numChannels, sampleRate, bitsPerSample);
 }
 
 
