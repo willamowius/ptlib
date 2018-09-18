@@ -85,7 +85,9 @@
 
 #include <sys/param.h>
 #include <sys/mount.h>
+#ifndef P_OPENBSD
 #include <sys/timeb.h>
+#endif
 
 #if defined(P_NETBSD)
 #include <sys/statvfs.h>
