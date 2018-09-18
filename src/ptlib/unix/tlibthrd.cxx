@@ -1537,7 +1537,12 @@ PTimedMutex::~PTimedMutex()
 #ifdef __MACH__
       sched_yield();
 #else
+#if defined(P_NETBSD) && !defined(__BSD_VISIBLE)
+      // NetBSD 8.0
+      sched_yield();
+#else
       pthread_yield();
+#endif
 #endif
     }
   }

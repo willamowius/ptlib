@@ -1196,6 +1196,7 @@ PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, unsigned long *p_net_
     return PFalse;
   }
 
+#if defined(RTF_LLINFO)
   if ((~rtm->rtm_flags&RTF_LLINFO)
 #if defined(P_NETBSD) || defined(P_QNX)
         && (~rtm->rtm_flags&RTF_CLONED)     // Net BSD has flag one way
@@ -1203,6 +1204,10 @@ PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, unsigned long *p_net_
         && (~rtm->rtm_flags&RTF_WASCLONED)  // MAC has it another
 #else
                                             // Open/Free BSD does not have it at all!
+#endif
+#else
+  // NetBSD 8.0
+  if (true
 #endif
      ) {
 
