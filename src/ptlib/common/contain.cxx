@@ -2408,7 +2408,7 @@ void PSortedStringList::ReadFrom(istream & strm)
 PINDEX PSortedStringList::GetNextStringsIndex(const PString & str) const
 {
   PINDEX len = str.GetLength();
-  Element * lastElement;
+  Element * lastElement = NULL;
   PINDEX lastIndex = InternalStringSelect(str, len, info->root, lastElement);
 
   if (lastIndex != 0) {
