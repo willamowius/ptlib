@@ -1214,11 +1214,11 @@ PString PODBCRecord::GetLongData(PINDEX Column)
    PString sbin;
    PString Data;
    SQLINTEGER len = MAX_DATA_LEN;
-   SQLINTEGER cb =0;
+   SQLINTEGER cb = 0;
 
     while (InternalGetData((USHORT)Column,sbin.GetPointer(len + 1),len,&cb))
 	{
-		if (sbin.Right(1) == '\0')			// Remove Null Char
+		if (sbin.Right(1) == PString('\0'))			// Remove Null Char
 			Data = Data + sbin.Left(sbin.GetLength()-1);
 		else
 			Data = Data + sbin;
