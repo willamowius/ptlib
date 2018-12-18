@@ -166,8 +166,8 @@ fi
 dnl ########################################################################
 dnl set the OSTYPE and MACHTYPE
 
-dnl MSWIN_DISPLAY winver,Advanced Windows API
-dnl MSWIN_DEFINE  winver,WINVER=0x502
+dnl MSWIN_DISPLAY winver,Windows Vista API
+dnl MSWIN_DEFINE  winver,WINVER=0x0600
 
 
 AC_CANONICAL_TARGET()

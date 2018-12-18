@@ -87,9 +87,9 @@
 
 #if defined(_WINDOWS) || defined(_WIN32)
 
-  // At least Windows 2000, configure.ac will generally uprate this
+  // At least Windows Vista, configure.ac will generally update this
   #ifndef WINVER
-    #define WINVER 0x0500
+    #define WINVER 0x0600
   #endif
 
   #if !defined(_WIN32_WINNT) && !defined(_WIN32_WCE)
