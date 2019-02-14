@@ -832,12 +832,7 @@ PSSLContext::PSSLContext(const void * sessionId, PINDEX idSize)
 void PSSLContext::Construct(Method method, const void * sessionId, PINDEX idSize)
 {
   // create the new SSL context
-#if OPENSSL_VERSION_NUMBER >= 0x00909000L
-  const
-#endif
-  SSL_METHOD * meth = SSLv23_method();
-
-  context  = SSL_CTX_new(meth);
+  context  = SSL_CTX_new(SSLv23_method());
   if (context == NULL)
     PSSLAssert("Error creating context: ");
 
