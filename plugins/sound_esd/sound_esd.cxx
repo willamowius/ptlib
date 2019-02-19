@@ -63,7 +63,7 @@ PSoundChannelESD::PSoundChannelESD(const PString & device,
 
 void PSoundChannelESD::Construct()
 {
-  numChannels = 0;
+  mNumChannels = 0;
 }
 
 
