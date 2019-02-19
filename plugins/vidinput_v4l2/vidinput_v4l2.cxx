@@ -163,7 +163,7 @@ PBoolean PVideoInputDevice_V4L2::Open(const PString & devName, PBoolean /* start
   }
 
   PString name = GetNames().GetDeviceName(devName);
-  deviceName=name;
+  deviceName = name;
   
   PTRACE(5,"PVidInDev\tOpen()\tdevName:" << name << "  videoFd:" << videoFd);
   videoFd = ::v4l2_open((const char *)name, O_RDWR);
@@ -775,6 +775,7 @@ void PVideoInputDevice_V4L2::ClearMapping()
     return;
 
   struct v4l2_buffer buf;
+  CLEAR(buf);
   buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
   buf.memory = V4L2_MEMORY_MMAP;
 
