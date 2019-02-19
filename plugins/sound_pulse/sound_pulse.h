@@ -82,7 +82,6 @@ class PSoundChannelPulse: public PSoundChannel
     unsigned actualSampleRate;
     Directions direction;
     PString device;
-    PBoolean isInitialised;
     unsigned resampleRate;
 
     PINDEX bufferSize;
