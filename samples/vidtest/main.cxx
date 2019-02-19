@@ -104,7 +104,7 @@ void VidTest::Main()
               "If they cannot do the format natively, or there are intermediate formats, then\n"
               "video converters are provided.\n"
               "\n"
-              " e.g. ./vidtest --input-device fake --input-channel 2 YUV420P/qcif" << endl << endl;
+              " e.g. ./vidtest --input-device fake --input-channel 2 YUV420P:cif" << endl << endl;
     return;
   }
 
