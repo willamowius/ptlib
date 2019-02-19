@@ -59,7 +59,7 @@ dnl #########################################################################
 dnl check for ESD sound support
 dnl ########################################################################
 
-AC_ARG_ENABLE(esd, [  --enable-esd            enable ESD audio support],,enable_esd=no)
+AC_ARG_ENABLE(esd, [  --enable-esd            enable ESD audio support],,enable_esd=yes)
 
 if test "${enable_esd}z" = "yesz" ; then
   AC_CHECK_HEADER(esd.h, ESDHDR=1)
@@ -76,7 +76,7 @@ dnl #########################################################################
 dnl check for OSS sound support
 dnl ########################################################################
 
-AC_ARG_ENABLE(oss, [  --enable-oss            enable OSS audio support],,enable_oss=no)
+AC_ARG_ENABLE(oss, [  --enable-oss            enable OSS audio support],,enable_oss=yes)
 
 if test "${enable_oss}z" = "yesz" ; then
   AC_CHECK_HEADER(sys/soundcard.h, OSSSNDCARDHDR=1)
