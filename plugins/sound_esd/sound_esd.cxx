@@ -64,6 +64,10 @@ PSoundChannelESD::PSoundChannelESD(const PString & device,
 void PSoundChannelESD::Construct()
 {
   mNumChannels = 0;
+  mSampleRate = 0;
+  mBitsPerSample = 0;
+  actualSampleRate = 0;
+  direction = Player;
 }
 
 

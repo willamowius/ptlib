@@ -76,5 +76,4 @@ class PSoundChannelESD: public PSoundChannel
     unsigned actualSampleRate;
     Directions direction;
     PString device;
-    PBoolean isInitialised;
 };
