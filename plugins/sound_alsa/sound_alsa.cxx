@@ -81,6 +81,8 @@ void PSoundChannelALSA::Construct()
   card_nr = 0;
   os_handle = NULL;
   direction = Player;
+  mBitsPerSample = 0;
+  mSampleRate = 0;
   isInitialised = false;
 }
 
