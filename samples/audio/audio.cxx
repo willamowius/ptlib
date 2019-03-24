@@ -172,9 +172,9 @@ void Audio::Main()
   if (args.HasOption('p')) {
       PString playFileName = args.GetOptionString('p');
       if (playFileName.IsEmpty()) {
-	  cerr << "The p option requires an arguement - the name of the file to play" << endl;
-	  cerr << "Terminating" << endl;
-	  return;
+        cerr << "The p option requires an arguement - the name of the file to play" << endl;
+        cerr << "Terminating" << endl;
+        return;
       }
 
       PWAVFile audioFile;
