@@ -61,7 +61,7 @@ PSNMPServer::PSNMPServer(PIPSocket::Address binding, WORD localPort, PINDEX time
   baseSocket = new PUDPSocket;
 
   if (!baseSocket->Listen(binding, 0, localPort)) {
-    PTRACE(4,"SNMPsrv\tError: Unable to Listen on port " << localPort);
+    PTRACE(1, "SNMPsrv\tError: Unable to Listen on port " << localPort);
   }
   else {
     Open(baseSocket);
