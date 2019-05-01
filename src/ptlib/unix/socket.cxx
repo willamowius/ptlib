@@ -117,16 +117,70 @@ extern "C" void inet_ntoa_b(struct in_addr inetAddress, char *pString);
 void P_fd_set::Construct()
 {
   max_fd = PProcess::Current().GetMaxHandles();
-  set = (fd_set *)malloc((max_fd+7)>>3);
+  // Use an array for FORTIFY_SOURCE
+  set = (fd_set *)malloc(((max_fd+FD_SETSIZE-1)/FD_SETSIZE)*sizeof(fd_set));
 }
 
 
 void P_fd_set::Zero()
 {
   if (PAssertNULL(set) != NULL)
-    memset(set, 0, (max_fd+7)>>3);
+    memset(set, 0, ((max_fd+FD_SETSIZE-1)/FD_SETSIZE)*sizeof(fd_set));
 }
 
+
+P_fd_set::P_fd_set()
+{
+  Construct();
+  Zero();
+}
+
+PBoolean P_fd_set::IsPresent(SOCKET fd) const
+{
+  const int fd_num = fd / FD_SETSIZE;
+  const int fd_off = fd % FD_SETSIZE;
+  return FD_ISSET(fd_off, set+fd_num);
+}
+
+P_fd_set::P_fd_set(SOCKET fd)
+{
+  Construct();
+  Zero();
+  const int fd_num = fd / FD_SETSIZE;
+  const int fd_off = fd % FD_SETSIZE;
+  FD_SET(fd_off, set+fd_num);
+}
+
+
+P_fd_set & P_fd_set::operator=(SOCKET fd)
+{
+  PAssert(fd < max_fd, PInvalidParameter);
+  Zero();
+  const int fd_num = fd / FD_SETSIZE;
+  const int fd_off = fd % FD_SETSIZE;
+  FD_SET(fd_off, set+fd_num);
+  return *this;
+}
+
+
+P_fd_set & P_fd_set::operator+=(SOCKET fd)
+{
+  PAssert(fd < max_fd, PInvalidParameter);
+  const int fd_num = fd / FD_SETSIZE;
+  const int fd_off = fd % FD_SETSIZE;
+  FD_SET(fd_off, set+fd_num);
+  return *this;
+}
+
+
+P_fd_set & P_fd_set::operator-=(SOCKET fd)
+{
+  PAssert(fd < max_fd, PInvalidParameter);
+  const int fd_num = fd / FD_SETSIZE;
+  const int fd_off = fd % FD_SETSIZE;
+  FD_CLR(fd_off, set+fd_num);
+  return *this;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 

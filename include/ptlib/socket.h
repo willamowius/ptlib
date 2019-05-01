@@ -475,10 +475,7 @@ class P_fd_set {
 
     void Zero();
 
-    PBoolean IsPresent(SOCKET fd) const
-      {
-        return FD_ISSET(fd, set);
-      }
+    PBoolean IsPresent(SOCKET fd) const;
 
     operator fd_set*() const
       {

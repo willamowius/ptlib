@@ -783,58 +783,6 @@ PIPCacheData * PHostByAddr::GetHost(const PIPSocket::Address & addr)
 
 
 //////////////////////////////////////////////////////////////////////////////
-// P_fd_set
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable:4127)
-#endif
-
-P_fd_set::P_fd_set()
-{
-  Construct();
-  Zero();
-}
-
-
-P_fd_set::P_fd_set(SOCKET fd)
-{
-  Construct();
-  Zero();
-  FD_SET(fd, set);
-}
-
-
-P_fd_set & P_fd_set::operator=(SOCKET fd)
-{
-  PAssert(fd < max_fd, PInvalidParameter);
-  Zero();
-  FD_SET(fd, set);
-  return *this;
-}
-
-
-P_fd_set & P_fd_set::operator+=(SOCKET fd)
-{
-  PAssert(fd < max_fd, PInvalidParameter);
-  FD_SET(fd, set);
-  return *this;
-}
-
-
-P_fd_set & P_fd_set::operator-=(SOCKET fd)
-{
-  PAssert(fd < max_fd, PInvalidParameter);
-  FD_CLR(fd, set);
-  return *this;
-}
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
-
-//////////////////////////////////////////////////////////////////////////////
 // P_timeval
 
 P_timeval::P_timeval()
