@@ -188,6 +188,8 @@ void PHouseKeepingThread::Main()
           // unlock the m_activeThreadMutex to avoid deadlocks:
           // if somewhere in the destructor a call to PTRACE() is made,
           // which itself calls PThread::Current(), deadlocks are possible
+          if (thread->m_originalStackSize != 0)
+            pthread_detach(thread->m_threadId);
           thread->m_threadIdValid = false;
           process.m_activeThreadMutex.Signal();
           delete thread;
