@@ -277,7 +277,7 @@ static PString ApplyRegex(const PString & orig, const PString & regexStr)
 
 static PStringArray & GetENUMServers()
 {
-  static const char * defaultDomains[] = { "e164.org","e164.arpa"};
+  static const char * defaultDomains[] = { "e164.arpa" };
   static PStringArray servers(
           sizeof(defaultDomains)/sizeof(defaultDomains[0]),
           defaultDomains
