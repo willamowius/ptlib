@@ -114,7 +114,7 @@ void PAssertFunc(const char * file,
   };
 
   const char * theMsg;
-  char msgbuf[20];
+  char msgbuf[30];
   if (msg < PMaxStandardAssertMessage)
     theMsg = textmsg[msg];
   else {
