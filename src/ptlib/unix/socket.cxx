@@ -304,7 +304,7 @@ PChannel::Errors PSocket::Select(SelectList & read,
   int maxfds = 0;
   Errors lastError = NoError;
   PThread * unblockThread = PThread::Current();
-  
+
   P_fd_set fds[3];
   SelectList * list[3] = { &read, &write, &except };
 
@@ -320,16 +320,18 @@ PChannel::Errors PSocket::Select(SelectList & read,
           maxfds = h;
       }
       socket.px_selectMutex[i].Wait();
+      socket.px_threadMutex.Wait();
       socket.px_selectThread[i] = unblockThread;
+      socket.px_threadMutex.Signal();
     }
   }
 
   if (lastError == NoError) {
     P_timeval tval = timeout;
-    int result = ::select(maxfds+1, 
-                          (fd_set *)fds[0], 
-                          (fd_set *)fds[1], 
-                          (fd_set *)fds[2], 
+    int result = ::select(maxfds+1,
+                          (fd_set *)fds[0],
+                          (fd_set *)fds[1],
+                          (fd_set *)fds[2],
                           tval);
 
     int osError;
@@ -339,7 +341,9 @@ PChannel::Errors PSocket::Select(SelectList & read,
   for (i = 0; i < 3; i++) {
     for (j = 0; j < list[i]->GetSize(); j++) {
       PSocket & socket = (*list[i])[j];
+      socket.px_threadMutex.Wait();
       socket.px_selectThread[i] = NULL;
+      socket.px_threadMutex.Signal();
       socket.px_selectMutex[i].Signal();
       if (lastError == NoError) {
         int h = socket.GetHandle();
@@ -353,7 +357,7 @@ PChannel::Errors PSocket::Select(SelectList & read,
 
   return lastError;
 }
-                     
+
 #else
 
 PChannel::Errors PSocket::Select(SelectList & read,
@@ -382,7 +386,9 @@ PChannel::Errors PSocket::Select(SelectList & read,
           maxfds = h;
       }
       socket.px_selectMutex[i].Wait();
+      socket.px_threadMutex.Wait();
       socket.px_selectThread[i] = unblockThread;
+      socket.px_threadMutex.Signal();
     }
   }
 
@@ -411,7 +417,9 @@ PChannel::Errors PSocket::Select(SelectList & read,
   for (i = 0; i < 3; i++) {
     for (j = 0; j < list[i]->GetSize(); j++) {
       PSocket & socket = (*list[i])[j];
+      socket.px_threadMutex.Wait();
       socket.px_selectThread[i] = NULL;
+      socket.px_threadMutex.Signal();
       socket.px_selectMutex[i].Signal();
       if (lastError == NoError) {
         int h = socket.GetHandle();
@@ -512,16 +520,16 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
     PBoolean found = PFalse;
     if ((file = fopen("/proc/net/if_inet6", "r")) != NULL) {
       while (!found && (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %254s\n",
-              &addr6[0],  &addr6[1],  &addr6[2],  &addr6[3], 
-              &addr6[4],  &addr6[5],  &addr6[6],  &addr6[7], 
-              &addr6[8],  &addr6[9],  &addr6[10], &addr6[11], 
-              &addr6[12], &addr6[13], &addr6[14], &addr6[15], 
+              &addr6[0],  &addr6[1],  &addr6[2],  &addr6[3],
+              &addr6[4],  &addr6[5],  &addr6[6],  &addr6[7],
+              &addr6[8],  &addr6[9],  &addr6[10], &addr6[11],
+              &addr6[12], &addr6[13], &addr6[14], &addr6[15],
              &dummy, &dummy, &dummy, &dummy, ifaceName) != EOF)) {
         Address ip6addr(
           psprintf("%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x",
-              addr6[0],  addr6[1],  addr6[2],  addr6[3], 
-              addr6[4],  addr6[5],  addr6[6],  addr6[7], 
-              addr6[8],  addr6[9],  addr6[10], addr6[11], 
+              addr6[0],  addr6[1],  addr6[2],  addr6[3],
+              addr6[4],  addr6[5],  addr6[6],  addr6[7],
+              addr6[8],  addr6[9],  addr6[10], addr6[11],
               addr6[12], addr6[13], addr6[14], addr6[15]
           )
         );
@@ -536,7 +544,7 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
 
   // check IPV4 addresses
   PUDPSocket sock;
-  
+
   PBYTEArray buffer;
   struct ifconf ifConf;
 
@@ -555,7 +563,7 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
 #endif
 
   ifConf.ifc_req = (struct ifreq *)buffer.GetPointer(ifConf.ifc_len);
-  
+
   if (ioctl(sock.GetHandle(), SIOCGIFCONF, &ifConf) >= 0) {
     void * ifEndList = (char *)ifConf.ifc_req + ifConf.ifc_len;
     ifreq * ifName = ifConf.ifc_req;
@@ -569,7 +577,7 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
       memset(&ifReq, 0, sizeof(ifReq));
       strncpy(ifReq.ifr_name, ifa->ifa_name, sizeof(ifReq.ifr_name) - 1);
 #endif
-      
+
       if (ioctl(sock.GetHandle(), SIOCGIFFLAGS, &ifReq) >= 0) {
         int flags = ifReq.ifr_flags;
         if ((flags & IFF_UP) && ioctl(sock.GetHandle(), SIOCGIFADDR, &ifReq) >= 0) {
@@ -579,7 +587,7 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
             return PTrue;
         }
       }
-      
+
 #if defined(P_FREEBSD) || defined(P_OPENBSD) || defined(P_MACOSX) || defined(P_VXWORKS) || defined(P_RTEMS) || defined(P_QNX)
       // move the ifName pointer along to the next ifreq entry
       ifName = (struct ifreq *)((char *)ifName + _SIZEOF_ADDR_IFREQ(*ifName));
@@ -590,7 +598,7 @@ PBoolean PIPSocket::IsLocalHost(const PString & hostname)
 #if !defined(P_NETBSD)
   }
 #endif
-  
+
   return PFalse;
 }
 
@@ -612,7 +620,7 @@ PBoolean PTCPSocket::Read(void * buf, PINDEX maxLen)
   // attempt to read out of band data
   char buffer[32];
   int ooblen;
-  while ((ooblen = ::recv(os_handle, buffer, sizeof(buffer), MSG_OOB)) > 0) 
+  while ((ooblen = ::recv(os_handle, buffer, sizeof(buffer), MSG_OOB)) > 0)
     OnOutOfBand(buffer, ooblen);
 
   // attempt to read non-out of band data
@@ -655,7 +663,7 @@ PBoolean PSocket::os_recvfrom(
   readData.msg_control    = auxdata;
   readData.msg_controllen = sizeof(auxdata);
 
-  // read a packet 
+  // read a packet
   int r = ::recvmsg(os_handle, &readData, flags);
   if (r == -1) {
     PTRACE(5, "PTLIB\trecvmsg returned error " << errno);
@@ -711,7 +719,7 @@ PBoolean PSocket::os_sendto(
       PINDEX len,         // Number of bytes pointed to by <CODE>buf</CODE>.
       int flags,
       sockaddr * addr, // Address to which the datagram is sent.
-      PINDEX addrlen)  
+      PINDEX addrlen)
 {
   lastWriteCount = 0;
 
@@ -750,7 +758,7 @@ PBoolean PSocket::Read(void * buf, PINDEX len)
   if (os_handle < 0)
     return SetErrorValues(NotOpen, EBADF, LastReadError);
 
-  if (!PXSetIOBlock(PXReadBlock, readTimeout)) 
+  if (!PXSetIOBlock(PXReadBlock, readTimeout))
     return PFalse;
 
   int lastReadCount = ::recv(os_handle, (char *)buf, len, 0);
@@ -802,7 +810,7 @@ PBoolean PEthSocket::Connect(const PString & interfaceName)
   else
     medium = Medium802_3;
 
-#if defined(SIO_Get_MAC_Address) 
+#if defined(SIO_Get_MAC_Address)
   PUDPSocket ifsock;
   struct ifreq ifr;
   ifr.ifr_addr.sa_family = AF_INET;
@@ -1456,7 +1464,7 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 #endif
       goto Return;
   }
-      
+
   if (rc != MOREDATA
       || strbuf.len < (int)sizeof(struct T_optmgmt_ack)
       || toa->PRIM_type != T_OPTMGMT_ACK
@@ -1484,7 +1492,7 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   flags = 0;
   do {
       rc = getmsg(sd, (struct strbuf * ) 0, &strbuf, &flags);
-      
+
       switch (rc) {
       case -1:
 #ifdef SOL_COMPLAIN
@@ -1579,48 +1587,48 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 
 #else // unsupported platform
 
-#if 0 
+#if 0
 PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 {
-        // Most of this code came from the source code for the "route" command 
-        // so it should work on other platforms too. 
-        // However, it is not complete (the "address-for-interface" function doesn't exist) and not tested! 
-        
-        route_table_req_t reqtable; 
-        route_req_t *rrtp; 
-        int i,ret; 
-        
-        ret = get_route_table(&reqtable); 
-        if (ret < 0) 
-        { 
-                return PFalse; 
-        } 
-        
-        for (i=reqtable.cnt, rrtp = reqtable.rrtp;i>0;i--, rrtp++) 
-        { 
-                //the datalink doesn't save addresses/masks for host and default 
-                //routes, so the route_req_t may not be filled out completely 
-                if (rrtp->flags & RTF_DEFAULT) { 
-                        //the IP default route is 0/0 
-                        ((struct sockaddr_in *)&rrtp->dst)->sin_addr.s_addr = 0; 
-                        ((struct sockaddr_in *)&rrtp->mask)->sin_addr.s_addr = 0; 
-        
-                } else if (rrtp->flags & RTF_HOST) { 
-                        //host routes are addr/32 
-                        ((struct sockaddr_in *)&rrtp->mask)->sin_addr.s_addr = 0xffffffff; 
-                } 
-        
-            RouteEntry * entry = new RouteEntry(/* address_for_interface(rrtp->iface) */); 
-            entry->net_mask = rrtp->mask; 
-            entry->destination = rrtp->dst; 
-            entry->interfaceName = rrtp->iface; 
-            entry->metric = rrtp->refcnt; 
-            table.Append(entry); 
-        } 
-        
-        free(reqtable.rrtp); 
-                
-        return PTrue; 
+        // Most of this code came from the source code for the "route" command
+        // so it should work on other platforms too.
+        // However, it is not complete (the "address-for-interface" function doesn't exist) and not tested!
+
+        route_table_req_t reqtable;
+        route_req_t *rrtp;
+        int i,ret;
+
+        ret = get_route_table(&reqtable);
+        if (ret < 0)
+        {
+                return PFalse;
+        }
+
+        for (i=reqtable.cnt, rrtp = reqtable.rrtp;i>0;i--, rrtp++)
+        {
+                //the datalink doesn't save addresses/masks for host and default
+                //routes, so the route_req_t may not be filled out completely
+                if (rrtp->flags & RTF_DEFAULT) {
+                        //the IP default route is 0/0
+                        ((struct sockaddr_in *)&rrtp->dst)->sin_addr.s_addr = 0;
+                        ((struct sockaddr_in *)&rrtp->mask)->sin_addr.s_addr = 0;
+
+                } else if (rrtp->flags & RTF_HOST) {
+                        //host routes are addr/32
+                        ((struct sockaddr_in *)&rrtp->mask)->sin_addr.s_addr = 0xffffffff;
+                }
+
+            RouteEntry * entry = new RouteEntry(/* address_for_interface(rrtp->iface) */);
+            entry->net_mask = rrtp->mask;
+            entry->destination = rrtp->dst;
+            entry->interfaceName = rrtp->iface;
+            entry->metric = rrtp->refcnt;
+            table.Append(entry);
+        }
+
+        free(reqtable.rrtp);
+
+        return PTrue;
 #endif // 0
 
 PBoolean PIPSocket::GetRouteTable(RouteTable & table)
@@ -1798,7 +1806,7 @@ class ReachabilityRouteTableDetector : public PIPSocket::RouteTableDetector
 		if (inet_aton(anchor, &sin.sin_addr) == 1) {
 
 			target = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&sin);
-			
+
 		} else if (inet_pton(AF_INET6, anchor, &sin6.sin6_addr) == 1) {
 			char	*p;
 
@@ -1808,11 +1816,11 @@ class ReachabilityRouteTableDetector : public PIPSocket::RouteTableDetector
 			}
 
 			target = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&sin6);
-			
+
 		} else {
-			
+
 		target = SCNetworkReachabilityCreateWithName(NULL, anchor);
-				
+
 #if	!TARGET_OS_IPHONE
 		if (CFDictionaryGetCount(options) > 0) {
 
@@ -1824,12 +1832,12 @@ class ReachabilityRouteTableDetector : public PIPSocket::RouteTableDetector
 			return NULL;
 		}
 		CFRelease(options);
-#endif			
+#endif
 		}
 
 		return target;
 	}
-	  
+
 	static void callout(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info)
 	{
 		struct tm	tm_now;
@@ -1846,7 +1854,7 @@ class ReachabilityRouteTableDetector : public PIPSocket::RouteTableDetector
 			flags & kSCNetworkReachabilityFlagsReachable? "" : "not ")
 			);
 
-		ReachabilityRouteTableDetector* d = (ReachabilityRouteTableDetector*) info;	
+		ReachabilityRouteTableDetector* d = (ReachabilityRouteTableDetector*) info;
 		d->Cancel();
 	}
 
@@ -1855,15 +1863,15 @@ class ReachabilityRouteTableDetector : public PIPSocket::RouteTableDetector
 		target_async(NULL)
 	{
 		SCNetworkReachabilityContext	context	= { 0, NULL, NULL, NULL, NULL };
-		
+
 		target_async = _setupReachability(&context);
 		if (target_async == NULL) {
 			PTRACE(1, psprintf("  Could not determine status: %s\n", SCErrorString(SCError())));
 			return;
 		}
-		
+
 		context.info = (void*) this;
-		
+
 		if (!SCNetworkReachabilitySetCallback(target_async, ReachabilityRouteTableDetector::callout, &context)) {
 			PTRACE(1, psprintf("SCNetworkReachabilitySetCallback() failed: %s\n", SCErrorString(SCError())));
 			return;
@@ -1874,7 +1882,7 @@ class ReachabilityRouteTableDetector : public PIPSocket::RouteTableDetector
 			return;
 		}
 	}
-   
+
 	~ReachabilityRouteTableDetector()
 	{
 		if(target_async != NULL)
@@ -1936,7 +1944,7 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
 
   PBYTEArray buffer;
   struct ifconf ifConf;
-  
+
 #if defined(P_NETBSD)
   struct ifaddrs *ifap, *ifa;
 
@@ -2000,7 +2008,7 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
 #endif
 
             if (ioctl(sock.GetHandle(), SIOCGIFNETMASK, &ifReq) >= 0) {
-              PIPSocket::Address mask = 
+              PIPSocket::Address mask =
 #ifndef P_BEOS
     ((sockaddr_in *)&ifReq.ifr_netmask)->sin_addr;
 #else
@@ -2048,10 +2056,10 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
   char ifaceName[255];
   if ((file = fopen("/proc/net/if_inet6", "r")) != NULL) {
     while (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %254s\n",
-            &addr[0],  &addr[1],  &addr[2],  &addr[3], 
-            &addr[4],  &addr[5],  &addr[6],  &addr[7], 
-            &addr[8],  &addr[9],  &addr[10], &addr[11], 
-            &addr[12], &addr[13], &addr[14], &addr[15], 
+            &addr[0],  &addr[1],  &addr[2],  &addr[3],
+            &addr[4],  &addr[5],  &addr[6],  &addr[7],
+            &addr[8],  &addr[9],  &addr[10], &addr[11],
+            &addr[12], &addr[13], &addr[14], &addr[15],
            &dummy, &dummy, &dummy, &dummy, ifaceName) != EOF) {
       BYTE bytes[16];
       for (PINDEX i = 0; i < 16; i++)
