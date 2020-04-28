@@ -100,6 +100,7 @@ STDCCFLAGS += -DCXXHACK=$(CXX)
 # get gcc/g++ version
 ifeq "$(CXX)" "g++"
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
+	GCCMAJORGTEQ10 := $(shell expr 10 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 endif
 
 # -Wall must be at the start of the options otherwise
@@ -107,7 +108,11 @@ endif
 ifeq ($(USE_GCC),yes)
 # avoid warning from gcc >= 5
 ifeq "$(GCCMAJORGTEQ5)" "1"
+ifeq "$(GCCMAJORGTEQ10)" "1"
+STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
+else
 STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
+endif
 else
 STDCCFLAGS += -Wall
 endif
