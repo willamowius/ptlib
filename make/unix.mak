@@ -95,7 +95,7 @@ ifndef P_SHAREDLIB
 P_SHAREDLIB=1
 endif
 
-# why do we need this hack to get the following ifeg working on Fedora 28 ???
+# why do we need this hack to get the following ifeq working on Fedora 28 ???
 STDCCFLAGS += -DCXXHACK=$(CXX)
 # get gcc/g++ version
 ifeq "$(CXX)" "g++"
