@@ -42,7 +42,7 @@ jobs:
     #    uses a compiled language
 
     - run: |
-       ./configure --enable-ipv6
+       ./configure --enable-ipv6 --disable-odbc
        make optnoshared
 
     - name: Perform CodeQL Analysis
