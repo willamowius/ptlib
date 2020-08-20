@@ -55,12 +55,12 @@ PTimeInterval::PTimeInterval(const PString & str)
 
 
 PInt64 PTimeInterval::GetMilliSeconds() const
-{ 
-  return m_milliseconds; 
+{
+  return m_milliseconds;
 }
 
 void PTimeInterval::SetMilliSeconds(PInt64 msecs)
-{ 
+{
   m_milliseconds = msecs;
 }
 
@@ -304,14 +304,14 @@ PObject::Comparison PTime::Compare(const PObject & obj) const
 
 
 void PTime::SetTimestamp(time_t seconds, long usecs)
-{ 
+{
   microseconds = usecs%1000000;
   theTime = seconds + usecs/1000000;
 }
 
 
 PString PTime::AsString(TimeFormat format, int zone) const
-{ 
+{
   if (format >= NumTimeStrings)
     return "Invalid format : " + AsString("yyyy-MM-dd T hh:mm:ss Z");
 
@@ -325,7 +325,7 @@ PString PTime::AsString(TimeFormat format, int zone) const
     case LongISO8601 :
       return AsString("yyyy-MM-dd T hh:mm:ss Z", zone);
     case EpochTime :
-      return psprintf("%u.%06lu", theTime, microseconds);
+      return psprintf("%lu.%06lu", theTime, microseconds);
     default :
       break;
   }

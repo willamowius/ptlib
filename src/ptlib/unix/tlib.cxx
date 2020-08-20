@@ -228,11 +228,11 @@ PDirectory PProcess::PXGetHomeDir ()
   pw = ::getpwuid(geteuid());
 #endif
 
-  if (pw != NULL && pw->pw_dir != NULL) 
+  if (pw != NULL && pw->pw_dir != NULL)
     dest = pw->pw_dir;
-  else if ((ptr = getenv ("HOME")) != NULL) 
+  else if ((ptr = getenv ("HOME")) != NULL)
     dest = ptr;
-  else 
+  else
     dest = ".";
 
   if (dest.GetLength() > 0 && dest[dest.GetLength()-1] != '/')
@@ -256,7 +256,7 @@ PString PProcess::GetUserName() const
   char pnamebuf[1024];
   int len = 1024;
   STATUS gethostresult;
-  gethostresult =::gethostname(pnamebuf,len);  
+  gethostresult =::gethostname(pnamebuf,len);
   if (gethostresult == OK)
     return PString(pnamebuf,len);
   else
@@ -331,7 +331,7 @@ PBoolean PProcess::SetUserName(const PString & username, PBoolean permanent)
 
   if (permanent)
     return setuid(uid) != -1;
-    
+
   return seteuid(uid) != -1;
 #endif // P_VXWORKS
 }
@@ -419,7 +419,7 @@ PBoolean PProcess::SetGroupName(const PString & groupname, PBoolean permanent)
 
   if (permanent)
     return setgid(gid) != -1;
-    
+
   return setegid(gid) != -1;
 #endif // P_VXWORKS
 }
@@ -434,7 +434,7 @@ PString PX_GetThreadName(pthread_t id)
     if (thread != NULL)
       return thread->GetThreadName();
   }
-  return psprintf("%08x", id);
+  return psprintf("%08lx", id);
 }
 
 void PProcess::PXShowSystemWarning(PINDEX num)
@@ -614,7 +614,7 @@ void PProcess::CommonDestruct()
 extern "C" {
 #include <netinet/in.h>
 #include <rtems/rtems_bsdnet.h>
-  
+
 
 int socketpair(int d, int type, int protocol, int sv[2])
 {
@@ -623,7 +623,7 @@ int socketpair(int d, int type, int protocol, int sv[2])
     int addrlen;
     struct sockaddr_in addr1, addr2;
     static int network_status = 1;
-    
+
 
     if (network_status>0)
     {
@@ -643,7 +643,7 @@ int socketpair(int d, int type, int protocol, int sv[2])
 
     /* make socket */
     s = socket( d, type, protocol);
-    if (s<0) 
+    if (s<0)
         return -1;
 
     memset(&addr1, 0, sizeof addr1);
@@ -651,24 +651,24 @@ int socketpair(int d, int type, int protocol, int sv[2])
     addr1.sin_port = htons(++port_count);
     addr1.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 
-    if (bind(s, (struct sockaddr *)&addr1, sizeof addr1) < 0) 
+    if (bind(s, (struct sockaddr *)&addr1, sizeof addr1) < 0)
     {
   close(s);
         return -1;
     }
-    if (listen(s, 2) < 0 ) 
+    if (listen(s, 2) < 0 )
     {
   close(s);
         return -1;
     }
-    
+
     sv[0] = socket(d, type, protocol);
-    if (sv[0] < 0) 
+    if (sv[0] < 0)
     {
   close(s);
         return -1;
     }
-    
+
     memset(&addr2, 0, sizeof addr2);
     addr2.sin_family = d;
     addr2.sin_port = htons(++port_count);
@@ -688,7 +688,7 @@ int socketpair(int d, int type, int protocol, int sv[2])
   sv[0]=-1;
         return -1;
     }
-    
+
     sv[1] = accept(s, (struct sockaddr *)&addr2, &addrlen);
     if (sv[1] < 0)
     {

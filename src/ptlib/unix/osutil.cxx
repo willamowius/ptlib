@@ -94,7 +94,7 @@
 #define statfs statvfs
 #endif
 
-#elif defined(P_HPUX9) 
+#elif defined(P_HPUX9)
 #define P_USE_LANGINFO
 
 #elif defined(P_AIX)
@@ -103,7 +103,7 @@
 #include <fstab.h>
 #include <sys/stat.h>
 
-#elif defined(P_SOLARIS) 
+#elif defined(P_SOLARIS)
 #define P_USE_LANGINFO
 #include <sys/timeb.h>
 #include <sys/statvfs.h>
@@ -174,7 +174,7 @@ static char *tzname[2] = { "STD", "DST" };
 static PMutex waterMarkMutex;
 static int lowWaterMark = INT_MAX;
 static int highWaterMark = 0;
-  
+
 int PX_NewHandle(const char * clsName, int fd)
 {
   if (fd < 0)
@@ -237,7 +237,7 @@ static PString CanonicaliseDirectory (const PString & path)
 
     // make a string out of the element
     PString element(ptr, end - ptr);
-    
+
     if (element == "..") {
       PINDEX last_char = canonical_path.GetLength()-1;
       if (last_char > 0)
@@ -414,7 +414,7 @@ PBoolean PDirectory::Next()
     /* Ignore this file if we can't get info about it */
     if (PFile::GetInfo(*this+entryBuffer->d_name, *entryInfo) == 0)
       continue;
-    
+
     if (scanMask == PFileInfo::AllPermissions)
       return PTrue;
   } while ((entryInfo->type & scanMask) == 0);
@@ -477,7 +477,7 @@ PBoolean PDirectory::Create(const PString & p, int perm)
     str = p.Left(last);
 #ifdef P_VXWORKS
   return mkdir(str) == 0;
-#else    
+#else
   return mkdir(str, perm) == 0;
 #endif
 }
@@ -502,7 +502,7 @@ PString PDirectory::GetVolume() const
   devctl(fd, DCMD_FSYS_MOUNTED_ON, mounton, 256, 0);
   close(fd);
   volume = strdup(mounton);
-  } 
+  }
 
 #else
   struct stat status;
@@ -611,7 +611,7 @@ PBoolean PDirectory::GetVolumeSpace(PInt64 & total, PInt64 & free, DWORD & clust
   free  = buf.f_bfree  * buf.f_frsize;
 
   return PTrue;
-  
+
 #elif defined(P_IRIX)
 
   struct statfs fs;
@@ -648,7 +648,7 @@ PDirectory PDirectory::GetParent() const
 {
   if (IsRoot())
     return *this;
-  
+
   return *this + "..";
 }
 
@@ -684,7 +684,7 @@ void PFile::SetFilePath(const PString & newName)
 {
   PINDEX p;
 
-  if ((p = newName.FindLast('/')) == P_MAX_INDEX) 
+  if ((p = newName.FindLast('/')) == P_MAX_INDEX)
     path = CanonicaliseDirectory("") + newName;
   else
     path = CanonicaliseDirectory(newName(0,p)) + newName(p+1, P_MAX_INDEX);
@@ -740,7 +740,7 @@ PBoolean PFile::Open(OpenMode mode, int opt)
         if (opt == ModeDefault)
           opt = Create;
         break;
-  
+
       default :
         PAssertAlways(PInvalidParameter);
     }
@@ -811,7 +811,7 @@ PBoolean PFile::Move(const PFilePath & oldname, const PFilePath & newname, PBool
 
 
 PBoolean PFile::Exists(const PFilePath & name)
-{ 
+{
 #ifdef P_VXWORKS
   // access function not defined for VxWorks
   // as workaround, open the file in read-only mode
@@ -822,7 +822,7 @@ PBoolean PFile::Exists(const PFilePath & name)
     file.Close();
   return exists;
 #else
-  return access(name, 0) == 0; 
+  return access(name, 0) == 0;
 #endif // P_VXWORKS
 }
 
@@ -838,7 +838,7 @@ PBoolean PFile::Access(const PFilePath & name, OpenMode mode)
   if(access == PTrue)
     file.Close();
   return access;
-#else  
+#else
   int accmode;
 
   switch (mode) {
@@ -866,7 +866,7 @@ PBoolean PFile::GetInfo(const PFilePath & name, PFileInfo & status)
   struct stat s;
 #ifdef P_VXWORKS
   if (stat(name, &s) != OK)
-#else  
+#else
   if (lstat(name, &s) != 0)
 #endif // P_VXWORKS
     return PFalse;
@@ -882,8 +882,8 @@ PBoolean PFile::GetInfo(const PFilePath & name, PFileInfo & status)
       status.permissions = PFileInfo::AllPermissions;
       return PTrue;
     }
-  } 
-  else 
+  }
+  else
 #endif // !P_VXWORKS
   if (S_ISREG(s.st_mode))
     status.type = PFileInfo::RegularFile;
@@ -945,7 +945,7 @@ PBoolean PFile::SetPermissions(const PFilePath & name, int permissions)
     return (::ioctl(file.GetHandle(), FIOATTRIBSET, mode) >= 0);
 
   return PFalse;
-#else  
+#else
   return chmod ((const char *)name, mode) == 0;
 #endif // P_VXWORKS
 }
@@ -994,9 +994,9 @@ PFilePath::PFilePath(const char * prefix, const char * dir)
 {
   if (prefix == NULL)
     prefix = "tmp";
-  
+
   PDirectory s(dir);
-  if (dir == NULL) 
+  if (dir == NULL)
     s = PDirectory("/tmp");
 
 #ifdef P_VXWORKS
@@ -1010,7 +1010,7 @@ PFilePath::PFilePath(const char * prefix, const char * dir)
   PString p;
   srandom(getpid());
   for (;;) {
-    *this = s + prefix + psprintf("%i_%06x", getpid(), random() % 1000000);
+    *this = s + prefix + psprintf("%i_%06lx", getpid(), random() % 1000000);
     if (!PFile::Exists(*this))
       break;
   }
@@ -1269,7 +1269,7 @@ PString PTime::GetTimeSeparator()
 #  if defined(P_USE_LANGINFO)
      char * p = nl_langinfo(T_FMT);
 #  elif defined(P_LINUX) || defined(P_GNU_HURD)
-     char * p = _time_info->time; 
+     char * p = _time_info->time;
 #  endif
   char buffer[2];
   while (*p == '%' || isalpha(*p))
@@ -1302,7 +1302,7 @@ PTime::DateOrder PTime::GetDateOrder()
 #  if defined(P_USE_LANGINFO)
      char * p = nl_langinfo(D_FMT);
 #  else
-     char * p = _time_info->date; 
+     char * p = _time_info->date;
 #  endif
 
   while (*p == '%')
@@ -1346,7 +1346,7 @@ PString PTime::GetDateSeparator()
 #  if defined(P_USE_LANGINFO)
      char * p = nl_langinfo(D_FMT);
 #  else
-     char * p = _time_info->date; 
+     char * p = _time_info->date;
 #  endif
   char buffer[2];
   while (*p == '%' || isalpha(*p))
@@ -1407,7 +1407,7 @@ PString PTime::GetDayName(PTime::Weekdays day, NameType type)
 #endif
 }
 
-PString PTime::GetMonthName(PTime::Months month, NameType type) 
+PString PTime::GetMonthName(PTime::Months month, NameType type)
 {
 #if defined(P_USE_LANGINFO)
   return PString(
@@ -1447,7 +1447,7 @@ PBoolean PTime::IsDaylightSavings()
   return os_localtime(&theTime, &ts)->tm_isdst != 0;
 }
 
-int PTime::GetTimeZone(PTime::TimeZoneType type) 
+int PTime::GetTimeZone(PTime::TimeZoneType type)
 {
 #if defined(P_LINUX) || defined(P_SOLARIS) || defined (P_AIX) || defined(P_IRIX) || defined(P_GNU_HURD)
   long tz = -::timezone/60;
@@ -1466,7 +1466,7 @@ int PTime::GetTimeZone(PTime::TimeZoneType type)
   if (type != StandardTime && !tm->tm_isdst)
     return tz + 60;
   return tz;
-#elif defined(P_SUN4) 
+#elif defined(P_SUN4)
   struct timeb tb;
   ftime(&tb);
   if (type == StandardTime || tb.dstflag == 0)
@@ -1479,13 +1479,13 @@ int PTime::GetTimeZone(PTime::TimeZoneType type)
 #endif
 }
 
-PString PTime::GetTimeZoneString(PTime::TimeZoneType type) 
+PString PTime::GetTimeZoneString(PTime::TimeZoneType type)
 {
 #if defined(P_LINUX) || defined(P_SUN4) || defined(P_SOLARIS) || defined (P_AIX) || defined(P_IRIX) || defined(P_QNX)
-  const char * str = (type == StandardTime) ? ::tzname[0] : ::tzname[1]; 
+  const char * str = (type == StandardTime) ? ::tzname[0] : ::tzname[1];
   if (str != NULL)
     return str;
-  return PString(); 
+  return PString();
 #elif defined(P_USE_STRFTIME)
   char buf[30];
   struct tm t;
@@ -1495,7 +1495,7 @@ PString PTime::GetTimeZoneString(PTime::TimeZoneType type)
   return buf;
 #else
 #warning No timezone name information
-  return PString(); 
+  return PString();
 #endif
 }
 

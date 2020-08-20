@@ -88,16 +88,16 @@ class PThread : public PObject
     /// Codes for thread autodelete flag
     enum AutoDeleteFlag {
       /// Automatically delete thread object on termination.
-      AutoDeleteThread,   
+      AutoDeleteThread,
 
       /// Don't delete thread as it may not be on heap.
-      NoAutoDeleteThread  
+      NoAutoDeleteThread
     };
 
     /** Create a new thread instance. Unless the <code>startSuspended</code>
        parameter is <code>true</code>, the threads <code>Main()</code> function is called to
        execute the code for the thread.
-       
+
        Note that the exact timing of the execution of code in threads can
        never be predicted. Thus you you can get a race condition on
        intialising a descendent class. To avoid this problem a thread is
@@ -149,7 +149,7 @@ class PThread : public PObject
   //@{
     /** Restart a terminated thread using the same stack priority etc that
        was current when the thread terminated.
-       
+
        If the thread is still running then this function is ignored.
      */
     virtual void Restart();
@@ -188,7 +188,7 @@ class PThread : public PObject
     ) const;
 
     /** Suspend or resume the thread.
-    
+
        If <code>susp</code> is <code>true</code> this increments an internal count of
        suspensions that must be matched by an equal number of calls to
        <code>Resume()</code> or <code>Suspend(false)</code> before the
@@ -309,7 +309,7 @@ class PThread : public PObject
     /** User override function for the main execution routine of the thread. A
        descendent class must provide the code that will be executed in the
        thread within this function.
-       
+
        Note that the correct way for a thread to terminate is to return from
        this function.
      */
@@ -352,7 +352,7 @@ class PThread : public PObject
       const PString & threadName      ///< The name of the thread (for Debug/Trace)
     ) { return Create(notifier, 0, NoAutoDeleteThread, NormalPriority, threadName); }
   //@}
-  
+
     bool IsAutoDelete() const { return m_autoDelete; }
 
   private:
@@ -420,7 +420,7 @@ class PThread : public PObject
 #endif
 
 /** Define some templates to simplify the declaration
-  * of simple <code>PThread</code> descendants with one or two paramaters 
+  * of simple <code>PThread</code> descendants with one or two paramaters
   */
 
 /*
@@ -439,14 +439,14 @@ class PThreadMain : public PThread
 {
   PCLASSINFO(PThreadMain, PThread);
   public:
-    typedef void (*FnType)(); 
+    typedef void (*FnType)();
     PThreadMain(FnType function, bool autoDel = false)
       : PThread(10000, autoDel ? PThread::AutoDeleteThread : PThread::NoAutoDeleteThread)
       , m_function(function)
       { PThread::Resume(); }
     PThreadMain(const char * file, int line, FnType function, bool autoDel = false)
       : PThread(10000, autoDel ? PThread::AutoDeleteThread : PThread::NoAutoDeleteThread,  NormalPriority,
-                psprintf("%s:%08x-%s:%i", GetClass(), (void *)this, file, line))
+                psprintf("%s:%08p-%s:%i", GetClass(), (void *)this, file, line))
       , m_function(function)
       { PThread::Resume(); }
     virtual void Main()
@@ -512,7 +512,7 @@ class PThread2Arg : public PThread
 {
   PCLASSINFO(PThread2Arg, PThread);
   public:
-    typedef void (*FnType)(Arg1Type arg1, Arg2Type arg2); 
+    typedef void (*FnType)(Arg1Type arg1, Arg2Type arg2);
     PThread2Arg(Arg1Type arg1, Arg2Type arg2, FnType function, bool autoDel = false)
       : PThread(10000, autoDel ? PThread::AutoDeleteThread : PThread::NoAutoDeleteThread)
       , m_function(function)
@@ -552,7 +552,7 @@ class PThread3Arg : public PThread
 {
   PCLASSINFO(PThread3Arg, PThread);
   public:
-    typedef void (*FnType)(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3); 
+    typedef void (*FnType)(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3);
     PThread3Arg(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3, FnType function, bool autoDel = false)
       : PThread(10000, autoDel ? PThread::AutoDeleteThread : PThread::NoAutoDeleteThread)
       , m_function(function)
@@ -599,7 +599,7 @@ class PThreadObj : public PThread
 {
     PCLASSINFO(PThreadObj, PThread);
   public:
-    typedef void (ObjType::*ObjTypeFn)(); 
+    typedef void (ObjType::*ObjTypeFn)();
 
     PThreadObj(
       ObjType & obj,
@@ -649,7 +649,7 @@ class PThreadObj1Arg : public PThread
 {
     PCLASSINFO(PThreadObj1Arg, PThread);
   public:
-    typedef void (ObjType::*ObjTypeFn)(Arg1Type); 
+    typedef void (ObjType::*ObjTypeFn)(Arg1Type);
 
     PThreadObj1Arg(
       ObjType & obj,
