@@ -351,9 +351,9 @@ int PServiceProcess::InitialiseService()
 
   if (args.HasOption('H')) {
     int uid = geteuid();
-    seteuid(getuid()); // Switch back to starting uid for next call
+    (void)seteuid(getuid()); // Switch back to starting uid for next call
     SetMaxHandles(args.GetOptionString('H').AsInteger());
-    seteuid(uid);
+    (void)seteuid(uid);
   }
 
   // set the core file size
@@ -364,7 +364,7 @@ int PServiceProcess::InitialiseService()
       cout << "Could not get current core file size : error = " << errno << endl;
     else {
       int uid = geteuid();
-      seteuid(getuid()); // Switch back to starting uid for next call
+      (void)seteuid(getuid()); // Switch back to starting uid for next call
       int v = args.GetOptionString('C').AsInteger();
       rlim.rlim_cur = v;
       if (setrlimit(RLIMIT_CORE, &rlim) != 0) 
@@ -373,7 +373,7 @@ int PServiceProcess::InitialiseService()
         getrlimit(RLIMIT_CORE, &rlim);
         cout << "Core file size set to " << rlim.rlim_cur << "/" << rlim.rlim_max << endl;
       }
-      seteuid(uid);
+      (void)seteuid(uid);
     }
 #endif
   }
