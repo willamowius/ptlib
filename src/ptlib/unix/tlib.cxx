@@ -65,7 +65,9 @@
 #include <errno.h>
 
 #if defined(P_LINUX) || defined(P_GNU_HURD)
+#if defined(__GLIBC_)
 #include <sys/cdefs.h>
+#endif
 #include <sys/types.h>
 #include <sys/mman.h>
 #endif

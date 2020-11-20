@@ -1536,7 +1536,7 @@ PTimedMutex::~PTimedMutex()
     for (PINDEX i = 0; i < 100; ++i) {
       if ((result = pthread_mutex_destroy(&m_mutex)) != EBUSY)
         break;
-#ifdef __MACH__
+#if defined(__MACH__) || !defined(__GLIBC_)
       sched_yield();
 #else
 #if defined(P_NETBSD) && !defined(__BSD_VISIBLE)

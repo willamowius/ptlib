@@ -37,6 +37,10 @@
 
 #include <ctype.h>
 
+#ifndef NETDB_SUCCESS
+#define NETDB_SUCCESS 0
+#endif
+
 #ifdef P_VXWORKS
 // VxWorks variant of inet_ntoa() allocates INET_ADDR_LEN bytes via malloc
 // BUT DOES NOT FREE IT !!!  Use inet_ntoa_b() instead.

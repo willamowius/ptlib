@@ -43,7 +43,7 @@
 #include <fcntl.h>
 #include <signal.h>
 
-#if defined(P_LINUX) || defined(P_SOLARIS)
+#if (defined(P_LINUX) && defined(__GLIBC_)) || defined(P_SOLARIS)
 #include <termio.h>
 #endif
 

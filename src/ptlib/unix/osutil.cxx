@@ -279,7 +279,7 @@ PInt64 PString::AsInt64(unsigned base) const
   char * dummy;
 #if defined(P_SOLARIS) || defined(__BEOS__) || defined (P_AIX) || defined(P_IRIX) || defined (P_QNX)
   return strtoll(theArray, &dummy, base);
-#elif defined(P_VXWORKS) || defined(P_RTEMS)
+#elif defined(P_VXWORKS) || defined(P_RTEMS) || !defined(__GLIBC_)
   return strtol(theArray, &dummy, base);
 #else
   return strtoq(theArray, &dummy, base);
@@ -291,7 +291,7 @@ PUInt64 PString::AsUnsigned64(unsigned base) const
   char * dummy;
 #if defined(P_SOLARIS) || defined(__BEOS__) || defined (P_AIX) || defined (P_IRIX) || defined (P_QNX)
   return strtoull(theArray, &dummy, base);
-#elif defined(P_VXWORKS) || defined(P_RTEMS)
+#elif defined(P_VXWORKS) || defined(P_RTEMS) || !defined(__GLIBC_)
   return strtoul(theArray, &dummy, base);
 #else
   return strtouq(theArray, &dummy, base);

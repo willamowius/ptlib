@@ -51,7 +51,7 @@
 
 #define HAS_IFREQ
 
-#if __GNU_LIBRARY__ < 6
+#if defined(__GNU_LIBRARY__) && __GNU_LIBRARY__ < 6
 #define P_LINUX_LIB_OLD
 typedef int socklen_t;
 #endif
