@@ -382,7 +382,7 @@ PBoolean PAbstractArray::InternalSetSize(PINDEX newSize, PBoolean force)
     reference->size = newSize;
   }
 
-  if (newsizebytes > oldsizebytes)
+  if (newArray && (newsizebytes > oldsizebytes))
     memset(newArray+oldsizebytes, 0, newsizebytes-oldsizebytes);
 
   theArray = newArray;
