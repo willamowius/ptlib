@@ -48,9 +48,8 @@
 #define FALSE   0
 #endif
 
-#ifdef P_USE_INTEGER_BOOL
+// provide BOOL for backward compatibility with very old apps
 typedef int BOOL;
-#endif
 
 ///////////////////////////////////////////
 //
