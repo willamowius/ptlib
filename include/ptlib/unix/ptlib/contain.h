@@ -52,7 +52,7 @@
 #ifdef P_USE_INTEGER_BOOL
 typedef int BOOL;
 #else
-typedef int BOOL;
+typedef bool BOOL;
 #endif
 
 ///////////////////////////////////////////
