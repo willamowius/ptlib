@@ -49,7 +49,11 @@
 #endif
 
 // provide BOOL for backward compatibility with very old apps
+#ifdef P_USE_INTEGER_BOOL
 typedef int BOOL;
+#else
+typedef int BOOL;
+#endif
 
 ///////////////////////////////////////////
 //
