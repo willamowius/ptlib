@@ -41,11 +41,11 @@
 #if defined(_WIN32) && !defined(_WIN64)
 
 #  ifndef P_HAS_MAPI
-#  define P_HAS_MAPI 1
+//#  define P_HAS_MAPI 1
 #  endif
 
 #  ifndef P_HAS_CMC
-#  define P_HAS_CMC 1
+//#  define P_HAS_CMC 1
 #  endif
 
 #  if P_HAS_MAPI

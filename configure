@@ -4227,7 +4227,7 @@ HAS_SNMP=1
 HAS_TELNET=1
 HAS_REMCONN=1
 HAS_SERIAL=1
-HAS_POP3SMTP=1
+HAS_POP3SMTP=0
 HAS_AUDIO=1
 HAS_VIDEO=1
 HAS_URL=1
@@ -4248,6 +4248,7 @@ HAS_VXML=1
 HAS_LUA=1
 HAS_EXCEPTIONS=
 HAS_VFW_CAPTURE=
+default_odbc=no
 
 if test "${enable_minsize}x" = "yesx" ; then
   default_resolver=no
@@ -4291,6 +4292,7 @@ if test "${enable_minsize}x" = "yesx" ; then
   HAS_EXCEPTIONS=
   HAS_VFW_CAPTURE=
   HAS_LUA=
+  default_odbc=no
 fi
 
 
