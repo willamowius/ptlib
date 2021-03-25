@@ -205,12 +205,31 @@ class PFactory : PFactoryBase
     template <class ConcreteClass>
     class Worker : WorkerBase
     {
+      private:
+        const Key_T m_key;
+
       public:
         Worker(const Key_T & key, bool singleton = false)
           : WorkerBase(singleton)
+          , m_key(key)
         {
           PMEMORY_IGNORE_ALLOCATIONS_FOR_SCOPE;
           PFactory<Abstract_T, Key_T>::Register(key, this);
+        }
+
+        ~Worker()
+        {
+#if P_EXCEPTIONS
+          try
+          {
+#endif
+            PFactory<Abstract_T, Key_T>::Unregister(m_key);
+#if P_EXCEPTIONS
+          }
+          catch (...)
+          {
+          }
+#endif
         }
 
       protected:
