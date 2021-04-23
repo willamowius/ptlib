@@ -102,11 +102,21 @@ ifeq "$(CXX)" "g++"
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 	GCCMAJORGTEQ10 := $(shell expr 10 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 endif
+ifeq "$(CXX)" "clang++"
+	USE_CLANG := "1"
+endif
+ifeq "$(CXX)" "clang++-12"
+	USE_CLANG := "1"
+endif
 
 # -Wall must be at the start of the options otherwise
 # any -W overrides won't have any effect
 ifeq ($(USE_GCC),yes)
-# avoid warning from gcc >= 5
+# avoid warning from clang
+ifeq "$(USE_CLANG)" "1"
+STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-unknown-pragma -Wno-unused-private-field
+# else
+# avoid warnings from gcc >= 5 / gcc >= 10
 ifeq "$(GCCMAJORGTEQ5)" "1"
 ifeq "$(GCCMAJORGTEQ10)" "1"
 STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
@@ -115,6 +125,7 @@ STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-
 endif
 else
 STDCCFLAGS += -Wall
+endif
 endif
 endif
 
