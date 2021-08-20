@@ -61,6 +61,10 @@ ifeq ($(MACHTYPE),hppa)
   STDCCFLAGS += -fPIC
 endif
 
+ifeq ($(MACHTYPE),aarch64)
+  STDCCFLAGS += -fPIC
+endif
+
 ifeq ($(P_SHAREDLIB),1)
   PLUGIN_LIBS += $(PTLIBDIR)/lib_$(PLATFORM_TYPE)/$(PTLIB_FILE)
   CXXFLAGS += -DP_SHAREDLIB
