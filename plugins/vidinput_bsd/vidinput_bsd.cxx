@@ -308,7 +308,7 @@ PBoolean PVideoInputDevice_BSDCAPTURE::GetFrameDataNoDelay(BYTE * buffer, PINDEX
 
     mmap_size = frameBytes;
     videoBuffer = (BYTE *)::mmap(0, mmap_size, PROT_READ, 0, videoFd, 0);
-    if (videoBuffer < 0) {
+    if (videoBuffer == (void *)-1) {
       return PFalse;
     } else {
       canMap = 1;
