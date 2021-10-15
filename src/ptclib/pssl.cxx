@@ -156,7 +156,7 @@ PFACTORY_CREATE_SINGLETON(PProcessStartupFactory, PSSLInitialiser);
 class PSSL_BIO
 {
   public:
-#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L || LIBRESSL_VERSION_NUMBER >= 0x3040100fL
     PSSL_BIO(const BIO_METHOD *method = BIO_s_file())
 #else
     PSSL_BIO(BIO_METHOD *method = BIO_s_file_internal())
