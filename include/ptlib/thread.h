@@ -373,6 +373,9 @@ class PThread : public PObject
   protected:
     bool   m_isProcess;
     bool   m_autoDelete; // Automatically delete the thread on completion.
+#if defined(P_PTHREADS)
+    bool   m_isRunning;
+#endif
     PINDEX m_originalStackSize;
 
     PString m_threadName; // Give the thread a name for debugging purposes.

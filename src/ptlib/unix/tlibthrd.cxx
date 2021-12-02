@@ -327,6 +327,31 @@ void PProcess::PXSetThread(pthread_t id, PThread * thread)
     delete currentThread;
 }
 
+static pthread_key_t g_currentThread;
+static pthread_once_t g_currentThreadInitFlag = PTHREAD_ONCE_INIT;
+
+void PProcess::FinalizeThread(void*)
+{
+  // The PThread object could have been destroyed, and the thread pointer may be dangling at this point
+  PProcess& process = PProcess::Current();
+  PWaitAndSignal m(process.m_activeThreadMutex);
+
+  ThreadMap::iterator it = process.m_activeThreads.find(pthread_self());
+  if (it != process.m_activeThreads.end())
+    __atomic_store_n(&it->second->m_isRunning, false, __ATOMIC_RELAXED);
+}
+
+static void InitCurrentThreadTls()
+{
+  pthread_key_create(&g_currentThread, &PProcess::FinalizeThread);
+}
+
+static inline void SetCurrentThread(PThread* thread)
+{
+  pthread_once(&g_currentThreadInitFlag, &InitCurrentThreadTls);
+  pthread_setspecific(g_currentThread, thread);
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 //
@@ -342,6 +367,7 @@ void PProcess::PXSetThread(pthread_t id, PThread * thread)
 PThread::PThread(bool isProcess)
   : m_isProcess(isProcess)
   , m_autoDelete(!isProcess)
+  , m_isRunning(true)
   , m_originalStackSize(0) // 0 indicates external thread
   , m_threadId(pthread_self())
   , m_threadIdValid(true)
@@ -357,6 +383,8 @@ PThread::PThread(bool isProcess)
   , PX_WaitSemMutex(MutexInitialiser)
 #endif
 {
+  SetCurrentThread(this);
+
 #ifdef P_RTEMS
   PAssertOS(socketpair(AF_INET,SOCK_STREAM,0,unblockPipe) == 0);
 #else
@@ -384,6 +412,7 @@ PThread::PThread(PINDEX stackSize,
                  const PString & name)
   : m_isProcess(false)
   , m_autoDelete(deletion == AutoDeleteThread)
+  , m_isRunning(false)
   , m_originalStackSize(stackSize) // 0 indicates PTLib created thread
   , m_threadName(name)
   , m_threadId(0)
@@ -469,6 +498,8 @@ PThread::~PThread()
 void * PThread::PX_ThreadStart(void * arg)
 { 
   PThread * thread = (PThread *)arg;
+  SetCurrentThread(thread);
+  __atomic_store_n(&thread->m_isRunning, true, __ATOMIC_RELAXED);
   // Added this to guarantee that the thread creation (PThread::Restart)
   // has completed before we start the thread. Then the m_threadId has
   // been set.
@@ -678,7 +709,6 @@ PBoolean PThread::IsSuspended() const
   PAssertPTHREAD(pthread_mutex_unlock, ((pthread_mutex_t *)&PX_suspendMutex));
   return suspended;
 }
-
 
 void PThread::SetAutoDelete(AutoDeleteFlag deletion)
 {
@@ -931,7 +961,7 @@ PBoolean PThread::IsTerminated() const
     return false; // Process is always still running
 
   // See if thread is still running
-  return !m_threadIdValid || pthread_kill(m_threadId, 0) != 0;
+  return !__atomic_load_n(&m_isRunning, __ATOMIC_RELAXED);
 }
 
 
