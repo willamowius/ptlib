@@ -66,6 +66,10 @@ PDICTIONARY(PXFdDict, POrdinalKey, PThread);
     void CreateConfigFilesDictionary();
     PAbstractDictionary * configFiles;
 
+#if defined(P_PTHREADS)
+  public:
+    static void FinalizeThread(void*);
+#endif // defined(P_PTHREADS)
 
 #if defined(P_PTHREADS) || defined(P_MAC_MPTHREADS) || defined (__BEOS__)
 
