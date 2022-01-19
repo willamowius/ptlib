@@ -1161,7 +1161,7 @@ void PString::Delete(PINDEX start, PINDEX len)
 
   MakeUnique();
 
-  register PINDEX slen = GetLength();
+  PINDEX slen = GetLength();
   if (start > slen)
     return;
 
@@ -1178,7 +1178,7 @@ PString PString::operator()(PINDEX start, PINDEX end) const
   if (end < 0 || start < 0 || end < start)
     return Empty();
 
-  register PINDEX len = GetLength();
+  PINDEX len = GetLength();
   if (start > len)
     return Empty();
 
@@ -1315,7 +1315,7 @@ PINDEX PString::Find(char ch, PINDEX offset) const
   if (offset < 0)
     return P_MAX_INDEX;
 
-  register PINDEX len = GetLength();
+  PINDEX len = GetLength();
   while (offset < len) {
     if (InternalCompare(offset, ch) == EqualTo)
       return offset;
@@ -1531,7 +1531,7 @@ void PString::Splice(const char * cstr, PINDEX pos, PINDEX len)
   if (len < 0 || pos < 0)
     return;
 
-  register PINDEX slen = GetLength();
+  PINDEX slen = GetLength();
   if (pos >= slen)
     operator+=(cstr);
   else {

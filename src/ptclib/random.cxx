@@ -138,7 +138,7 @@ static unsigned redistribute(unsigned value, unsigned minimum, unsigned maximum)
 unsigned PRandom::Generate()
 {
   if (randcnt-- == 0) {
-    register DWORD a,b,x,y,*m,*mm,*m2,*r,*mend;
+    DWORD a,b,x,y,*m,*mm,*m2,*r,*mend;
     mm=randmem; r=randrsl;
     a = randa; b = randb + (++randc);
     for (m = mm, mend = m2 = m+(RandSize/2); m<mend; )
