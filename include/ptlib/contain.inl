@@ -116,7 +116,13 @@ PINLINE PString & PString::operator&=(const PString & str)
 PINLINE bool PString::operator==(const PObject & obj) const
   { return PObject::operator==(obj); }
 
+PINLINE bool PString::operator==(const PString & obj) const
+  { return PObject::operator==(obj); }
+
 PINLINE bool PString::operator!=(const PObject & obj) const
+  { return PObject::operator!=(obj); }
+
+PINLINE bool PString::operator!=(const PString & obj) const
   { return PObject::operator!=(obj); }
 
 PINLINE bool PString::operator<(const PObject & obj) const
