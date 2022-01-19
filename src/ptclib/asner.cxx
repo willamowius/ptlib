@@ -1619,7 +1619,7 @@ void PASN_BMPString::PrintOn(ostream & strm) const
     PINDEX j;
     for (j = 0; j < 8; j++)
       if (i+j < sz)
-        strm << setw(4) << value[i+j] << ' ';
+        strm << setw(4) << std::to_string(value[i+j]) << ' ';
       else
         strm << "     ";
     strm << "  ";

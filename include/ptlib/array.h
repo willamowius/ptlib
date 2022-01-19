@@ -438,12 +438,25 @@ template <class T> class PBaseArray : public PAbstractArray
     }
   //@}
 
+  private:
+    template<typename X>
+    void streamOut(ostream & stream, const X & t) const
+    {
+      stream << t;
+    }
+
+    template<>
+    void streamOut<wchar_t>(ostream & stream, const wchar_t & t) const
+    {
+      stream << std::to_string(t);
+    }
+
   protected:
     virtual void PrintElementOn(
       ostream & stream,
       PINDEX index
     ) const {
-      stream << GetAt(index);
+      streamOut(stream, GetAt(index));
     }
 
     PBaseArray(PContainerReference & reference) : PAbstractArray(reference, sizeof(T)) { }
