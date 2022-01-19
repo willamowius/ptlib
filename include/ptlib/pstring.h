@@ -833,10 +833,32 @@ class PString : public PCharArray
        to other overloaded versions.
 
        @return
+       true if equal.
+     */
+    bool operator==(
+      const PString & str  ///< PString object to compare against.
+    ) const;
+
+    /**Compare two strings using the <code>PObject::Compare()</code> function. This
+       is identical to the <code>PObject</code> class function but is necessary due
+       to other overloaded versions.
+
+       @return
        true if not equal.
      */
     bool operator!=(
       const PObject & str  ///< PString object to compare against.
+    ) const;
+
+    /**Compare two strings using the <code>PObject::Compare()</code> function. This
+       is identical to the <code>PObject</code> class function but is necessary due
+       to other overloaded versions.
+
+       @return
+       true if not equal.
+     */
+    bool operator!=(
+      const PString & str  ///< PString object to compare against.
     ) const;
 
     /**Compare two strings using the <code>PObject::Compare()</code> function. This
