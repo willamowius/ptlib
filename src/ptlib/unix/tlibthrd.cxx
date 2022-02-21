@@ -496,10 +496,9 @@ PThread::~PThread()
 
 
 void * PThread::PX_ThreadStart(void * arg)
-{ 
+{
   PThread * thread = (PThread *)arg;
   SetCurrentThread(thread);
-  __atomic_store_n(&thread->m_isRunning, true, __ATOMIC_RELAXED);
   // Added this to guarantee that the thread creation (PThread::Restart)
   // has completed before we start the thread. Then the m_threadId has
   // been set.
@@ -589,6 +588,7 @@ void PThread::Restart()
   // create the thread
   PAssertPTHREAD(pthread_create, (&m_threadId, &threadAttr, PX_ThreadStart, this));
   m_threadIdValid = true;
+  __atomic_store_n(&m_isRunning, true, __ATOMIC_RELAXED);
 
   // put the thread into the thread list
   process.PXSetThread(m_threadId, this);
