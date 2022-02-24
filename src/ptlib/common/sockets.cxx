@@ -2562,6 +2562,7 @@ PUDPSocket::PUDPSocket(const PString & service, PQoS * qos, int iAddressFamily)
 
 PUDPSocket::PUDPSocket(const PString & address, WORD newPort)
 {
+  lastReceivePort = 0;
   sendPort = 0;
   SetPort(newPort);
   Connect(address);
@@ -2570,6 +2571,7 @@ PUDPSocket::PUDPSocket(const PString & address, WORD newPort)
 
 PUDPSocket::PUDPSocket(const PString & address, const PString & service)
 {
+  lastReceivePort = 0;
   sendPort = 0;
   SetPort(service);
   Connect(address);

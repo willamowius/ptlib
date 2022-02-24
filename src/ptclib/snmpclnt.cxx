@@ -70,6 +70,8 @@ PSNMPClient::PSNMPClient(const PString & host, PINDEX retry,
    community(defaultCommunity),
    version(SNMP_VERSION),
    retryMax(retry),
+   lastErrorIndex(0),
+   lastErrorCode(NoError),
    maxRxSize(rxSize),
    maxTxSize(txSize)
 {
