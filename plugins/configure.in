@@ -176,7 +176,7 @@ AC_ARG_ENABLE(v4l2, [  --enable-v4l2            enable V4L2 video support],,enab
 if test "${enable_v4l2}z" = "yesz" ; then
   case "$target_os" in
     solaris* | sunos* ) V4L2_HEADER="sys/videodev2.h"   ; ;;
-    netbsd* )           V4L2_HEADER="sys/videoio.h"     ; ;;
+    netbsd* | openbsd* ) V4L2_HEADER="sys/videoio.h"    ; ;;
           * )	        V4L2_HEADER="linux/videodev2.h" ; ;;
   esac
 
