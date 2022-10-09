@@ -127,7 +127,7 @@ PVideoInputDevice_V4L2::~PVideoInputDevice_V4L2()
 
 static struct {
   const char * colourFormat;
-#ifdef SOLARIS
+#if defined (P_SOLARIS) || defined (P_NETBSD) || defined(P_OPENBSD)
   uint32_t code;
 #else
   __u32 code;
@@ -356,7 +356,7 @@ PBoolean PVideoInputDevice_V4L2::SetVideoFormat(VideoFormat newFormat)
   }
 
   struct {
-#ifdef SOLARIS
+#if defined (P_SOLARIS) || defined (P_NETBSD) || defined(P_OPENBSD)
     uint32_t code;
 #else
     __u32 code;
@@ -366,7 +366,7 @@ PBoolean PVideoInputDevice_V4L2::SetVideoFormat(VideoFormat newFormat)
       {V4L2_STD_NTSC, "NTSC"},
       {V4L2_STD_SECAM, "SECAM"} };
 
-#ifdef SOLARIS
+#if defined (P_SOLARIS) || defined (P_NETBSD) || defined(P_OPENBSD)
     uint32_t carg;
 #else
     __u32 carg;
@@ -783,7 +783,7 @@ void PVideoInputDevice_V4L2::ClearMapping()
     if (v4l2_ioctl(videoFd, VIDIOC_QUERYBUF, &buf) < 0)
       break;
 
-#ifdef SOLARIS
+#ifdef P_SOLARIS
     ::v4l2_munmap((char*)videoBuffer[buf.index], buf.length);
 #else
     ::v4l2_munmap(videoBuffer[buf.index], buf.length);
