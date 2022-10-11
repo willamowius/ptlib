@@ -101,6 +101,7 @@ STDCCFLAGS += -DCXXHACK=$(CXX)
 ifeq "$(CXX)" "g++"
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 	GCCMAJORGTEQ10 := $(shell expr 10 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
+	GCCMAJORGTEQ12 := $(shell expr 12 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 endif
 ifeq "$(CXX)" "clang++"
 	USE_CLANG := "1"
@@ -128,10 +129,14 @@ STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variab
 else
 # avoid warnings from gcc >= 5 / gcc >= 10
 ifeq "$(GCCMAJORGTEQ5)" "1"
+ifeq "$(GCCMAJORGTEQ12)" "1"
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation -Wno-deprecated-declarations
+else
 ifeq "$(GCCMAJORGTEQ10)" "1"
 STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
 else
 STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
+endif
 endif
 endif
 endif
