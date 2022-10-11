@@ -108,23 +108,31 @@ endif
 ifeq "$(CXX)" "clang++-12"
 	USE_CLANG := "1"
 endif
+ifeq "$(CXX)" "clang++-13"
+	USE_CLANG := "1"
+endif
+ifeq "$(CXX)" "clang++-14"
+	USE_CLANG := "1"
+endif
+ifeq "$(CXX)" "clang++-15"
+	USE_CLANG := "1"
+endif
 
 # -Wall must be at the start of the options otherwise
 # any -W overrides won't have any effect
+STDCCFLAGS += -Wall
 ifeq ($(USE_GCC),yes)
 # avoid warning from clang
-ifeq "$(USE_CLANG)" "1"
-STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-unknown-pragma -Wno-unused-private-field
+ifeq ($(USE_CLANG),"1")
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-private-field -Wno-overloaded-virtual
 else
 # avoid warnings from gcc >= 5 / gcc >= 10
 ifeq "$(GCCMAJORGTEQ5)" "1"
 ifeq "$(GCCMAJORGTEQ10)" "1"
-STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
 else
-STDCCFLAGS += -Wall -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
 endif
-else
-STDCCFLAGS += -Wall
 endif
 endif
 endif
