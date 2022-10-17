@@ -1626,6 +1626,7 @@ if test "x${HAS_AUDIO}" = "x1" ; then
   AC_ARG_ENABLE(alsa,  [  --enable-alsa           enable ALSA audio support],enable_alsa=$enableval)
   AC_ARG_ENABLE(oss,   [  --enable-oss            enable OSS audio support],enable_oss=$enableval)
   AC_ARG_ENABLE(pulse, [  --enable-pulse          enable PULSE audio support],enable_pulse=$enableval)
+  AC_ARG_ENABLE(sndio, [  --enable-sndio          enable sndio audio support],enable_sndio=$enableval)
 fi
 
 

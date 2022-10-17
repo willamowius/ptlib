@@ -874,6 +874,7 @@ enable_vfw
 enable_alsa
 enable_oss
 enable_pulse
+enable_sndio
 enable_memcheck
 enable_odbc
 with_odbc_dir
@@ -1579,6 +1580,7 @@ Optional Features:
   --enable-alsa           enable ALSA audio support
   --enable-oss            enable OSS audio support
   --enable-pulse          enable PULSE audio support
+  --enable-sndio          enable sndio audio support
   --enable-memcheck       enable leak testing code (off by default)
   --disable-odbc          disable ODBC support
   --enable-exceptions     enable C++ exceptions
@@ -10298,6 +10300,11 @@ fi
   # Check whether --enable-pulse was given.
 if test "${enable_pulse+set}" = set; then :
   enableval=$enable_pulse; enable_pulse=$enableval
+fi
+
+  # Check whether --enable-sndio was given.
+if test "${enable_sndio+set}" = set; then :
+  enableval=$enable_sndio; enable_sndio=$enableval
 fi
 
 fi
