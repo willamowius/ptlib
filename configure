@@ -4471,7 +4471,6 @@ fi
   openbsd* )       OSTYPE=OpenBSD ;
 		   OS_TAG="P_OPENBSD" ;
                    OSRELEASE="`sysctl -n kern.osrevision`" ;
-		   ENDLDLIBS="-lossaudio" ;
                    need_pragma=yes ;
 
 $as_echo "#define P_PTHREADS 1" >>confdefs.h
