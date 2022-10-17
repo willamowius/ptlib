@@ -51,6 +51,16 @@ DEFAULT_SOUND	= sound_esd
 endif
 endif
 
+##################################sndio
+HAS_SNDIO	= 
+
+ifeq (1,$(HAS_SNDIO))
+SUBDIRS += sound_sndio
+ifeq (,$(DEFAULT_SOUND))
+DEFAULT_SOUND	= sound_sndio
+endif
+endif
+
 #################################SundAudio
 HAS_SUNAUDIO = 
 
