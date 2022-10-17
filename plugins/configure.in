@@ -107,6 +107,23 @@ if test "${enable_pulse}z" = "yesz" ; then
 fi
 
 dnl #########################################################################
+dnl check for sndio sound support
+dnl ########################################################################
+
+AC_ARG_ENABLE(sndio, [  --enable-sndio          enable sndio audio support],,enable_sndio=yes)
+
+if test "${enable_sndio}z" = "yesz" ; then
+  AC_CHECK_HEADER(sndio.h, SNDIOHDR=1)
+  AC_MSG_CHECKING(for sndio sound support)
+  if test "${SNDIOHDR}z" != "z"; then
+    AC_SUBST(HAS_SNDIO, 1)
+    AC_MSG_RESULT(yes)
+  else
+    AC_MSG_RESULT(no)
+  fi
+fi
+
+dnl #########################################################################
 dnl check for sunaudio sound support
 dnl ########################################################################
 
