@@ -56,6 +56,7 @@ void PSoundChannelSNDIO::Construct()
 {
   os_handle = -1;
   hdl = NULL;
+  isInitialised = FALSE;
 }
 
 
