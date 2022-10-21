@@ -103,19 +103,7 @@ ifeq "$(CXX)" "g++"
 	GCCMAJORGTEQ10 := $(shell expr 10 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 	GCCMAJORGTEQ12 := $(shell expr 12 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 endif
-ifeq "$(CXX)" "clang++"
-	USE_CLANG := "1"
-endif
-ifeq "$(CXX)" "clang++-12"
-	USE_CLANG := "1"
-endif
-ifeq "$(CXX)" "clang++-13"
-	USE_CLANG := "1"
-endif
-ifeq "$(CXX)" "clang++-14"
-	USE_CLANG := "1"
-endif
-ifeq "$(CXX)" "clang++-15"
+ifeq ($(shell $(CXX) -v 2>&1 | grep -c "clang version"), 1)
 	USE_CLANG := "1"
 endif
 
