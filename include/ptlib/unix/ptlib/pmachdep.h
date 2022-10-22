@@ -191,7 +191,9 @@ typedef union {
 } upad128_t;
 #endif
 
+#ifndef INADDR_NONE
 #define INADDR_NONE     -1
+#endif
 #if P_SOLARIS < 7
 typedef int socklen_t;
 #endif
