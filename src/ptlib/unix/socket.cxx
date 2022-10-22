@@ -78,6 +78,10 @@
 
 #endif
 
+#if defined(P_LINUX) || defined(P_FREEBSD) || defined(P_OPENBSD) || defined(P_NETBSD) || defined(P_MACOSX) || defined(P_SOLARIS)
+#include <ifaddrs.h>
+#endif
+
 #if defined(P_FREEBSD) || defined(P_OPENBSD) || defined(P_NETBSD) || defined(P_MACOSX) || defined(P_MACOS) || defined(P_QNX)
 #include <sys/sysctl.h>
 #endif
@@ -1075,7 +1079,8 @@ PBoolean PIPSocket::GetGatewayAddress(Address & addr, int version)
   RouteTable table;
   if (GetRouteTable(table)) {
     for (PINDEX i = 0; i < table.GetSize(); i++) {
-      if (table[i].GetNetwork() == 0) {
+      if (table[i].GetNetwork() == 0
+          && (table[i].GetDestination().GetVersion() == (unsigned)version)) {
         addr = table[i].GetDestination();
         return PTrue;
       }
@@ -1096,6 +1101,29 @@ PString PIPSocket::GetGatewayInterface(int version)
     }
   }
   return PString();
+}
+
+// bit setting inspired by Tim Ring on StackOverflow
+const unsigned char QuickByteMask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+void ResetBit(unsigned bit, BYTE *bitmap)
+{
+    unsigned x = bit / 8;                // Index to byte.
+    unsigned n = bit % 8;                // Specific bit in byte.
+    bitmap[x] &= (~QuickByteMask[n]);  // Reset bit.
+}
+
+PIPSocket::Address NetmaskV6WithPrefix(unsigned prefixbits, unsigned masklen = 0, BYTE * mask = NULL)
+{
+  BYTE fullmask[16] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
+
+  if (mask) {
+    memset(&fullmask, 0, sizeof(fullmask));
+    memcpy(&fullmask, mask, std::min((size_t)masklen, sizeof(fullmask)));
+  }
+  for(unsigned i=128; i > prefixbits; --i) {
+    ResetBit(i, fullmask);
+  }
+  return PIPSocket::Address(16, (BYTE*)&fullmask);
 }
 
 #if defined(P_LINUX) || defined (P_AIX)
@@ -1168,8 +1196,8 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 
 #elif (defined(P_FREEBSD) || defined(P_OPENBSD) || defined(P_NETBSD) || defined(P_MACOSX) || defined(P_QNX)) && !defined(P_IPHONEOS)
 
-PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, unsigned long *p_net_addr,
-                     unsigned long *p_net_mask, unsigned long *p_dest_addr, int *p_metric);
+PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, PIPSocket::Address & net_addr,
+                     PIPSocket::Address & net_mask, PIPSocket::Address & dest_addr, int & metric);
 PBoolean get_ifname(int index, char *name);
 
 PBoolean PIPSocket::GetRouteTable(RouteTable & table)
@@ -1180,7 +1208,6 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   struct rt_msghdr *rtm;
 
   InterfaceTable if_table;
-
 
   // Read the Routing Table
   mib[0] = CTL_NET;
@@ -1207,25 +1234,23 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
     return PFalse;
   }
 
-
   // Read the interface table
   if (!GetInterfaceTable(if_table)) {
     printf("Interface Table Invalid\n");
     return PFalse;
   }
 
-
   // Process the Routing Table data
   limit = buf + space_needed;
   for (ptr = buf; ptr < limit; ptr += rtm->rtm_msglen) {
 
-    unsigned long net_addr, dest_addr, net_mask;
+    PIPSocket::Address net_addr, dest_addr, net_mask;
     int metric;
     char name[16];
 
     rtm = (struct rt_msghdr *)ptr;
 
-    if ( process_rtentry(rtm,ptr, &net_addr, &net_mask, &dest_addr, &metric) ){
+    if ( process_rtentry(rtm, ptr, net_addr, net_mask, dest_addr, metric) ){
 
       RouteEntry * entry = new RouteEntry(net_addr);
       entry->net_mask = net_mask;
@@ -1243,16 +1268,10 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   return PTrue;
 }
 
-PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, unsigned long *p_net_addr,
-                     unsigned long *p_net_mask, unsigned long *p_dest_addr, int *p_metric) {
+PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, PIPSocket::Address & net_addr,
+                     PIPSocket::Address & net_mask, PIPSocket::Address & dest_addr, int & metric) {
 
-  struct sockaddr_in *sa_in;
-
-  unsigned long net_addr, dest_addr, net_mask;
-  int metric;
-
-  sa_in = (struct sockaddr_in *)(rtm + 1);
-
+  struct sockaddr_in *sa_in = (struct sockaddr_in *)(rtm + 1);
 
   // Check for zero length entry
   if (rtm->rtm_msglen == 0) {
@@ -1260,8 +1279,7 @@ PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, unsigned long *p_net_
     return PFalse;
   }
 
-#if defined(RTF_LLINFO)
-  if ((~rtm->rtm_flags&RTF_LLINFO)
+  if ((~rtm->rtm_flags & RTF_LLINFO)
 #if defined(P_NETBSD) || defined(P_QNX)
         && (~rtm->rtm_flags&RTF_CLONED)     // Net BSD has flag one way
 #elif !defined(P_OPENBSD) && !defined(P_FREEBSD)
@@ -1269,51 +1287,79 @@ PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, unsigned long *p_net_
 #else
                                             // Open/Free BSD does not have it at all!
 #endif
-#else
-  // NetBSD 8.0
-  if (true
-#endif
      ) {
 
-    //strcpy(name, if_table[rtm->rtm_index].GetName);
-
-    net_addr=dest_addr=net_mask=metric=0;
+	metric=0;
 
     // NET_ADDR
-    if(rtm->rtm_addrs&RTA_DST ) {
+    if(rtm->rtm_addrs & RTA_DST) {
       if(sa_in->sin_family == AF_INET)
-        net_addr = sa_in->sin_addr.s_addr;
+        net_addr = PIPSocket::Address(AF_INET, sizeof(sockaddr_in), (struct sockaddr *)sa_in);
+      if(sa_in->sin_family == AF_INET6)
+        net_addr = PIPSocket::Address(AF_INET6, sizeof(sockaddr_in6), (struct sockaddr *)sa_in);
 
       sa_in = (struct sockaddr_in *)((char *)sa_in + ROUNDUP(sa_in->sin_len));
     }
 
     // DEST_ADDR
-    if(rtm->rtm_addrs&RTA_GATEWAY) {
+    if(rtm->rtm_addrs & RTA_GATEWAY) {
       if(sa_in->sin_family == AF_INET)
-        dest_addr = sa_in->sin_addr.s_addr;
+        dest_addr = PIPSocket::Address(AF_INET, sizeof(sockaddr_in), (struct sockaddr *)sa_in);
+      if(sa_in->sin_family == AF_INET6)
+        dest_addr = PIPSocket::Address(AF_INET6, sizeof(sockaddr_in6), (struct sockaddr *)sa_in);
 
       sa_in = (struct sockaddr_in *)((char *)sa_in + ROUNDUP(sa_in->sin_len));
     }
 
     // NETMASK
-    if(rtm->rtm_addrs&RTA_NETMASK && sa_in->sin_len)
-      net_mask = sa_in->sin_addr.s_addr;
+    if(rtm->rtm_addrs & RTA_NETMASK) {
+      unsigned char *ptr = (unsigned char *)&((sockaddr*)sa_in)->sa_data[2];
+      if (sa_in->sin_len == 0) {
+        net_mask = (net_addr.GetVersion() == 4) ? "0.0.0.0" : "::";
+      } else if (sa_in->sin_len == 5) {
+        net_mask =  PString(PString::Printf, "%d.0.0.0", *ptr);
+      } else if (sa_in->sin_len == 6) {
+        net_mask = PString(PString::Printf, "%d.%d.0.0", *ptr, *(ptr+1));
+      } else if (sa_in->sin_len == 7) {
+        net_mask = PString(PString::Printf, "%d.%d.%d.0", *ptr, *(ptr+1), *(ptr+2));
+      } else if (sa_in->sin_len == 8) {
+        net_mask = PString(PString::Printf, "%d.%d.%d.%d", *ptr, *(ptr+1), *(ptr+2), *(ptr+3));
+      } else if (sa_in->sin_len > 8) {
+        net_mask = NetmaskV6WithPrefix((sa_in->sin_len - 8) * 8, (sa_in->sin_len - 8), ptr+4);
+      }
 
-    if( rtm->rtm_flags&RTF_HOST)
-      net_mask = 0xffffffff;
+      sa_in = (struct sockaddr_in *)((char *)sa_in + ROUNDUP(sa_in->sin_len));
+    }
 
+    if(rtm->rtm_addrs & RTA_IFP) {
+      //const char *ptr = (const char *)&((sockaddr_dl*)sa_in)->sdl_data[0];
+      //PTRACE(5, "RTA_IFP addr=" << net_addr << " name=" << PString(ptr));
+      sa_in = (struct sockaddr_in *)((char *)sa_in + ROUNDUP(sa_in->sin_len));
+    }
 
-    *p_metric = metric;
-    *p_net_addr = net_addr;
-    *p_dest_addr = dest_addr;
-    *p_net_mask = net_mask;
+    if(rtm->rtm_addrs & RTA_IFA) {
+      if (dest_addr.IsLoopback()) {
+        if(sa_in->sin_family == AF_INET)
+          dest_addr = PIPSocket::Address(AF_INET, sizeof(sockaddr_in), (struct sockaddr *)sa_in);
+        if(sa_in->sin_family == AF_INET6)
+          dest_addr = PIPSocket::Address(AF_INET6, sizeof(sockaddr_in6), (struct sockaddr *)sa_in);
+      }
+
+      sa_in = (struct sockaddr_in *)((char *)sa_in + ROUNDUP(sa_in->sin_len));
+    }
+
+    if(rtm->rtm_flags & RTF_HOST) {
+      if(net_addr.GetVersion() == 4)
+        net_mask = 0xffffffff;
+      if(net_addr.GetVersion() == 6)
+        net_mask = "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff";
+    }
 
     return PTrue;
 
   } else {
     return PFalse;
   }
-
 }
 
 PBoolean get_ifname(int index, char *name) {
@@ -1475,16 +1521,16 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
       goto Return;
   }
 
-  if (req->level != MIB2_IP
+  if ( (req->level != MIB2_IP
 #if P_SOLARIS > 7
-      || req->name != MIB2_IP_ROUTE
+        || req->name != MIB2_IP_ROUTE)
+      && (req->level != MIB2_IP6 || req->name != MIB2_IP6_ROUTE)
 #endif
            ) {  /* == 21 */
       /* If this is not the routing table, skip it */
-    /* Note we don't bother with IPv6 (MIB2_IP6_ROUTE) ... */
       strbuf.maxlen = task_pagesize;
       do {
-    rc = getmsg(sd, (struct strbuf *) 0, &strbuf, &flags);
+        rc = getmsg(sd, (struct strbuf *) 0, &strbuf, &flags);
       } while (rc == MOREDATA) ;
       continue;
   }
@@ -1493,7 +1539,7 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   strbuf.len = 0;
   flags = 0;
   do {
-      rc = getmsg(sd, (struct strbuf * ) 0, &strbuf, &flags);
+      rc = getmsg(sd, (struct strbuf *) 0, &strbuf, &flags);
 
       switch (rc) {
       case -1:
@@ -1514,46 +1560,54 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
       case MOREDATA:
       case 0:
         {
-    mib2_ipRouteEntry_t *rp = (mib2_ipRouteEntry_t *) strbuf.buf;
-    mib2_ipRouteEntry_t *lp = (mib2_ipRouteEntry_t *) (strbuf.buf + strbuf.len);
+          mib2_ipRouteEntry_t *rp = (mib2_ipRouteEntry_t *) strbuf.buf;
+          mib2_ipRouteEntry_t *lp = (mib2_ipRouteEntry_t *) (strbuf.buf + strbuf.len);
 
-    do {
-      char name[256];
-#ifdef SOL_DEBUG_RT
-      printf("%s -> %s mask %s metric %d %d %d %d %d ifc %.*s type %d/%x/%x\n",
-             inet_ntoa(rp->ipRouteDest),
-             inet_ntoa(rp->ipRouteNextHop),
-             inet_ntoa(rp->ipRouteMask),
-             rp->ipRouteMetric1,
-             rp->ipRouteMetric2,
-             rp->ipRouteMetric3,
-             rp->ipRouteMetric4,
-             rp->ipRouteMetric5,
-             rp->ipRouteIfIndex.o_length,
-             rp->ipRouteIfIndex.o_bytes,
-             rp->ipRouteType,
-             rp->ipRouteInfo.re_ire_type,
-             rp->ipRouteInfo.re_flags
-        );
-#endif
-      if (rp->ipRouteInfo.re_ire_type & (IRE_BROADCAST|IRE_CACHE|IRE_LOCAL))
-                    continue;
-      RouteEntry * entry = new RouteEntry(rp->ipRouteDest);
-      entry->net_mask = rp->ipRouteMask;
-      entry->destination = rp->ipRouteNextHop;
-                  unsigned len = rp->ipRouteIfIndex.o_length;
-                  if (len >= sizeof(name))
-                    len = sizeof(name)-1;
-      strncpy(name, rp->ipRouteIfIndex.o_bytes, len);
-      name[len] = '\0';
-      entry->interfaceName = name;
-      entry->metric =  rp->ipRouteMetric1;
-      table.Append(entry);
-    } while (++rp < lp) ;
+          do {
+            char name[256];
+            name[0] = '\0';
+            if (req->level == 0) {
+              if (rp->ipRouteInfo.re_ire_type & (IRE_BROADCAST|IRE_CACHE|IRE_LOCAL)) {
+                ++rp;
+                continue;
+              }
+              RouteEntry * entry = new RouteEntry(rp->ipRouteDest);
+              entry->net_mask = rp->ipRouteMask;
+              entry->destination = rp->ipRouteNextHop;
+              unsigned len = rp->ipRouteIfIndex.o_length;
+              if (len >= sizeof(name))
+                len = sizeof(name)-1;
+              strncpy(name, rp->ipRouteIfIndex.o_bytes, len);
+              name[len] = '\0';
+              entry->interfaceName = name;
+              entry->metric = rp->ipRouteMetric1;
+              table.Append(entry);
+              ++rp;
+            } else {
+              mib2_ipv6RouteEntry_t *rp6 = (mib2_ipv6RouteEntry_t *) rp;
+              if (rp6->ipv6RouteInfo.re_ire_type & (IRE_BROADCAST|IRE_CACHE|IRE_LOCAL)) {
+                rp = (mib2_ipRouteEntry_t *) ((BYTE*)rp + sizeof(mib2_ipv6RouteEntry_t));
+                continue;
+              }
+              RouteEntry * entry = new RouteEntry(Address(16, (BYTE*)&rp6->ipv6RouteDest));
+              entry->net_mask = NetmaskV6WithPrefix(rp6->ipv6RoutePfxLength);
+              entry->destination = Address(16, (BYTE*)&rp6->ipv6RouteNextHop);
+              unsigned len = rp6->ipv6RouteIfIndex.o_length;
+              if (len >= sizeof(name))
+                len = sizeof(name)-1;
+              strncpy(name, rp6->ipv6RouteIfIndex.o_bytes, len);
+              name[len] = '\0';
+              entry->interfaceName = name;
+              entry->metric = rp6->ipv6RouteMetric;
+              table.Append(entry);
+              rp = (mib2_ipRouteEntry_t *) ((BYTE*)rp + sizeof(mib2_ipv6RouteEntry_t));
+            }
+          } while (rp < lp) ;
+
+          }
+          break;
         }
-        break;
-      }
-  } while (rc == MOREDATA) ;
+      } while (rc == MOREDATA) ;
     }
 
  Return:
@@ -1575,8 +1629,8 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   PAssertAlways("PIPSocket::GetRouteTable()");
   for(;;){
     char iface[20];
-    unsigned long net_addr, dest_addr = 0, net_mask = 0;
-    int  metric = 0;
+    unsigned long net_addr, dest_addr, net_mask;
+    int  metric;
     RouteEntry * entry = new RouteEntry(net_addr);
     entry->net_mask = net_mask;
     entry->destination = dest_addr;
@@ -1639,7 +1693,6 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
   return PFalse;
 }
 #endif
-
 
 
 #ifdef P_HAS_NETLINK
@@ -1939,17 +1992,43 @@ PIPSocket::RouteTableDetector * PIPSocket::CreateRouteTableDetector()
 
 #endif // P_HAS_NETLINK, elif defined(P_IPHONEOS)
 
-
 PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDown)
 {
+#if defined(P_LINUX) || defined(P_FREEBSD) || defined (P_NETBSD) || defined(P_OPENBSD) || defined(P_MACOSX) || defined(P_SOLARIS)
+  // tested on Linux 2.6.x, FreeBSD 8.2, NetBSD 5.1, OpenBSD 5.0, MacOS X 10.5.6 and Solaris 11
+  // TODO: doesn't work on Solaris 10
+  struct ifaddrs *interfaces, *ifa;
+
+  if (getifaddrs(&interfaces) == 0) {
+    for (ifa = interfaces; ifa != NULL; ifa = ifa->ifa_next) {
+      if (ifa->ifa_addr == NULL) continue;
+      if ((ifa->ifa_flags & IFF_UP) == 0) continue;
+      PString macAddr;
+#if defined(SIO_Get_MAC_Address)
+      PUDPSocket ifsock;
+      struct ifreq ifReq;
+      memset(&ifReq, 0, sizeof(ifReq));
+      ifReq.ifr_addr.sa_family = ifa->ifa_addr->sa_family;
+      strncpy(ifReq.ifr_name, ifa->ifa_name, sizeof(ifReq.ifr_name) - 1);
+      if (ioctl(ifsock.GetHandle(), SIO_Get_MAC_Address, &ifReq) == 0) {
+        macAddr = PEthSocket::Address((BYTE *)ifReq.ifr_macaddr);
+      }
+#endif
+      if (ifa->ifa_addr->sa_family == AF_INET) {
+        list.Append(PNEW InterfaceEntry(ifa->ifa_name, Address(AF_INET, sizeof(struct sockaddr_in), (struct sockaddr *)(ifa->ifa_addr)), Address(AF_INET, sizeof(struct sockaddr_in), (struct sockaddr *)(ifa->ifa_netmask)), macAddr));
+      } else if (ifa->ifa_addr->sa_family == AF_INET6) {
+        list.Append(PNEW InterfaceEntry(ifa->ifa_name, Address(AF_INET6, sizeof(struct sockaddr_in6), (struct sockaddr *)(ifa->ifa_addr)), Address(AF_INET6, sizeof(struct sockaddr_in6), (struct sockaddr *)(ifa->ifa_netmask)), macAddr));
+      }
+    }
+    freeifaddrs(interfaces);
+  }
+#else   // not P_FREEBSD...
   PUDPSocket sock;
 
   PBYTEArray buffer;
-#if !defined(P_NETBSD) && !defined(P_OPENBSD)
   struct ifconf ifConf;
-#endif
 
-#if defined(P_NETBSD) || defined(P_OPENBSD)
+#if defined(P_NETBSD)
   struct ifaddrs *ifap, *ifa;
 
   PAssert(getifaddrs(&ifap) == 0, "getifaddrs failed");
@@ -1973,7 +2052,7 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
     while (ifName < ifEndList) {
 #endif
       struct ifreq ifReq;
-#if !defined(P_NETBSD) && !defined(P_OPENBSD)
+#if !defined(P_NETBSD)
           memcpy(&ifReq, ifName, sizeof(ifreq));
 #else
           memset(&ifReq, 0, sizeof(ifReq));
@@ -1992,7 +2071,7 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
             macAddr = PEthSocket::Address((BYTE *)ifReq.ifr_macaddr);
 #endif
 
-#if !defined(P_NETBSD) && !defined(P_OPENBSD)
+#if !defined(P_NETBSD)
           memcpy(&ifReq, ifName, sizeof(ifreq));
 #else
           memset(&ifReq, 0, sizeof(ifReq));
@@ -2004,7 +2083,7 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
             sockaddr_in * sin = (sockaddr_in *)&ifReq.ifr_addr;
             PIPSocket::Address addr = sin->sin_addr;
 
-#if !defined(P_NETBSD) && !defined(P_OPENBSD)
+#if !defined(P_NETBSD)
             memcpy(&ifReq, ifName, sizeof(ifreq));
 #else
             memset(&ifReq, 0, sizeof(ifReq));
@@ -2037,16 +2116,15 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
           }
         }
       }
-
-#if defined(P_FREEBSD) || defined(P_MACOSX) || defined(P_VXWORKS) || defined(P_RTEMS) || defined(P_QNX)
+#if defined(P_FREEBSD) || defined(P_OPENBSD) || defined(P_MACOSX) || defined(P_VXWORKS) || defined(P_RTEMS) || defined(P_QNX)
       // move the ifName pointer along to the next ifreq entry
       ifName = (struct ifreq *)((char *)ifName + _SIZEOF_ADDR_IFREQ(*ifName));
-#elif !defined(P_NETBSD) && !defined(P_OPENBSD)
+#elif !defined(P_NETBSD)
       ifName++;
 #endif
 
     }
-#if !defined(P_NETBSD) && !defined(P_OPENBSD)
+#if !defined(P_NETBSD)
   }
 #endif
 
@@ -2057,19 +2135,21 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
   FILE * file;
   int dummy;
   int addr[16];
+  int scope;
   char ifaceName[255];
   if ((file = fopen("/proc/net/if_inet6", "r")) != NULL) {
-    while (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %254s\n",
+    while (fscanf(file, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x %x %x %x %x %255s\n",
             &addr[0],  &addr[1],  &addr[2],  &addr[3],
             &addr[4],  &addr[5],  &addr[6],  &addr[7],
             &addr[8],  &addr[9],  &addr[10], &addr[11],
             &addr[12], &addr[13], &addr[14], &addr[15],
-           &dummy, &dummy, &dummy, &dummy, ifaceName) != EOF) {
+           &dummy, &dummy, &scope, &dummy, ifaceName) != EOF) {
       BYTE bytes[16];
       for (PINDEX i = 0; i < 16; i++)
         bytes[i] = addr[i];
 
       PString macAddr;
+
 #if defined(SIO_Get_MAC_Address)
       struct ifreq ifReq;
       memset(&ifReq, 0, sizeof(ifReq));
@@ -2078,10 +2158,15 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
         macAddr = PEthSocket::Address((BYTE *)ifReq.ifr_macaddr);
 #endif
 
-      list.Append(PNEW InterfaceEntry(ifaceName, Address(16, bytes), Address::GetAny(6), macAddr));
+      // the scope value in /proc/net/if_inet6 does not give the scope value for the interface
+      // so, we need to use the hack of assuming that if_nametoindex returns the correct scope
+      // for link-local interfaces. if anyone knows how to do this better, contact craigs@postincrement.com
+      scope = if_nametoindex(ifaceName);
+      list.Append(PNEW InterfaceEntry(ifaceName, Address(16, bytes, scope), Address::GetAny(6), macAddr));
     }
     fclose(file);
   }
+#endif
 #endif
 
   return PTrue;
