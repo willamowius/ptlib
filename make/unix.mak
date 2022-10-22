@@ -218,6 +218,10 @@ STDCCFLAGS     += -DP_64BIT
 LDLIBS		+= -lresolv
 endif
 
+ifeq ($(MACHTYPE),loongarch64)
+STDCCFLAGS     += -DP_64BIT
+endif
+
 ifeq ($(P_SHAREDLIB),1)
 ifndef PROG
 STDCCFLAGS	+= -fPIC -DPIC
