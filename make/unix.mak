@@ -182,6 +182,14 @@ ifeq ($(MACHTYPE),ppc64)
 STDCCFLAGS     += -DP_64BIT
 endif
 
+ifeq ($(MACHTYPE),loongarch64)
+STDCCFLAGS     += -DP_64BIT
+endif
+
+ifeq ($(MACHTYPE),mips)
+ENDLDLIBS      += -Wl,--hash-style=sysv
+endif
+
 ifeq ($(P_SHAREDLIB),1)
 ifndef PROG
 STDCCFLAGS	+= -fPIC -DPIC
@@ -215,11 +223,7 @@ endif
 
 ifeq ($(MACHTYPE),x86_64)
 STDCCFLAGS     += -DP_64BIT
-LDLIBS		+= -lresolv
-endif
-
-ifeq ($(MACHTYPE),loongarch64)
-STDCCFLAGS     += -DP_64BIT
+LDLIBS         += -lresolv
 endif
 
 ifeq ($(P_SHAREDLIB),1)
