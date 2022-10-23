@@ -36,16 +36,11 @@
 #include <ptlib.h>
 
 #ifdef P_LINUX
-#include <sys/soundcard.h>
 #include <sys/time.h>
 #endif
 
-#ifdef P_FREEBSD
-#include <machine/soundcard.h>
-#endif
-
-#if defined(P_OPENBSD) || defined(P_NETBSD)
-#include <soundcard.h>
+#if defined(P_LINUX) || defined(P_FREEBSD) || defined(P_NETBSD)
+#include <sys/soundcard.h>
 #endif
 
 
