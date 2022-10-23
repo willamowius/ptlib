@@ -1643,50 +1643,6 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 
 #else // unsupported platform
 
-#if 0
-PBoolean PIPSocket::GetRouteTable(RouteTable & table)
-{
-        // Most of this code came from the source code for the "route" command
-        // so it should work on other platforms too.
-        // However, it is not complete (the "address-for-interface" function doesn't exist) and not tested!
-
-        route_table_req_t reqtable;
-        route_req_t *rrtp;
-        int i,ret;
-
-        ret = get_route_table(&reqtable);
-        if (ret < 0)
-        {
-                return PFalse;
-        }
-
-        for (i=reqtable.cnt, rrtp = reqtable.rrtp;i>0;i--, rrtp++)
-        {
-                //the datalink doesn't save addresses/masks for host and default
-                //routes, so the route_req_t may not be filled out completely
-                if (rrtp->flags & RTF_DEFAULT) {
-                        //the IP default route is 0/0
-                        ((struct sockaddr_in *)&rrtp->dst)->sin_addr.s_addr = 0;
-                        ((struct sockaddr_in *)&rrtp->mask)->sin_addr.s_addr = 0;
-
-                } else if (rrtp->flags & RTF_HOST) {
-                        //host routes are addr/32
-                        ((struct sockaddr_in *)&rrtp->mask)->sin_addr.s_addr = 0xffffffff;
-                }
-
-            RouteEntry * entry = new RouteEntry(/* address_for_interface(rrtp->iface) */);
-            entry->net_mask = rrtp->mask;
-            entry->destination = rrtp->dst;
-            entry->interfaceName = rrtp->iface;
-            entry->metric = rrtp->refcnt;
-            table.Append(entry);
-        }
-
-        free(reqtable.rrtp);
-
-        return PTrue;
-#endif // 0
-
 PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 {
 #warning Platform requires implemetation of GetRouteTable()
