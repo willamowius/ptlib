@@ -7,7 +7,7 @@
 //#include <ptlib/contain.inl>
 //#endif
 
-#if defined(P_LINUX) || defined(P_OPENBSD) || defined(P_NETBSD) || defined(P_SOLARIS)
+#if defined(P_LINUX) || defined(P_FREEBSD) || defined(P_NETBSD) || defined(P_SOLARIS)
 #include <sys/soundcard.h>
 #endif
 
