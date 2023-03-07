@@ -678,7 +678,11 @@ void PMessageDigest5::Complete(Code & codeResult)
 {
   Result result;
   InternalCompleteDigest(result);
-  memcpy(codeResult.value, result.GetPointer(), sizeof(codeResult.value));
+
+  const PUInt32l *res = (const PUInt32l *)
+    result.value.GetPointer(PARRAYSIZE(codeResult.value) * sizeof(PUInt32l));
+  for (PINDEX i = 0; i < PARRAYSIZE(codeResult.value); ++i)
+    codeResult.value[i] = res[i];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
