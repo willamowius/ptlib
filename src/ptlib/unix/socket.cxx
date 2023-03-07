@@ -825,7 +825,7 @@ PBoolean PEthSocket::Connect(const PString & interfaceName)
   if (!ConvertOSError(ioctl(ifsock.GetHandle(), SIO_Get_MAC_Address, &ifr)))
     return PFalse;
 
-  memcpy(&macAddress, ifr.ifr_macaddr, sizeof(macAddress));
+  macAddress = PEthSocket::Address((BYTE *)ifr.ifr_macaddr);
 #endif
 
   channelName = interfaceName;

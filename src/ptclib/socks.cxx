@@ -677,8 +677,8 @@ PBoolean PSocksUDPSocket::ReadFrom(void * buf, PINDEX len, Address & addr, WORD 
       break;
 
     case SOCKS_ADDR_IPV4 :
-      memcpy(&addr, &newbuf[4], 4);
-      port_pos = 4;
+      addr = Address(4, &newbuf[4]);
+      port_pos = 4+4;
       break;
 
     default :
