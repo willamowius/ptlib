@@ -98,10 +98,11 @@ endif
 # why do we need this hack to get the following ifeq working on Fedora 28 ???
 STDCCFLAGS += -DCXXHACK=$(CXX)
 # get gcc/g++ version
-ifeq "$(CXX)" "g++"
+ifeq ($(shell $(CXX) -v 2>&1 | grep -c "gcc.[Vv]ersion"), 1)
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
-	GCCMAJORGTEQ10 := $(shell expr 10 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
+	GCCMAJORGTEQ9 := $(shell expr 9 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 	GCCMAJORGTEQ12 := $(shell expr 12 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
+	GCCMAJORGTEQ13 := $(shell expr 13 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
 endif
 ifeq ($(shell $(CXX) -v 2>&1 | grep -c "clang version"), 1)
 	USE_CLANG := "1"
@@ -117,14 +118,22 @@ STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variab
 else
 # avoid warnings from gcc >= 5 / gcc >= 10
 ifeq "$(GCCMAJORGTEQ5)" "1"
+ifeq "$(GCCMAJORGTEQ9)" "1"
 ifeq "$(GCCMAJORGTEQ12)" "1"
+ifeq "$(GCCMAJORGTEQ13)" "1"
+# gcc 13 flags
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation -Wno-deprecated-declarations -Wno-overloaded-virtual
+else
+# gcc 12 flags
 STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation -Wno-deprecated-declarations
-else
-ifeq "$(GCCMAJORGTEQ10)" "1"
-STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
-else
-STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
 endif
+else
+#gcc 9 - 11 flags
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-stringop-truncation
+endif
+else
+# gcc 5 - 8
+STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable
 endif
 endif
 endif
