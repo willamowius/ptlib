@@ -49,7 +49,7 @@
 #if defined(SIOCGENADDR)
 #define SIO_Get_MAC_Address SIOCGENADDR
 #define  ifr_macaddr         ifr_ifru.ifru_enaddr
-#elif defined(SIOCGIFHWADDR)
+#elif defined(SIOCGIFHWADDR) && (!defined(P_AIX))
 #define SIO_Get_MAC_Address SIOCGIFHWADDR
 #define  ifr_macaddr         ifr_hwaddr.sa_data
 #endif
@@ -2048,10 +2048,15 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & list, PBoolean includeDow
 
             if (ioctl(sock.GetHandle(), SIOCGIFNETMASK, &ifReq) >= 0) {
               PIPSocket::Address mask =
-#ifndef P_BEOS
+#if !defined(P_BEOS) && !defined(P_AIX)
     ((sockaddr_in *)&ifReq.ifr_netmask)->sin_addr;
 #else
+#if defined(P_AIX)
+	// TODO: is this correct for IPv6 ?
+    ((sockaddr_in *)&ifReq.ifr_addr)->sin_addr;
+#else
     ((sockaddr_in *)&ifReq.ifr_mask)->sin_addr;
+#endif // P_AIX
 #endif // !P_BEOS
               PINDEX i;
               for (i = 0; i < list.GetSize(); i++) {

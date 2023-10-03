@@ -196,6 +196,14 @@ case "$target_os" in
 		   AC_CHECK_FUNC([swab], [AC_DEFINE([USE_SYSTEM_SWAB], [], [Use system swab()] )] )
                    ;;
 
+  aix*)            OSTYPE=AIX ;
+                   OSRELEASE="\"`uname -r`\"";
+		   OS_TAG="P_AIX" ;
+                   need_pragma=yes ;
+		   AC_DEFINE(P_PTHREADS, 1, "PThreads found")
+		   AC_CHECK_FUNC([swab], [AC_DEFINE([USE_SYSTEM_SWAB], [], [Use system swab()] )] )
+                   ;;
+
   freebsd*|kfreebsd*)       OSTYPE=FreeBSD ;
 		   OS_TAG="P_FREEBSD" ;
                    if test "x$OSRELEASE" = "x"; then

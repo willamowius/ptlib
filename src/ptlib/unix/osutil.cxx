@@ -102,6 +102,7 @@
 
 #include <fstab.h>
 #include <sys/stat.h>
+#include <sys/statfs.h>
 
 #elif defined(P_SOLARIS)
 #define P_USE_LANGINFO
