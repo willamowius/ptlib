@@ -196,13 +196,13 @@ PINDEX PURL::HashFunction() const
 }
 
 
-void PURL::PrintOn(ostream & stream) const
+void PURL::PrintOn(std::ostream & stream) const
 {
   stream << urlString;
 }
 
 
-void PURL::ReadFrom(istream & stream)
+void PURL::ReadFrom(std::istream & stream)
 {
   PString s;
   stream >> s;
@@ -345,7 +345,7 @@ void PURL::SplitVars(const PString & str, PStringToString & vars, char sep1, cha
 }
 
 
-void PURL::OutputVars(ostream & strm,
+void PURL::OutputVars(std::ostream & strm,
                       const PStringToString & vars,
                       char sep0,
                       char sep1,

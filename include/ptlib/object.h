@@ -243,12 +243,12 @@ enum or a literal string.
 This stream is used for all trace output using the various trace functions
 and macros.
 */
-ostream & PGetErrorStream();
+std::ostream & PGetErrorStream();
 
 /** Set the stream to be used for error output.
 This stream is used for all error output using the <code>PError</code> macro.
 */
-void PSetErrorStream(ostream * strm /** New stream for error output */ );
+void PSetErrorStream(std::ostream * strm /** New stream for error output */ );
 
 /** This macro is used to access the platform specific error output stream.
 This is to be used in preference to assuming <code>cerr</code> is always available. On
@@ -425,7 +425,7 @@ public:
   and macros.
   */
   static void SetStream(
-    ostream * out ///< New output stream from trace.
+    std::ostream * out ///< New output stream from trace.
   );
 
   /** Begin a trace output.
@@ -443,7 +443,7 @@ public:
     s << '!' << PTrace::End;
   </code></pre>
   */
-  static ostream & Begin(
+  static std::ostream & Begin(
     unsigned level,         ///< Log level for output
     const char * fileName,  ///< Filename of source file being traced
     int lineNum             ///< Line number of source file being traced.
@@ -466,8 +466,8 @@ public:
     s << '!' << PTrace::End;
   </code></pre>
   */
-  static ostream & End(
-    ostream & strm ///< Trace output stream being completed
+  static std::ostream & End(
+    std::ostream & strm ///< Trace output stream being completed
   );
 
   /** Cleanup the trace system for a specific thread
@@ -1288,7 +1288,7 @@ class PObject {
        The default behaviour is to print the class name.
      */
     virtual void PrintOn(
-      ostream &strm   // Stream to print the object into.
+      std::ostream &strm   // Stream to print the object into.
     ) const;
 
     /** Input the contents of the object from the stream. The exact input is
@@ -1298,7 +1298,7 @@ class PObject {
        The default behaviour is to do nothing.
      */
     virtual void ReadFrom(
-      istream &strm   // Stream to read the objects contents from.
+      std::istream &strm   // Stream to read the objects contents from.
     );
 
 
@@ -1307,8 +1307,8 @@ class PObject {
        
        @return the \p strm parameter.
      */
-    inline friend ostream & operator<<(
-      ostream &strm,       ///< Stream to print the object into.
+    inline friend std::ostream & operator<<(
+      std::ostream &strm,       ///< Stream to print the object into.
       const PObject & obj  ///< Object to print to the stream.
     ) { obj.PrintOn(strm); return strm; }
 
@@ -1317,8 +1317,8 @@ class PObject {
 
        @return the \p strm parameter.
      */
-    inline friend istream & operator>>(
-      istream &strm,   ///< Stream to read the objects contents from.
+    inline friend std::istream & operator>>(
+      std::istream &strm,   ///< Stream to read the objects contents from.
       PObject & obj    ///< Object to read inormation into.
     ) { obj.ReadFrom(strm); return strm; }
 
@@ -1375,8 +1375,8 @@ struct PIntSameOrder {
   __inline PIntSameOrder & operator=(type value)                             { data = value; return *this; }
   __inline PIntSameOrder & operator=(const PIntSameOrder & value)            { data = value.data; return *this; }
   __inline operator type() const                                             { return data; }
-  __inline friend ostream & operator<<(ostream & s, const PIntSameOrder & v) { return s << v.data; }
-  __inline friend istream & operator>>(istream & s, PIntSameOrder & v)       { return s >> v.data; }
+  __inline friend std::ostream & operator<<(std::ostream & s, const PIntSameOrder & v) { return s << v.data; }
+  __inline friend std::istream & operator>>(std::istream & s, PIntSameOrder & v)       { return s >> v.data; }
 
   private:
     type data;
@@ -1391,8 +1391,8 @@ struct PIntReversedOrder {
   __inline PIntReversedOrder & operator=(type value)                                 { ReverseBytes(value, data); return *this; }
   __inline PIntReversedOrder & operator=(const PIntReversedOrder & value)            { data = value.data; return *this; }
   __inline operator type() const                                                     { type value; ReverseBytes(data, value); return value; }
-  __inline friend ostream & operator<<(ostream & s, const PIntReversedOrder & value) { return s << (type)value; }
-  __inline friend istream & operator>>(istream & s, PIntReversedOrder & v)           { type val; s >> val; v = val; return s; }
+  __inline friend std::ostream & operator<<(std::ostream & s, const PIntReversedOrder & value) { return s << (type)value; }
+  __inline friend std::istream & operator>>(std::istream & s, PIntReversedOrder & v)           { type val; s >> val; v = val; return s; }
 
   private:
     type data;

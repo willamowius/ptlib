@@ -259,10 +259,10 @@ class PIPSocket : public PSocket
         unsigned version;
 
       /// Output IPv6 & IPv4 address as a string to the specified string.
-      friend ostream & operator<<(ostream & s, const Address & a);
+      friend std::ostream & operator<<(std::ostream & s, const Address & a);
 
       /// Input IPv4 (not IPv6 yet!) address as a string from the specified string.
-      friend istream & operator>>(istream & s, Address & a);
+      friend std::istream & operator>>(std::istream & s, Address & a);
     };
 
     //**@name Overrides from class PChannel */
@@ -655,7 +655,7 @@ class PIPSocket : public PSocket
 
         /// Print to specified stream.
         virtual void PrintOn(
-          ostream &strm   // Stream to print the object into.
+          std::ostream &strm   // Stream to print the object into.
         ) const;
 
         /** Get the name of the interface.
@@ -782,7 +782,7 @@ class PIPSocketAddressAndPort
 
     bool IsValid() const { return m_address.IsValid() && m_port != 0; }
 
-    friend ostream & operator<<(ostream & strm, const PIPSocketAddressAndPort & ap)
+    friend std::ostream & operator<<(std::ostream & strm, const PIPSocketAddressAndPort & ap)
     {
       return strm << ap.m_address << ap.m_separator << ap.m_port;
     }

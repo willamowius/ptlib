@@ -256,7 +256,7 @@ PWaveFormat & PWaveFormat::operator=(const PWaveFormat & fmt)
 }
 
 
-void PWaveFormat::PrintOn(ostream & out) const
+void PWaveFormat::PrintOn(std::ostream & out) const
 {
   if (waveFormat == NULL)
     out << "<null>";
@@ -268,17 +268,17 @@ void PWaveFormat::PrintOn(ostream & out) const
         << waveFormat->nBlockAlign << ','
         << waveFormat->wBitsPerSample;
     if (waveFormat->cbSize > 0) {
-      out << hex << setfill('0');
+      out << std::hex << std::setfill('0');
       const BYTE * ptr = (const BYTE *)&waveFormat[1];
       for (PINDEX i = 0; i < waveFormat->cbSize; i++)
-        out << ',' << setw(2) << (unsigned)*ptr++;
-      out << dec << setfill(' ');
+        out << ',' << std::setw(2) << (unsigned)*ptr++;
+      out << std::dec << std::setfill(' ');
     }
   }
 }
 
 
-void PWaveFormat::ReadFrom(istream &)
+void PWaveFormat::ReadFrom(std::istream &)
 {
 }
 

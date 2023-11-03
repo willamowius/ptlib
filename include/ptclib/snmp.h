@@ -101,7 +101,7 @@ class PSNMP_VarBind : public PASN_Sequence
     PBoolean Decode(PASN_Stream & strm);
     void Encode(PASN_Stream & strm) const;
 #ifndef PASN_NOPRINTON
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 #endif
     Comparison Compare(const PObject & obj) const;
     PObject * Clone() const;
@@ -149,7 +149,7 @@ class PSNMP_PDU : public PASN_Sequence
     PBoolean Decode(PASN_Stream & strm);
     void Encode(PASN_Stream & strm) const;
 #ifndef PASN_NOPRINTON
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 #endif
     Comparison Compare(const PObject & obj) const;
     PObject * Clone() const;
@@ -179,7 +179,7 @@ class PSNMP_Trap_PDU : public PASN_Sequence
     PBoolean Decode(PASN_Stream & strm);
     void Encode(PASN_Stream & strm) const;
 #ifndef PASN_NOPRINTON
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 #endif
     Comparison Compare(const PObject & obj) const;
     PObject * Clone() const;
@@ -271,7 +271,7 @@ class PSNMP_Message : public PASN_Sequence
     PBoolean Decode(PASN_Stream & strm);
     void Encode(PASN_Stream & strm) const;
 #ifndef PASN_NOPRINTON
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 #endif
     Comparison Compare(const PObject & obj) const;
     PObject * Clone() const;

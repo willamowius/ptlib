@@ -422,7 +422,7 @@ class PCollection : public PContainer
        @return the stream printed to.
      */
     virtual void PrintOn(
-      ostream &strm   ///< Output stream to print the collection.
+      std::ostream &strm   ///< Output stream to print the collection.
     ) const;
   //@}
 

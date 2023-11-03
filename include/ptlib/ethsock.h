@@ -98,7 +98,7 @@ class PEthSocket : public PSocket
 
       operator PString() const;
 
-      friend ostream & operator<<(ostream & s, const Address & a)
+      friend std::ostream & operator<<(std::ostream & s, const Address & a)
         { return s << (PString)a; }
     };
 

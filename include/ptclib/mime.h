@@ -56,7 +56,7 @@ class PMIMEInfo : public PStringOptions
 
     /// Construct a MIME information dictionary from the specified source.
     PMIMEInfo(
-      istream &strm   ///< Stream to read the objects contents from.
+      std::istream &strm   ///< Stream to read the objects contents from.
     );
     PMIMEInfo(
       PInternetProtocol & socket   ///< Application socket to read MIME info.
@@ -74,14 +74,14 @@ class PMIMEInfo : public PStringOptions
        primarily used by the standard <code>operator<<</code> function.
      */
     virtual void PrintOn(
-      ostream &strm   ///< Stream to print the object into.
+      std::ostream &strm   ///< Stream to print the object into.
     ) const;
 
     /** Input the contents of the MIME dictionary from the stream. This is
        primarily used by the standard <code>operator>></code> function.
      */
     virtual void ReadFrom(
-      istream &strm   ///< Stream to read the objects contents from.
+      std::istream &strm   ///< Stream to read the objects contents from.
     );
 
 
@@ -269,8 +269,8 @@ class PMIMEInfo : public PStringOptions
 
     /** Output the contents without the trailing CRLF
      */
-    virtual ostream & PrintContents(
-      ostream & strm
+    virtual std::ostream & PrintContents(
+      std::ostream & strm
     ) const;
 
   private:

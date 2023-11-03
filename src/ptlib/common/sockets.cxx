@@ -1993,12 +1993,12 @@ BYTE PIPSocket::Address::operator[](PINDEX idx) const
 }
 
 
-ostream & operator<<(ostream & s, const PIPSocket::Address & a)
+std::ostream & operator<<(std::ostream & s, const PIPSocket::Address & a)
 {
   return s << a.AsString();
 }
 
-istream & operator>>(istream & s, PIPSocket::Address & a)
+std::istream & operator>>(std::istream & s, PIPSocket::Address & a)
 {
 /// Not IPv6 ready !!!!!!!!!!!!!
   char dot1, dot2, dot3;
@@ -2141,7 +2141,7 @@ void PIPSocket::InterfaceEntry::SanitiseName(PString & name)
 }
 
 
-void PIPSocket::InterfaceEntry::PrintOn(ostream & strm) const
+void PIPSocket::InterfaceEntry::PrintOn(std::ostream & strm) const
 {
   strm << m_ipAddress;
   if (!m_macAddress)

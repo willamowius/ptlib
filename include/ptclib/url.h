@@ -103,14 +103,14 @@ class PURL : public PObject
     /**Output the contents of the URL to the stream as a string.
      */
     virtual void PrintOn(
-      ostream &strm   ///< Stream to print the object into.
+      std::ostream &strm   ///< Stream to print the object into.
     ) const;
 
     /**Input the contents of the URL from the stream. The input is a URL in
        string form.
      */
     virtual void ReadFrom(
-      istream &strm   ///< Stream to read the objects contents from.
+      std::istream &strm   ///< Stream to read the objects contents from.
     );
   //@}
  
@@ -211,7 +211,7 @@ class PURL : public PObject
     /** Construct string from a dictionary using separators.
       */
     static void OutputVars(
-      ostream & strm,               ///< Stream to output dictionary to
+      std::ostream & strm,               ///< Stream to output dictionary to
       const PStringToString & vars, ///< Dictionary of variable names and values.
       char sep0 = ';',              ///< First separater before all ('\0' means none)
       char sep1 = ';',              ///< Separater between pairs

@@ -906,7 +906,7 @@ PServiceHTML::PServiceHTML(const char * title, const char * help, const char * h
 {
   PHTTPServiceProcess::Current().GetPageHeader(*this, title);
 
-  ostream & this_stream = *this;
+  std::ostream & this_stream = *this;
   this_stream << PHTML::Heading(1) << title;
   
   if (help != NULL)

@@ -256,7 +256,7 @@ void PAbstractArray::CloneContents(const PAbstractArray * array)
 }
 
 
-void PAbstractArray::PrintOn(ostream & strm) const
+void PAbstractArray::PrintOn(std::ostream & strm) const
 {
   char separator = strm.fill();
   int width = (int)strm.width();
@@ -271,7 +271,7 @@ void PAbstractArray::PrintOn(ostream & strm) const
 }
 
 
-void PAbstractArray::ReadFrom(istream & strm)
+void PAbstractArray::ReadFrom(std::istream & strm)
 {
   PINDEX i = 0;
   while (strm.good()) {
@@ -423,19 +423,19 @@ PBoolean PAbstractArray::Concatenate(const PAbstractArray & array)
 }
 
 
-void PAbstractArray::PrintElementOn(ostream & /*stream*/, PINDEX /*index*/) const
+void PAbstractArray::PrintElementOn(std::ostream & /*stream*/, PINDEX /*index*/) const
 {
 }
 
 
-void PAbstractArray::ReadElementFrom(istream & /*stream*/, PINDEX /*index*/)
+void PAbstractArray::ReadElementFrom(std::istream & /*stream*/, PINDEX /*index*/)
 {
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void PCharArray::PrintOn(ostream & strm) const
+void PCharArray::PrintOn(std::ostream & strm) const
 {
   PINDEX width = (int)strm.width();
   if (width > GetSize())
@@ -443,7 +443,7 @@ void PCharArray::PrintOn(ostream & strm) const
   else
     width = 0;
 
-  PBoolean left = (strm.flags()&ios::adjustfield) == ios::left;
+  PBoolean left = (strm.flags()&std::ios::adjustfield) == std::ios::left;
   if (left)
     strm.write(theArray, GetSize());
 
@@ -455,7 +455,7 @@ void PCharArray::PrintOn(ostream & strm) const
 }
 
 
-void PCharArray::ReadFrom(istream &strm)
+void PCharArray::ReadFrom(std::istream &strm)
 {
   PINDEX size = 0;
   SetSize(size+100);
@@ -470,7 +470,7 @@ void PCharArray::ReadFrom(istream &strm)
 }
 
 
-void PBYTEArray::PrintOn(ostream & strm) const
+void PBYTEArray::PrintOn(std::ostream & strm) const
 {
   PINDEX line_width = (int)strm.width();
   if (line_width == 0)
@@ -479,7 +479,7 @@ void PBYTEArray::PrintOn(ostream & strm) const
 
   PINDEX indent = (int)strm.precision();
 
-  PINDEX val_width = ((strm.flags()&ios::basefield) == ios::hex) ? 2 : 3;
+  PINDEX val_width = ((strm.flags()&std::ios::basefield) == std::ios::hex) ? 2 : 3;
 
   PINDEX i = 0;
   while (i < GetSize()) {
@@ -492,7 +492,7 @@ void PBYTEArray::PrintOn(ostream & strm) const
       if (j == line_width/2)
         strm << ' ';
       if (i+j < GetSize())
-        strm << setw(val_width) << (theArray[i+j]&0xff);
+        strm << std::setw(val_width) << (theArray[i+j]&0xff);
       else {
         PINDEX k;
         for (k = 0; k < val_width; k++)
@@ -500,7 +500,7 @@ void PBYTEArray::PrintOn(ostream & strm) const
       }
       strm << ' ';
     }
-    if ((strm.flags()&ios::floatfield) != ios::fixed) {
+    if ((strm.flags()&std::ios::floatfield) != std::ios::fixed) {
       strm << "  ";
       for (j = 0; j < line_width; j++) {
         if (i+j < GetSize()) {
@@ -517,7 +517,7 @@ void PBYTEArray::PrintOn(ostream & strm) const
 }
 
 
-void PBYTEArray::ReadFrom(istream &strm)
+void PBYTEArray::ReadFrom(std::istream &strm)
 {
   PINDEX size = 0;
   SetSize(size+100);
@@ -963,19 +963,19 @@ PObject * PString::Clone() const
 }
 
 
-void PString::PrintOn(ostream &strm) const
+void PString::PrintOn(std::ostream &strm) const
 {
   strm << theArray;
 }
 
 
-void PString::ReadFrom(istream &strm)
+void PString::ReadFrom(std::istream &strm)
 {
   PINDEX bump = 16;
   PINDEX len = 0;
   do {
     if (!SetMinSize(len + (bump *= 2))) {
-      strm.setstate(ios::badbit);
+      strm.setstate(std::ios::badbit);
       return;
     }
 
@@ -2009,7 +2009,7 @@ PStringStream::Buffer::Buffer(PStringStream & str, PINDEX size)
 }
 
 
-streambuf::int_type PStringStream::Buffer::overflow(int_type c)
+std::streambuf::int_type PStringStream::Buffer::overflow(int_type c)
 {
   if (pptr() >= epptr()) {
     if (fixedBufferSize)
@@ -2032,7 +2032,7 @@ streambuf::int_type PStringStream::Buffer::overflow(int_type c)
 }
 
 
-streambuf::int_type PStringStream::Buffer::underflow()
+std::streambuf::int_type PStringStream::Buffer::underflow()
 {
   return gptr() >= egptr() ? EOF : *gptr();
 }
@@ -2048,7 +2048,7 @@ int PStringStream::Buffer::sync()
   return 0;
 }
 
-streambuf::pos_type PStringStream::Buffer::seekoff(off_type off, ios_base::seekdir dir, ios_base::openmode mode)
+std::streambuf::pos_type PStringStream::Buffer::seekoff(off_type off, ios_base::seekdir dir, ios_base::openmode mode)
 {
   int len = string.GetLength();
   int gpos = gptr() - eback();
@@ -2056,7 +2056,7 @@ streambuf::pos_type PStringStream::Buffer::seekoff(off_type off, ios_base::seekd
   char * newgptr;
   char * newpptr;
   switch (dir) {
-    case ios::beg :
+    case std::ios::beg :
       if (off < 0)
         newpptr = newgptr = eback();
       else if (off >= len)
@@ -2065,7 +2065,7 @@ streambuf::pos_type PStringStream::Buffer::seekoff(off_type off, ios_base::seekd
         newpptr = newgptr = eback()+off;
       break;
 
-    case ios::cur :
+    case std::ios::cur :
       if (off < -ppos)
         newpptr = eback();
       else if (off >= len-ppos)
@@ -2080,7 +2080,7 @@ streambuf::pos_type PStringStream::Buffer::seekoff(off_type off, ios_base::seekd
         newgptr = gptr()+off;
       break;
 
-    case ios::end :
+    case std::ios::end :
       if (off < -len)
         newpptr = newgptr = eback();
       else if (off >= 0)
@@ -2095,10 +2095,10 @@ streambuf::pos_type PStringStream::Buffer::seekoff(off_type off, ios_base::seekd
       newpptr = pptr();
   }
 
-  if ((mode&ios::in) != 0)
+  if ((mode&std::ios::in) != 0)
     setg(eback(), newgptr, egptr());
 
-  if ((mode&ios::out) != 0)
+  if ((mode&std::ios::out) != 0)
     setp(newpptr, epptr());
 
   return gptr() - eback();
@@ -2117,14 +2117,14 @@ PStringStream::Buffer::pos_type PStringStream::Buffer::seekpos(pos_type pos, ios
 
 PStringStream::PStringStream()
   // coverity[leaked_storage:false] false positive: ptr is saved in iostream and deleted in ~PStringStream
-  : iostream(new PStringStream::Buffer(*this, 0))
+  : std::iostream(new PStringStream::Buffer(*this, 0))
 {
 }
 
 
 PStringStream::PStringStream(PINDEX fixedBufferSize)
   // coverity[leaked_storage:false] false positive: ptr is saved in iostream and deleted in ~PStringStream
-  : iostream(new PStringStream::Buffer(*this, fixedBufferSize))
+  : std::iostream(new PStringStream::Buffer(*this, fixedBufferSize))
 {
 }
 
@@ -2132,7 +2132,7 @@ PStringStream::PStringStream(PINDEX fixedBufferSize)
 PStringStream::PStringStream(const PString & str)
   : PString(str),
     // coverity[leaked_storage:false] false positive: ptr is saved in iostream and deleted in ~PStringStream
-    iostream(new PStringStream::Buffer(*this, 0))
+    std::iostream(new PStringStream::Buffer(*this, 0))
 {
 }
 
@@ -2140,7 +2140,7 @@ PStringStream::PStringStream(const PString & str)
 PStringStream::PStringStream(const char * cstr)
   : PString(cstr),
     // coverity[leaked_storage:fasle] false positive: ptr is saved in iostream and deleted in ~PStringStream
-    iostream(new PStringStream::Buffer(*this, 0))
+    std::iostream(new PStringStream::Buffer(*this, 0))
 {
 }
 
@@ -2225,7 +2225,7 @@ PStringArray::PStringArray(const PSortedStringList & list)
 }
 
 
-void PStringArray::ReadFrom(istream & strm)
+void PStringArray::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     PString str;
@@ -2341,7 +2341,7 @@ PStringList & PStringList::operator += (const PStringList & v)
 }
 
 
-void PStringList::ReadFrom(istream & strm)
+void PStringList::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     PString str;
@@ -2395,7 +2395,7 @@ PSortedStringList::PSortedStringList(const PStringList & list)
 
 
 
-void PSortedStringList::ReadFrom(istream & strm)
+void PSortedStringList::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     PString str;
@@ -2492,7 +2492,7 @@ PStringSet::PStringSet(const PStringList & strList)
 }
 
 
-void PStringSet::ReadFrom(istream & strm)
+void PStringSet::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     PString str;
@@ -2513,13 +2513,13 @@ POrdinalToString::POrdinalToString(PINDEX count, const Initialiser * init)
 }
 
 
-void POrdinalToString::ReadFrom(istream & strm)
+void POrdinalToString::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     POrdinalKey key;
     char equal;
     PString str;
-    strm >> key >> ws >> equal >> str;
+    strm >> key >> std::ws >> equal >> str;
     if (equal != '=')
       SetAt(key, PString::Empty());
     else
@@ -2544,7 +2544,7 @@ PStringToOrdinal::PStringToOrdinal(PINDEX count,
 }
 
 
-void PStringToOrdinal::ReadFrom(istream & strm)
+void PStringToOrdinal::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     PString str;
@@ -2581,7 +2581,7 @@ PStringToString::PStringToString(PINDEX count,
 }
 
 
-void PStringToString::ReadFrom(istream & strm)
+void PStringToString::ReadFrom(std::istream & strm)
 {
   while (strm.good()) {
     PString str;
@@ -2738,7 +2738,7 @@ PRegularExpression::~PRegularExpression()
 }
 
 
-void PRegularExpression::PrintOn(ostream &strm) const
+void PRegularExpression::PrintOn(std::ostream &strm) const
 {
   strm << patternSaved;
 }

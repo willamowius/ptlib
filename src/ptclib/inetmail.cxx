@@ -1298,7 +1298,7 @@ PBoolean PRFC822Channel::Write(const void * buf, PINDEX len)
       headers.SetAt(ContentTypeTag(), PMIMEInfo::TextPlain());
 
     PStringStream hdr;
-    hdr << ::setfill('\r') << headers;
+    hdr << std::setfill('\r') << headers;
     if (!PIndirectChannel::Write(hdr.GetPointer(), hdr.GetLength()))
       return PFalse;
 
@@ -1314,7 +1314,7 @@ PBoolean PRFC822Channel::Write(const void * buf, PINDEX len)
 
     PStringStream hdr;
     hdr << "\n--"  << boundaries.front() << '\n'
-        << ::setfill('\r') << partHeaders;
+        << std::setfill('\r') << partHeaders;
     if (!PIndirectChannel::Write(hdr.GetPointer(), hdr.GetLength()))
       return PFalse;
 
@@ -1347,7 +1347,7 @@ PBoolean PRFC822Channel::OnOpen()
   if (writeHeaders)
     return PTrue;
 
-  istream & this_stream = *this;
+  std::istream & this_stream = *this;
   this_stream >> headers;
   return !bad();
 }

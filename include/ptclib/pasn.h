@@ -138,7 +138,7 @@ class PASNObject : public PObject
        print the value of the object.
     */
     virtual void PrintOn(
-      ostream & strm    ///< stream to print on
+      std::ostream & strm    ///< stream to print on
     ) const;
 
     /** Virtual function used to encode the object into ASN format */
@@ -259,7 +259,7 @@ class PASNInteger : public PASNObject
     PASNInteger(PASNInt val);
     PASNInteger(const PBYTEArray & buffer, PINDEX & ptr);
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
     void Encode(PBYTEArray & buffer);
     WORD GetEncodedLength();
     PObject * Clone() const;
@@ -287,7 +287,7 @@ class PASNString : public PASNObject
     PASNString(const PBYTEArray & buffer,               PASNObject::ASNType = String);
     PASNString(const PBYTEArray & buffer, PINDEX & ptr, PASNObject::ASNType = String);
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 
     void Encode(PBYTEArray & buffer)
       { Encode(buffer, String); }
@@ -357,7 +357,7 @@ class PASNUnsignedInteger : public PASNObject
 
     PASNUnsignedInteger(const PBYTEArray & buffer, PINDEX & ptr);
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
     WORD GetEncodedLength();
     PString GetString () const;
     PASNUnsigned GetUnsigned() const;
@@ -472,7 +472,7 @@ class PASNObjectID : public PASNObject
     PASNObjectID(const PBYTEArray & buffer);
     PASNObjectID(const PBYTEArray & buffer, PINDEX & ptr);
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
     void Encode(PBYTEArray & buffer);
     WORD GetEncodedLength();
     PObject * Clone() const;
@@ -500,7 +500,7 @@ class PASNNull : public PASNObject
     PASNNull();
     PASNNull(const PBYTEArray & buffer, PINDEX & ptr);
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 
     void Encode(PBYTEArray & buffer);
     WORD GetEncodedLength();
@@ -541,7 +541,7 @@ class PASNSequence : public PASNObject
 //    PASNInt GetInteger (PINDEX idx) const;
 //    PString GetString  (PINDEX idx) const;
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
     void Encode(PBYTEArray & buffer);
     PBoolean Decode(const PBYTEArray & buffer, PINDEX & i);
     WORD GetEncodedLength();

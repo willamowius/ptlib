@@ -120,7 +120,7 @@ class PAbstractArray : public PContainer
        The default behaviour is to print the class name.
      */
     virtual void PrintOn(
-      ostream &strm   // Stream to print the object into.
+      std::ostream &strm   // Stream to print the object into.
     ) const;
 
     /**Input the contents of the object from the stream. The exact input is
@@ -130,7 +130,7 @@ class PAbstractArray : public PContainer
        The default behaviour is to do nothing.
      */
     virtual void ReadFrom(
-      istream &strm   // Stream to read the objects contents from.
+      std::istream &strm   // Stream to read the objects contents from.
     );
 
     /**Get the relative rank of the two arrays. The following algorithm is
@@ -225,11 +225,11 @@ class PAbstractArray : public PContainer
     PBoolean InternalSetSize(PINDEX newSize, PBoolean force);
 
     virtual void PrintElementOn(
-      ostream & stream,
+      std::ostream & stream,
       PINDEX index
     ) const;
     virtual void ReadElementFrom(
-      istream & stream,
+      std::istream & stream,
       PINDEX index
     );
 
@@ -440,7 +440,7 @@ template <class T> class PBaseArray : public PAbstractArray
 
   protected:
     virtual void PrintElementOn(
-      ostream & stream,
+      std::ostream & stream,
       PINDEX index
     ) const {
       stream << GetAt(index);
@@ -524,7 +524,7 @@ template <class T> class PScalarArray : public PBaseArray<T>
 
   protected:
     virtual void ReadElementFrom(
-      istream & stream,
+      std::istream & stream,
       PINDEX index
     ) {
       T t;
@@ -575,11 +575,11 @@ PDECLARE_BASEARRAY(PCharArray, char);
   //@{
     /// Print the array
     virtual void PrintOn(
-      ostream & strm ///< Stream to output to.
+      std::ostream & strm ///< Stream to output to.
     ) const;
     /// Read the array
     virtual void ReadFrom(
-      istream &strm   // Stream to read the objects contents from.
+      std::istream &strm   // Stream to read the objects contents from.
     );
   //@}
 };
@@ -695,11 +695,11 @@ PDECLARE_BASEARRAY(PBYTEArray, BYTE);
   //@{
     /// Print the array
     virtual void PrintOn(
-      ostream & strm ///< Stream to output to.
+      std::ostream & strm ///< Stream to output to.
     ) const;
     /// Read the array
     virtual void ReadFrom(
-      istream &strm   ///< Stream to read the objects contents from.
+      std::istream &strm   ///< Stream to read the objects contents from.
     );
   //@}
 };

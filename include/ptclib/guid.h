@@ -87,7 +87,7 @@ class PGloballyUniqueID : public PBYTEArray
        polymorphically.
       */
     virtual void PrintOn(
-      ostream & strm    ///<  Stream to output text representation
+      std::ostream & strm    ///<  Stream to output text representation
     ) const;
 
     /**Standard stream read function.
@@ -95,7 +95,7 @@ class PGloballyUniqueID : public PBYTEArray
        polymorphically.
       */
     virtual void ReadFrom(
-      istream & strm    ///<  Stream to output text representation
+      std::istream & strm    ///<  Stream to output text representation
     );
 
     /**Create a clone of the ID.

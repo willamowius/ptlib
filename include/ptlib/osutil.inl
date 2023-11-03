@@ -128,7 +128,7 @@ PINLINE bool PTimeInterval::operator<=(long msecs) const
 PINLINE PObject * PTime::Clone() const
   { return PNEW PTime(theTime, microseconds); }
 
-PINLINE void PTime::PrintOn(ostream & strm) const
+PINLINE void PTime::PrintOn(std::ostream & strm) const
   { strm << AsString(); }
 
 PINLINE PBoolean PTime::IsValid() const
@@ -231,7 +231,7 @@ PINLINE PChannelStreamBuffer &
           PChannelStreamBuffer::operator=(const PChannelStreamBuffer & sbuf)
   { channel = sbuf.channel; return *this; }
 
-PINLINE PChannel::PChannel(const PChannel &) : iostream(cout.rdbuf())
+PINLINE PChannel::PChannel(const PChannel &) : std::iostream(std::cout.rdbuf())
   { PAssertAlways("Cannot copy channels"); }
 
 PINLINE PChannel & PChannel::operator=(const PChannel &)

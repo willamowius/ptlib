@@ -169,7 +169,7 @@ PBoolean PSocksProtocol::SendSocksCommand(PTCPSocket & socket,
              << authenticationUsername
              << (BYTE)authenticationPassword.GetLength()  // Password length as single byte
              << authenticationPassword
-             << ::flush;
+             << std::flush;
 
       if (!socket.ReadBlock(auth_pdu, sizeof(auth_pdu)))  // Should get 2 byte reply
         return PFalse;
@@ -203,7 +203,7 @@ PBoolean PSocksProtocol::SendSocksCommand(PTCPSocket & socket,
            << addr.Byte1() << addr.Byte2() << addr.Byte3() << addr.Byte4();
 
   socket << (BYTE)(remotePort >> 8) << (BYTE)remotePort
-         << ::flush;
+         << std::flush;
 
   return ReceiveSocksResponse(socket, localAddress, localPort);
 }
@@ -475,7 +475,7 @@ PBoolean PSocks4Socket::SendSocksCommand(PTCPSocket & socket,
          << (BYTE)(remotePort >> 8) << (BYTE)remotePort
          << addr.Byte1() << addr.Byte2() << addr.Byte3() << addr.Byte4()
          << user << ((BYTE)0)
-         << ::flush;
+         << std::flush;
 
   return ReceiveSocksResponse(socket, localAddress, localPort);
 }

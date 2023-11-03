@@ -65,7 +65,7 @@ PHTML::PHTML(const char * cstr)
   memset(elementSet, 0, sizeof(elementSet));
   tableNestLevel = 0;
   initialElement = NumElementsInSet;
-  ostream & this_stream = *this;
+  std::ostream & this_stream = *this;
   this_stream << Title(cstr) << Body() << Heading(1) << cstr << Heading(1);
 }
 
@@ -75,7 +75,7 @@ PHTML::PHTML(const PString & str)
   memset(elementSet, 0, sizeof(elementSet));
   tableNestLevel = 0;
   initialElement = NumElementsInSet;
-  ostream & this_stream = *this;
+  std::ostream & this_stream = *this;
   this_stream << Title(str) << Body() << Heading(1) << str << Heading(1);
 }
 

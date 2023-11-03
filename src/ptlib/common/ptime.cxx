@@ -73,12 +73,12 @@ PObject::Comparison PTimeInterval::Compare(const PObject & obj) const
          GetMilliSeconds() > other.GetMilliSeconds() ? GreaterThan : EqualTo;}
 
 
-void PTimeInterval::PrintOn(ostream & stream) const
+void PTimeInterval::PrintOn(std::ostream & stream) const
 {
   int precision = (int)stream.precision();
 
   Formats fmt = NormalFormat;
-  if ((stream.flags()&ios::scientific) != 0)
+  if ((stream.flags()&std::ios::scientific) != 0)
     fmt = SecondsOnly;
   else if (precision < 0) {
     fmt = IncludeDays;
@@ -89,7 +89,7 @@ void PTimeInterval::PrintOn(ostream & stream) const
 }
 
 
-void PTimeInterval::ReadFrom(istream &strm)
+void PTimeInterval::ReadFrom(std::istream &strm)
 {
   long day = 0;
   long hour = 0;
@@ -112,7 +112,7 @@ PString PTimeInterval::AsString(int precision, Formats format, int width) const
 {
   PStringStream str;
 
-  str << right << setfill('0');
+  str << std::right << std::setfill('0');
 
   if (precision > 3)
     precision = 3;
@@ -132,11 +132,11 @@ PString PTimeInterval::AsString(int precision, Formats format, int width) const
         break;
 
       case 2 :
-        str << ms/1000 << '.' << setw(2) << (int)(ms%1000+5)/10;
+        str << ms/1000 << '.' << std::setw(2) << (int)(ms%1000+5)/10;
         break;
 
       case 3 :
-        str << ms/1000 << '.' << setw(3) << (int)(ms%1000);
+        str << ms/1000 << '.' << std::setw(3) << (int)(ms%1000);
         break;
 
       default :
@@ -186,11 +186,11 @@ PString PTimeInterval::AsString(int precision, Formats format, int width) const
       break;
 
     case 2 :
-      str << '.' << setw(2) << (int)(ms%1000)/10;
+      str << '.' << std::setw(2) << (int)(ms%1000)/10;
       break;
 
     case 3 :
-      str << '.' << setw(3) << (int)(ms%1000);
+      str << '.' << std::setw(3) << (int)(ms%1000);
   }
 
   return str;
@@ -466,15 +466,15 @@ PString PTime::AsString(const char * format, int zone) const
         break;
 
       case 'h' :
-        str << setw(repeatCount) << (is12hour ? (t->tm_hour+11)%12+1 : t->tm_hour);
+        str << std::setw(repeatCount) << (is12hour ? (t->tm_hour+11)%12+1 : t->tm_hour);
         break;
 
       case 'm' :
-        str << setw(repeatCount) << t->tm_min;
+        str << std::setw(repeatCount) << t->tm_min;
         break;
 
       case 's' :
-        str << setw(repeatCount) << t->tm_sec;
+        str << std::setw(repeatCount) << t->tm_sec;
         break;
 
       case 'w' :
@@ -491,7 +491,7 @@ PString PTime::AsString(const char * format, int zone) const
 
       case 'M' :
         if (repeatCount < 3)
-          str << setw(repeatCount) << (t->tm_mon+1);
+          str << std::setw(repeatCount) << (t->tm_mon+1);
         else if (repeatCount > 3 || *format != 'E')
           str << GetMonthName((Months)(t->tm_mon+1),
                                     repeatCount == 3 ? Abbreviated : FullName);
@@ -506,14 +506,14 @@ PString PTime::AsString(const char * format, int zone) const
         break;
 
       case 'd' :
-        str << setw(repeatCount) << t->tm_mday;
+        str << std::setw(repeatCount) << t->tm_mday;
         break;
 
       case 'y' :
         if (repeatCount < 3)
-          str << setw(2) << (t->tm_year%100);
+          str << std::setw(2) << (t->tm_year%100);
         else
-          str << setw(4) << (t->tm_year+1900);
+          str << std::setw(4) << (t->tm_year+1900);
         break;
 
       case 'z' :
@@ -527,10 +527,10 @@ PString PTime::AsString(const char * format, int zone) const
         else {
           str << (zone < 0 ? '-' : '+');
           zone = PABS(zone);
-          str << setw(2) << (zone/60);
+          str << std::setw(2) << (zone/60);
           if (repeatCount > 0)
             str << ':';
-          str << setw(2) << (zone%60);
+          str << std::setw(2) << (zone%60);
         }
         break;
 
@@ -540,13 +540,13 @@ PString PTime::AsString(const char * format, int zone) const
             str << (microseconds/100000);
             break;
           case 2 :
-            str << setw(2) << (microseconds/10000);
+            str << std::setw(2) << (microseconds/10000);
             break;
           case 3 :
-            str << setw(3) << (microseconds/1000);
+            str << std::setw(3) << (microseconds/1000);
             break;
           default :
-            str << setw(6) << microseconds;
+            str << std::setw(6) << microseconds;
             break;
         }
         break;
@@ -582,13 +582,13 @@ extern time_t STDAPICALLTYPE PTimeParse(void *, struct tm *, int);
 
 int STDAPICALLTYPE PTimeGetChar(void * stream)
 {
-  return ((istream *)stream)->get();
+  return ((std::istream *)stream)->get();
 }
 
 
 void STDAPICALLTYPE PTimeUngetChar(void * stream, int c)
 {
-  ((istream *)stream)->putback((char)c);
+  ((std::istream *)stream)->putback((char)c);
 }
 
 
@@ -615,13 +615,13 @@ int STDAPICALLTYPE PTimeIsDayName(const char * str, int day, int abbrev)
 };
 
 
-void PTime::ReadFrom(istream & strm)
+void PTime::ReadFrom(std::istream & strm)
 {
   time_t now;
   struct tm timeBuf;
   time(&now);
   microseconds = 0;
-  strm >> ws;
+  strm >> std::ws;
   theTime = PTimeParse(&strm, os_localtime(&now, &timeBuf), GetTimeZone(StandardTime));
 }
 

@@ -65,7 +65,7 @@ class PSNMPVarBindingList : public PObject
     PString GetObjectID(PINDEX idx) const;
     PASNObject & operator[](PINDEX idx) const;
 
-    void PrintOn(ostream & strm) const;
+    void PrintOn(std::ostream & strm) const;
 
   protected:
     PStringArray    objectIds;
@@ -182,7 +182,7 @@ class PSNMP : public PIndirectChannel
                           PSNMPVarBindingList & varsOut);
 */
 
-    typedef list<pair<PString,PRFC1155_ObjectSyntax> > BindingList;
+    typedef std::list<std::pair<PString,PRFC1155_ObjectSyntax> > BindingList;
 };
 
 

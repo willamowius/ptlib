@@ -96,7 +96,7 @@ class PColourConverter : public PObject
 
     /// Print description of converter
     virtual void PrintOn(
-      ostream & strm
+      std::ostream & strm
     ) const;
 
     /**Get the video conversion vertical flip state

@@ -81,7 +81,7 @@ static struct PSystemLogTargetGlobal
 /////////////////////////////////////////////////////////////////////////////
 
 PSystemLog::PSystemLog(Level level)   ///< only messages at this level or higher will be logged
-  : iostream(cout.rdbuf())
+  : std::iostream(std::cout.rdbuf())
   , m_logLevel(level)
 { 
   m_buffer.m_log = this;
@@ -91,7 +91,7 @@ PSystemLog::PSystemLog(Level level)   ///< only messages at this level or higher
 
 PSystemLog::PSystemLog(const PSystemLog & other)
   : PObject(other)
-  , iostream(cout.rdbuf()) 
+  , std::iostream(std::cout.rdbuf()) 
   , m_logLevel(other.m_logLevel)
 {
 }
@@ -114,7 +114,7 @@ PSystemLog::Buffer::Buffer()
 }
 
 
-streambuf::int_type PSystemLog::Buffer::overflow(int_type c)
+std::streambuf::int_type PSystemLog::Buffer::overflow(int_type c)
 {
   if (pptr() >= epptr()) {
     PMEMORY_IGNORE_ALLOCATIONS_FOR_SCOPE;
@@ -134,7 +134,7 @@ streambuf::int_type PSystemLog::Buffer::overflow(int_type c)
 }
 
 
-streambuf::int_type PSystemLog::Buffer::underflow()
+std::streambuf::int_type PSystemLog::Buffer::underflow()
 {
   return EOF;
 }
@@ -208,7 +208,7 @@ PSystemLogTarget & PSystemLogTarget::operator=(const PSystemLogTarget &)
 }
 
 
-void PSystemLogTarget::OutputToStream(ostream & stream, PSystemLog::Level level, const char * msg)
+void PSystemLogTarget::OutputToStream(std::ostream & stream, PSystemLog::Level level, const char * msg)
 {
   if (level > m_thresholdLevel)
     return;
@@ -229,7 +229,7 @@ void PSystemLogTarget::OutputToStream(ostream & stream, PSystemLog::Level level,
   else
     threadName = thread->GetThreadName();
   if (threadName.GetLength() <= 23)
-    stream << setw(23) << threadName;
+    stream << std::setw(23) << threadName;
   else
     stream << threadName.Left(10) << "..." << threadName.Right(10);
 
@@ -251,9 +251,9 @@ void PSystemLogTarget::OutputToStream(ostream & stream, PSystemLog::Level level,
 
   stream << '\t' << msg;
   if (level < PSystemLog::Info && err != 0)
-    stream << " - error = " << err << endl;
+    stream << " - error = " << err << std::endl;
   else if (msg[0] == '\0' || msg[strlen(msg)-1] != '\n')
-    stream << endl;
+    stream << std::endl;
 }
 
 
@@ -261,7 +261,7 @@ void PSystemLogTarget::OutputToStream(ostream & stream, PSystemLog::Level level,
 
 void PSystemLogToStderr::Output(PSystemLog::Level level, const char * msg)
 {
-  OutputToStream(cerr, level, msg);
+  OutputToStream(std::cerr, level, msg);
 }
 
 

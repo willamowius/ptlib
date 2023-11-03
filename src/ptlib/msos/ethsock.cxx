@@ -1830,9 +1830,9 @@ PBoolean PIPSocket::GetInterfaceTable(InterfaceTable & table, PBoolean includeDo
     info.dwIndex = byAddress->table[i].dwIndex;
     if (GetIfEntry(&info) == NO_ERROR && (includeDown || (addr.IsValid() && info.dwAdminStatus))) {
       PStringStream macAddr;
-      macAddr << ::hex << ::setfill('0');
+      macAddr << std::hex << std::setfill('0');
       for (unsigned b = 0; b < info.dwPhysAddrLen; ++b)
-        macAddr << setw(2) << (unsigned)info.bPhysAddr[b];
+        macAddr << std::setw(2) << (unsigned)info.bPhysAddr[b];
 
       table.SetAt(count++, new InterfaceEntry(PString((const char *)info.bDescr, info.dwDescrLen),
                                               addr,

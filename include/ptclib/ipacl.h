@@ -80,7 +80,7 @@ class PIpAccessControlEntry : public PObject
        format as the AsString() function.
      */
     virtual void PrintOn(
-      ostream &strm   ///< Stream to print the object into.
+      std::ostream &strm   ///< Stream to print the object into.
     ) const;
 
     /** Input the contents of the object from the stream. This expects the
@@ -88,7 +88,7 @@ class PIpAccessControlEntry : public PObject
        Parse() function.
      */
     virtual void ReadFrom(
-      istream &strm   ///< Stream to read the objects contents from.
+      std::istream &strm   ///< Stream to read the objects contents from.
     );
 
     /** Convert the specification to a string, that can be processed by the

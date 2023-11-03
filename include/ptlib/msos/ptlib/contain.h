@@ -167,7 +167,7 @@ typedef long PInt32;
 
 #ifdef __MINGW32__
   #define __USE_STL__
-  using namespace std;
+  //using namespace std;
   #define P_HAS_INT64
   typedef signed __int64 PInt64;
   typedef unsigned __int64 PUInt64;
@@ -443,7 +443,7 @@ typedef DWORD PProcessIdentifier;
 
 // VS.net won't work without this :(
 #if _MSC_VER>=1300
-  using namespace std;
+  //using namespace std;
 #endif
 
 #if defined(_MSC_VER)

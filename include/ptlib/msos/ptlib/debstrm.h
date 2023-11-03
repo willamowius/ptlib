@@ -38,12 +38,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 // PDebugStream for MS-Windows
 
-class PDebugStream : public ostream {
+class PDebugStream : public std::ostream {
   public:
     PDebugStream();
 
   private:
-    class Buffer : public streambuf {
+    class Buffer : public std::streambuf {
       public:
         Buffer();
         virtual int overflow(int=EOF);

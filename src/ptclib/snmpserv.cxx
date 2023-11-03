@@ -186,7 +186,7 @@ static void DecodeOID(const PDUType & pdu, PINDEX & reqID, PSNMP::BindingList & 
 
   // create the Requested list
   for (PINDEX i = 0; i < vars.GetSize(); i++) {
-    varlist.push_back(pair<PString,PRFC1155_ObjectSyntax>(vars[i].m_name.AsString(),vars[i].m_value));
+    varlist.push_back(std::pair<PString,PRFC1155_ObjectSyntax>(vars[i].m_name.AsString(),vars[i].m_value));
   }
 }
 

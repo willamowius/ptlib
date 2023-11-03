@@ -106,21 +106,21 @@ class PSimpleThread : public PThread
 
 
 #ifndef __NUCLEUS_PLUS__
-static ostream * PErrorStream = &cerr;
+static std::ostream * PErrorStream = &std::cerr;
 #else
-static ostream * PErrorStream = NULL;
+static std::ostream * PErrorStream = NULL;
 #endif
 
-ostream & PGetErrorStream()
+std::ostream & PGetErrorStream()
 {
   return *PErrorStream;
 }
 
 
-void PSetErrorStream(ostream * s)
+void PSetErrorStream(std::ostream * s)
 {
 #ifndef __NUCLEUS_PLUS__
-  PErrorStream = s != NULL ? s : &cerr;
+  PErrorStream = s != NULL ? s : &std::cerr;
 #else
   PErrorStream = s;
 #endif
@@ -141,11 +141,11 @@ public:
   unsigned        options;
   unsigned        thresholdLevel;
   PCaselessString m_filename;
-  ostream       * stream;
+  std::ostream       * stream;
   PTimeInterval   startTick;
   PString         m_rolloverPattern;
   unsigned        lastRotate;
-  ios::fmtflags   oldStreamFlags;
+  std::ios::fmtflags   oldStreamFlags;
   std::streamsize oldPrecision;
 
 
@@ -189,12 +189,12 @@ PTHREAD_MUTEX_RECURSIVE_NP
 #ifdef __NUCLEUS_PLUS__
     , stream(NULL)
 #else
-    , stream(&cerr)
+    , stream(&std::cerr)
 #endif
     , startTick(PTimer::Tick())
     , m_rolloverPattern(DefaultRollOverPattern)
     , lastRotate(0)
-    , oldStreamFlags(ios::left)
+    , oldStreamFlags(std::ios::left)
     , oldPrecision(0)
   {
     InitMutex();
@@ -226,7 +226,7 @@ PTHREAD_MUTEX_RECURSIVE_NP
 
   ~PTraceInfo()
   {
-    if (stream != &cerr && stream != &cout)
+    if (stream != &std::cerr && stream != &std::cout)
       delete stream;
   }
 
@@ -236,16 +236,16 @@ PTHREAD_MUTEX_RECURSIVE_NP
     return info;
   }
 
-  void SetStream(ostream * newStream)
+  void SetStream(std::ostream * newStream)
   {
 #ifndef __NUCLEUS_PLUS__
     if (newStream == NULL)
-      newStream = &cerr;
+      newStream = &std::cerr;
 #endif
 
     Lock();
 
-    if (stream != &cerr && stream != &cout)
+    if (stream != &std::cerr && stream != &std::cout)
       delete stream;
     stream = newStream;
 
@@ -264,9 +264,9 @@ PTHREAD_MUTEX_RECURSIVE_NP
     m_filename = newFilename;
 
     if (m_filename == "stderr")
-      SetStream(&cerr);
+      SetStream(&std::cerr);
     else if (m_filename == "stdout")
-      SetStream(&cout);
+      SetStream(&std::cout);
 #ifdef _WIN32
     else if (m_filename == "DEBUGSTREAM")
       SetStream(new PDebugStream);
@@ -284,11 +284,11 @@ PTHREAD_MUTEX_RECURSIVE_NP
                fn.GetType();
       }
 
-      ofstream * traceOutput;
+      std::ofstream * traceOutput;
       if (options & PTrace::AppendToFile) 
-        traceOutput = new ofstream((const char *)fn, ios_base::out | ios_base::app);
+        traceOutput = new std::ofstream((const char *)fn, std::ios_base::out | std::ios_base::app);
       else 
-        traceOutput = new ofstream((const char *)fn, ios_base::out | ios_base::trunc);
+        traceOutput = new std::ofstream((const char *)fn, std::ios_base::out | std::ios_base::trunc);
 
       if (traceOutput->is_open())
         SetStream(traceOutput);
@@ -308,7 +308,7 @@ PTHREAD_MUTEX_RECURSIVE_NP
 };
 
 
-void PTrace::SetStream(ostream * s)
+void PTrace::SetStream(std::ostream * s)
 {
   PTraceInfo::Instance().SetStream(s);
 }
@@ -417,7 +417,7 @@ static PThread::TraceInfo * AllocateTraceInfo()
 }
 
 
-ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
+std::ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
 {
   PTraceInfo & info = PTraceInfo::Instance();
 
@@ -430,7 +430,7 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
       info.OpenTraceFile(info.m_filename);
       info.lastRotate = rotateVal;
       if (info.stream == NULL)
-        info.SetStream(&cerr);
+        info.SetStream(&std::cerr);
     }
   }
 
@@ -455,7 +455,7 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
   }
 #endif
 
-  ostream & stream = threadInfo != NULL ? (ostream &)threadInfo->traceStreams.Top() : *info.stream;
+  std::ostream & stream = threadInfo != NULL ? (std::ostream &)threadInfo->traceStreams.Top() : *info.stream;
 
   info.oldStreamFlags = stream.flags();
   info.oldPrecision   = stream.precision();
@@ -470,7 +470,7 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
     }
 
     if ((info.options&Timestamp) != 0)
-      stream << setprecision(3) << setw(10) << (PTimer::Tick()-info.startTick) << '\t';
+      stream << std::setprecision(3) << std::setw(10) << (PTimer::Tick()-info.startTick) << '\t';
 
     if ((info.options&Thread) != 0) {
       PString name;
@@ -479,16 +479,16 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
       else
         name = thread->GetThreadName();
       if (name.GetLength() <= 23)
-        stream << setw(23) << name;
+        stream << std::setw(23) << name;
       else
         stream << name.Left(10) << "..." << name.Right(10);
       stream << '\t';
     }
 
     if ((info.options&ThreadAddress) != 0)
-      stream << hex << setfill('0')
-             << setw(7) << (void *)PThread::Current()
-             << dec << setfill(' ') << '\t';
+      stream << std::hex << std::setfill('0')
+             << std::setw(7) << (void *)PThread::Current()
+             << std::dec << std::setfill(' ') << '\t';
   }
 
   if ((info.options&TraceLevel) != 0)
@@ -506,7 +506,7 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
         file = fileName;
     }
 
-    stream << setw(16) << file << '(' << lineNum << ")\t";
+    stream << std::setw(16) << file << '(' << lineNum << ")\t";
   }
 
   // Save log level for this message so End() function can use. This is
@@ -527,7 +527,7 @@ ostream & PTrace::Begin(unsigned level, const char * fileName, int lineNum)
 }
 
 
-ostream & PTrace::End(ostream & paramStream)
+std::ostream & PTrace::End(std::ostream & paramStream)
 {
   PTraceInfo & info = PTraceInfo::Instance();
 
@@ -550,7 +550,7 @@ ostream & PTrace::End(ostream & paramStream)
     PStringStream * stackStream = threadInfo->traceStreams.Pop();
     if (!PAssert(&paramStream == stackStream, PLogicError))
       return paramStream;
-    *stackStream << ends << flush;
+    *stackStream << std::ends << std::flush;
     info.Lock();
     *info.stream << *stackStream;
     delete stackStream;
@@ -599,7 +599,7 @@ PTrace::Block::Block(const char * fileName, int lineNum, const char * traceName)
     if (threadInfo != NULL)
       threadInfo->traceBlockIndentLevel += 2;
 
-    ostream & s = PTrace::Begin(1, file, line);
+    std::ostream & s = PTrace::Begin(1, file, line);
     s << "B-Entry\t";
     for (unsigned i = 0; i < ((threadInfo != NULL) ? threadInfo->traceBlockIndentLevel : 20); i++)
       s << '=';
@@ -623,7 +623,7 @@ PTrace::Block::~Block()
     }
 #endif
 
-    ostream & s = PTrace::Begin(1, file, line);
+    std::ostream & s = PTrace::Begin(1, file, line);
     s << "B-Exit\t<";
     for (unsigned i = 0; i < ((threadInfo != NULL) ? threadInfo->traceBlockIndentLevel : 20); i++)
       s << '=';
@@ -1086,7 +1086,7 @@ PArgList::PArgList(int theArgc, char ** theArgv,
 }
 
 
-void PArgList::PrintOn(ostream & strm) const
+void PArgList::PrintOn(std::ostream & strm) const
 {
   for (PINDEX i = 0; i < argumentArray.GetSize(); i++) {
     if (i > 0)
@@ -1096,7 +1096,7 @@ void PArgList::PrintOn(ostream & strm) const
 }
 
 
-void PArgList::ReadFrom(istream & strm)
+void PArgList::ReadFrom(std::istream & strm)
 {
   PString line;
   strm >> line;
@@ -1400,7 +1400,7 @@ void PArgList::Shift(int sh)
 void PArgList::IllegalArgumentIndex(PINDEX idx) const
 {
   PError << "attempt to access undefined argument at index "
-         << idx << endl;
+         << idx << std::endl;
 }
  
 
@@ -1672,7 +1672,7 @@ void PProcess::OnThreadStart(PThread & /*thread*/)
 }
 
 
-static void OutputTime(ostream & strm, const char * name, const PTimeInterval & cpu, const PTimeInterval & real)
+static void OutputTime(std::ostream & strm, const char * name, const PTimeInterval & cpu, const PTimeInterval & real)
 {
   strm << ", " << name << '=' << cpu << " (";
 
@@ -1690,10 +1690,10 @@ static void OutputTime(ostream & strm, const char * name, const PTimeInterval & 
 }
 
 
-ostream & operator<<(ostream & strm, const PThread::Times & times)
+std::ostream & operator<<(std::ostream & strm, const PThread::Times & times)
 {
-  ios::fmtflags oldflags(strm.flags());
-  strm << "real=" << scientific << times.m_real;
+  std::ios::fmtflags oldflags(strm.flags());
+  strm << "real=" << std::scientific << times.m_real;
   OutputTime(strm, "kernel", times.m_kernel, times.m_real);
   OutputTime(strm, "user", times.m_user, times.m_real);
   OutputTime(strm, "both", times.m_kernel + times.m_user, times.m_real);
@@ -1968,7 +1968,7 @@ PThread * PThread::Current()
 }
 
 
-void PThread::PrintOn(ostream & strm) const
+void PThread::PrintOn(std::ostream & strm) const
 {
   strm << GetThreadName();
 }
@@ -2311,7 +2311,7 @@ void PReadWriteMutex::InternalWait(PSemaphore & semaphore) const
   if (semaphore.Wait(15000))
     return;
 
-  ostream & trace = PTrace::Begin(1, __FILE__, __LINE__);
+  std::ostream & trace = PTrace::Begin(1, __FILE__, __LINE__);
   trace << "PTLib\tPossible deadlock in read/write mutex " << this << " :\n";
   for (std::map<PThreadIdentifier, Nest>::const_iterator it = m_nestedThreads.begin(); it != m_nestedThreads.end(); ++it)
     trace << "  thread-id=" << it->first << " (0x" << std::hex << it->first << std::dec << "),"

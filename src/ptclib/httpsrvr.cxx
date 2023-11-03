@@ -547,8 +547,8 @@ PBoolean PHTTPServer::StartResponse(StatusCode code,
     }
   }
 
-  ios::fmtflags oldflags(flags());
-  *this << setfill('\r') << headers;
+  std::ios::fmtflags oldflags(flags());
+  *this << std::setfill('\r') << headers;
   flags(oldflags);
 
 #ifdef STRANGE_NETSCAPE_BUG

@@ -141,7 +141,7 @@ PBoolean PNatMethod::CreateSocketPair(PUDPSocket * & socket1,PUDPSocket * & sock
 	return CreateSocketPair(socket1,socket2,binding);
 }
 
-void PNatMethod::PrintOn(ostream & strm) const
+void PNatMethod::PrintOn(std::ostream & strm) const
 {
   strm << GetName() << " server " << GetServer();
 }

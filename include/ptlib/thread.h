@@ -141,7 +141,7 @@ class PThread : public PObject
        polymorphically.
       */
     void PrintOn(
-      ostream & strm    ///< Stream to output text representation
+      std::ostream & strm    ///< Stream to output text representation
     ) const;
   //@}
 
@@ -297,7 +297,7 @@ class PThread : public PObject
       PTimeInterval m_real;     ///< Total real time since thread start in milliseconds.
       PTimeInterval m_kernel;   ///< Total kernel CPU time in milliseconds.
       PTimeInterval m_user;     ///< Total user CPU time in milliseconds.
-      friend ostream & operator<<(ostream & strm, const Times & times);
+      friend std::ostream & operator<<(std::ostream & strm, const Times & times);
     };
 
     /** Get the thread execution times.

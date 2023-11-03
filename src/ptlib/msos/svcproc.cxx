@@ -341,7 +341,7 @@ int PServiceProcess::InternalMain(void * arg)
       isWin95 = true;
       break;
     default :
-      PError << "Unsupported Win32 platform type!" << endl;
+      PError << "Unsupported Win32 platform type!" << std::endl;
       return 1;
   }
 
@@ -363,7 +363,7 @@ int PServiceProcess::InternalMain(void * arg)
 
     if (debugWindow != NULL && debugWindow != (HWND)-1) {
       ::SetLastError(0);
-      PError << "Close window or select another command from the Control menu.\n" << endl;
+      PError << "Close window or select another command from the Control menu.\n" << std::endl;
     }
 
     MSG msg;
@@ -413,7 +413,7 @@ int PServiceProcess::InternalMain(void * arg)
            << " (" << GetOSVersion() << '-' << GetOSHardware()
            << ") with PTLib (v" << GetLibVersion()
            << ") at " << PTime().AsString("yyyy/M/d h:mm:ss.uuu")
-           << "\nClose window to terminate.\n" << endl;
+           << "\nClose window to terminate.\n" << std::endl;
   }
 
   terminationEvent = CreateEvent(NULL, true, false, GetName());
@@ -450,7 +450,7 @@ int PServiceProcess::InternalMain(void * arg)
           msg.message = WM_QUIT;
         else {
           PError << "nService simulation stopped for \"" << GetName() << "\".\n\n"
-                    "Close window to terminate.\n" << endl;
+                    "Close window to terminate.\n" << std::endl;
           ResetEvent(terminationEvent);
         }
     }
@@ -805,7 +805,7 @@ LPARAM PServiceProcess::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
                 cfg.SetString(SystemLogFileNameKey, newLogFile);
 #endif // P_CONFIG_FILE
                 DebugOutput("Sending all system log output to \"" + newLogFile + "\".\n");
-                PError << "Logging started for \"" << GetName() << "\" version " << GetVersion(true) << endl;
+                PError << "Logging started for \"" << GetName() << "\" version " << GetVersion(true) << std::endl;
               }
             }
           }
@@ -813,7 +813,7 @@ LPARAM PServiceProcess::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         case WindowOutputMenuID :
           if (!PIsDescendant(&PSystemLog::GetTarget(), LogToWindow)) {
-            PError << "Logging stopped." << endl;
+            PError << "Logging stopped." << std::endl;
             PSystemLog::SetTarget(new LogToWindow());
 #if P_CONFIG_FILE
             PConfig cfg(ServiceSimulationSectionName);
@@ -824,7 +824,7 @@ LPARAM PServiceProcess::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         case DebuggerOutputMenuID :
           if (!PIsDescendant(&PSystemLog::GetTarget(), PSystemLogToDebug)) {
-            PError << "Logging stopped." << endl;
+            PError << "Logging stopped." << std::endl;
             PSystemLog::SetTarget(new PSystemLogToDebug());
 #if P_CONFIG_FILE
             PConfig cfg(ServiceSimulationSectionName);
@@ -1248,7 +1248,7 @@ bool Win95_ServiceManager::Remove(PServiceProcess * svc)
 bool Win95_ServiceManager::Start(PServiceProcess * service)
 {
   if (IsServiceRunning(service)) {
-    PError << "Service already running" << endl;
+    PError << "Service already running" << std::endl;
     error = 1;
     return false;
   }
@@ -1264,7 +1264,7 @@ bool Win95_ServiceManager::Stop(PServiceProcess * service)
   HANDLE hEvent = OpenEvent(EVENT_MODIFY_STATE, false, service->GetName());
   if (hEvent == NULL) {
     error = ::GetLastError();
-    PError << "Service is not running" << endl;
+    PError << "Service is not running" << std::endl;
     return false;
   }
 
@@ -1287,7 +1287,7 @@ bool Win95_ServiceManager::Stop(PServiceProcess * service)
 
 bool Win95_ServiceManager::Pause(PServiceProcess *)
 {
-  PError << "Cannot pause service under Windows 95" << endl;
+  PError << "Cannot pause service under Windows 95" << std::endl;
   error = 1;
   return false;
 }
@@ -1295,7 +1295,7 @@ bool Win95_ServiceManager::Pause(PServiceProcess *)
 
 bool Win95_ServiceManager::Resume(PServiceProcess *)
 {
-  PError << "Cannot resume service under Windows 95" << endl;
+  PError << "Cannot resume service under Windows 95" << std::endl;
   error = 1;
   return false;
 }
@@ -1360,7 +1360,7 @@ bool NT_ServiceManager::OpenManager()
     return true;
 
   error = ::GetLastError();
-  PError << "Could not open Service Manager." << endl;
+  PError << "Could not open Service Manager." << std::endl;
   return false;
 }
 
@@ -1375,7 +1375,7 @@ bool NT_ServiceManager::Open(PServiceProcess * svc)
     return true;
 
   error = ::GetLastError();
-  PError << "Service is not installed." << endl;
+  PError << "Service is not installed." << std::endl;
   return false;
 }
 
@@ -1387,7 +1387,7 @@ bool NT_ServiceManager::Create(PServiceProcess * svc)
 
   schService = OpenService(schSCManager, svc->GetName(), SERVICE_ALL_ACCESS);
   if (schService != NULL) {
-    PError << "Service is already installed." << endl;
+    PError << "Service is already installed." << std::endl;
     return false;
   }
 
@@ -1701,7 +1701,7 @@ bool PServiceProcess::ProcessCommand(const char * cmd)
       msg << "usage: " << GetFile().GetTitle() << " [ ";
       for (cmdNum = 0; cmdNum < NumSvcCmds-1; cmdNum++)
         msg << ServiceCommandNames[cmdNum] << " | ";
-      msg << ServiceCommandNames[cmdNum] << " ]" << endl;
+      msg << ServiceCommandNames[cmdNum] << " ]" << std::endl;
   }
 
   SetLastError(0);
@@ -1730,7 +1730,7 @@ bool PServiceProcess::ProcessCommand(const char * cmd)
   if (controlWindow == NULL)
     MessageBox(NULL, msg, GetName(), MB_TASKMODAL);
   else
-    PError << msg << endl;
+    PError << msg << std::endl;
 
   return good;
 }

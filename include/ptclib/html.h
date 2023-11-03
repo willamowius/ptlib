@@ -159,7 +159,7 @@ class PHTML : public PStringStream
         ElementInSet inElement;
         ElementInSet reqElement;
         OptionalCRLF crlf;
-      friend ostream & operator<<(ostream & strm, const Element & elmt)
+      friend std::ostream & operator<<(std::ostream & strm, const Element & elmt)
         { elmt.Output((PHTML&)strm); return strm; }
     };
 
