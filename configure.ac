@@ -1136,6 +1136,7 @@ dnl MSWIN_CHECK_DIR  openssl,..\external\openssl\
 dnl MSWIN_CHECK_DIR  openssl,\openssl\
 dnl MSWIN_CHECK_DIR  openssl,\libs\openssl\
 dnl MSWIN_CHECK_DIR  openssl,\Program Files\OpenSSL\
+dnl MSWIN_CHECK_DIR  openssl,\Program Files\OpenSSL-Win64\
 dnl MSWIN_CHECK_DIR  openssl,\Program Files (x86)\OpenSSL\
 dnl MSWIN_CHECK_DIR  openssl,c:\openssl\
 dnl MSWIN_CHECK_DIR  openssl,c:\OpenSSL-Win32
