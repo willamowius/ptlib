@@ -30,6 +30,7 @@
     <ProjectName>PTLib Static</ProjectName>
     <ProjectGuid>{D11E1C9D-406C-4D7C-8F37-913C0BFD9E0D}</ProjectGuid>
     <RootNamespace>PTLib Static</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='No Trace|Win32'" Label="Configuration">
@@ -95,17 +96,19 @@
     <LibraryPath>$(ProjectDir)/lib;$(ProjectDir)/../ptlib/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExecutablePath>c:\tools;c:\Cpp\h323plus;$(ExecutablePath)</ExecutablePath>
+    <OutDir>../../../lib/</OutDir>
+    <IntDir>../../../lib/Debug_$(PlatformShortName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\Lib\</OutDir>
+    <OutDir>..\..\..\lib\</OutDir>
     <IntDir>$(OutDir)$(Configuration)\</IntDir>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(ProjectDir)/include;$(ProjectDir)/../ptlib/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/lib;$(ProjectDir)/../ptlib/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExecutablePath>c:\tools;c:\Cpp\h323plus;$(ExecutablePath)</ExecutablePath>
+    <OutDir>../../../lib/</OutDir>
+    <IntDir>../../../lib/Release_$(PlatformShortName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='No Trace|Win32'">
     <OutDir>..\..\..\Lib\</OutDir>
@@ -156,14 +159,15 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AssemblerListingLocation>.\lib\Debug/</AssemblerListingLocation>
-      <ObjectFileName>.\lib\Debug/</ObjectFileName>
+      <AssemblerListingLocation>./lib/Debug_$(PlatformShortName)/</AssemblerListingLocation>
+      <ObjectFileName>./lib/Debug_$(PlatformShortName)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)ptlibs_$(PlatformShortName)_d.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x0c09</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>$(OutDir)ptlibsd.lib</OutputFile>
+      <OutputFile>$(OutDir)ptlibs_$(PlatformShortName)_d.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
@@ -210,14 +214,13 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AssemblerListingLocation>C:\CPP\Ptlib\lib\Release\</AssemblerListingLocation>
-      <ObjectFileName>C:\CPP\Ptlib\lib\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)ptlibs_$(PlatformShortName).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x0c09</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>$(OutDir)ptlibs.lib</OutputFile>
+      <OutputFile>$(OutDir)ptlibs_$(PlatformShortName).lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>

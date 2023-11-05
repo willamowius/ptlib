@@ -304,11 +304,11 @@
 
     #ifdef _WIN64
       #ifdef _DEBUG
-        #define P_SSL_LIB1 "@SSL_DIR@/lib/VC/libeay64MTd.lib"
-        #define P_SSL_LIB2 "@SSL_DIR@/lib/VC/ssleay64MTd.lib"
+        #define P_SSL_LIB1 "@SSL_DIR@/lib/VC/libcrypto64MTd.lib"
+        #define P_SSL_LIB2 "@SSL_DIR@/lib/VC/libssl64MTd.lib"
       #else
-        #define P_SSL_LIB1 "@SSL_DIR@/lib/VC/libeay64MT.lib"
-        #define P_SSL_LIB2 "@SSL_DIR@/lib/VC/ssleay64MT.lib"
+        #define P_SSL_LIB1 "@SSL_DIR@/lib/VC/libcrypto64MT.lib"
+        #define P_SSL_LIB2 "@SSL_DIR@/lib/VC/libssl64MT.lib"
       #endif
     #else
       #ifdef _DEBUG
