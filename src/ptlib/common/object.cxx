@@ -869,7 +869,7 @@ void PMemoryHeap::Deallocate(void * ptr, const char * className)
 }
 
 
-PMemoryHeap::Validation PMemoryHeap::Validate(const void * ptr, const char * className, std::ostream * /*strm*/)
+PMemoryHeap::Validation PMemoryHeap::Validate(const void * ptr, const char * className, ostream * /*strm*/)
 {
   MemoryHeapInstance();
   if (!_CrtIsValidHeapPointer(ptr))
@@ -883,7 +883,7 @@ PMemoryHeap::Validation PMemoryHeap::Validate(const void * ptr, const char * cla
 }
 
 
-PBoolean PMemoryHeap::ValidateHeap(std::ostream * /*strm*/)
+PBoolean PMemoryHeap::ValidateHeap(ostream * /*strm*/)
 {
   MemoryHeapInstance();
   return _CrtCheckMemory();
@@ -911,7 +911,7 @@ void PMemoryHeap::DumpStatistics()
 }
 
 
-void PMemoryHeap::DumpStatistics(std::ostream & /*strm*/)
+void PMemoryHeap::DumpStatistics(ostream & /*strm*/)
 {
   DumpStatistics();
 }
@@ -931,7 +931,7 @@ void PMemoryHeap::DumpObjectsSince(const State & state)
 }
 
 
-void PMemoryHeap::DumpObjectsSince(const State & state, std::ostream & /*strm*/)
+void PMemoryHeap::DumpObjectsSince(const State & state, ostream & /*strm*/)
 {
   MemoryHeapInstance();
   DumpObjectsSince(state);

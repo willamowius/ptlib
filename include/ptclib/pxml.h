@@ -141,8 +141,8 @@ class PXML : public PXMLBase
     ) const;
 
     PString AsString() const;
-    void PrintOn(std::ostream & strm) const;
-    void ReadFrom(std::istream & strm);
+    void PrintOn(ostream & strm) const;
+    void ReadFrom(istream & strm);
 
 
     PXMLElement * GetElement(const PCaselessString & name, const PCaselessString & attr, const PString & attrval) const;
@@ -305,7 +305,7 @@ class PXMLObject : public PObject {
 
     PString AsString() const;
 
-    virtual void Output(std::ostream & strm, const PXMLBase & xml, int indent) const = 0;
+    virtual void Output(ostream & strm, const PXMLBase & xml, int indent) const = 0;
 
     virtual PBoolean IsElement() const = 0;
 
@@ -333,7 +333,7 @@ class PXMLData : public PXMLObject {
 
     PString GetString() const           { return value; }
 
-    void Output(std::ostream & strm, const PXMLBase & xml, int indent) const;
+    void Output(ostream & strm, const PXMLBase & xml, int indent) const;
 
     PXMLObject * Clone(PXMLElement * parent) const;
 
@@ -351,8 +351,8 @@ class PXMLElement : public PXMLObject {
 
     PBoolean IsElement() const { return true; }
 
-    void PrintOn(std::ostream & strm) const;
-    void Output(std::ostream & strm, const PXMLBase & xml, int indent) const;
+    void PrintOn(ostream & strm) const;
+    void Output(ostream & strm, const PXMLBase & xml, int indent) const;
 
     PCaselessString GetName() const
       { return name; }

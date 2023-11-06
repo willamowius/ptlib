@@ -87,7 +87,7 @@ namespace XMPP
     virtual void SetResource(const PString& resource);
 
     virtual PBoolean IsBare() const       { return m_Resource.IsEmpty(); }
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
   protected:
     virtual void ParseJID(const PString& jid);

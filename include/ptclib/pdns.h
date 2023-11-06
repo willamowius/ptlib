@@ -255,7 +255,7 @@ class SRVRecord : public PObject
     { used = false; port = 0; priority = 0; weight = 0; }
 
     Comparison Compare(const PObject & obj) const;
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     PString            hostName;
     PIPSocket::Address hostAddress;
@@ -267,7 +267,7 @@ class SRVRecord : public PObject
 
 PDECLARE_SORTED_LIST(SRVRecordList, PDNS::SRVRecord)
   public:
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     SRVRecord * GetFirst();
     SRVRecord * GetNext();
@@ -339,7 +339,7 @@ class MXRecord : public PObject
     MXRecord()
     { used = false; preference = 0; }
     Comparison Compare(const PObject & obj) const;
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     PString            hostName;
     PIPSocket::Address hostAddress;
@@ -349,7 +349,7 @@ class MXRecord : public PObject
 
 PDECLARE_SORTED_LIST(MXRecordList, PDNS::MXRecord)
   public:
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     MXRecord * GetFirst();
     MXRecord * GetNext();

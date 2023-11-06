@@ -305,7 +305,7 @@ void DelayThread::OnReleaseThreadMain(PThread &, INT)
   SafeDereference();
 }
 
-void DelayThread::PrintOn(std::ostream & strm) const
+void DelayThread::PrintOn(ostream & strm) const
 {
   strm << id << " ";
 }

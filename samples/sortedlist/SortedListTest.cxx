@@ -107,7 +107,7 @@ PSafeString::PSafeString(const PString & _string)
 }
 
 
-void PSafeString::PrintOn(std::ostream &strm) const
+void PSafeString::PrintOn(ostream &strm) const
 {
   strm << string;
 }

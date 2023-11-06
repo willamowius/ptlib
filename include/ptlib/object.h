@@ -436,7 +436,7 @@ public:
 
   So a typical usage would be:
   <pre><code>
-    std::ostream & s = PTrace::Begin(3, __FILE__, __LINE__);
+    ostream & s = PTrace::Begin(3, __FILE__, __LINE__);
     s << "hello";
     if (want_there)
       s << " there";
@@ -459,7 +459,7 @@ public:
 
   So a typical usage would be:
   <pre><code>
-    std::ostream & s = PTrace::Begin();
+    ostream & s = PTrace::Begin();
     s << "hello";
     if (want_there)
       s << " there";
@@ -638,7 +638,7 @@ class PMemoryHeap {
     static Validation Validate(
       const void * ptr,       ///< Pointer to memory block to check
       const char * className, ///< Class name it should be.
-      std::ostream * error         ///< Stream to receive error message (may be NULL)
+      ostream * error         ///< Stream to receive error message (may be NULL)
     );
 
     /** Validate all objects in memory.
@@ -646,7 +646,7 @@ class PMemoryHeap {
         @return true if every object in heap is Ok.
      */
     static PBoolean ValidateHeap(
-      std::ostream * error = NULL  ///< Stream to output, use default if NULL
+      ostream * error = NULL  ///< Stream to output, use default if NULL
     );
 
     /** Ignore/Monitor allocations.
@@ -665,7 +665,7 @@ class PMemoryHeap {
     /** Get memory check system statistics.
         Dump statistics output to the specified stream.
      */
-    static void DumpStatistics(std::ostream & strm /** Stream to output to */);
+    static void DumpStatistics(ostream & strm /** Stream to output to */);
 
 #if PMEMORY_CHECK
     struct State {
@@ -701,7 +701,7 @@ class PMemoryHeap {
      */
     static void DumpObjectsSince(
       const State & when,   ///< Memory state to begin dump from.
-      std::ostream & strm        ///< Stream to output dump
+      ostream & strm        ///< Stream to output dump
     );
 
     /** Set break point allocation number.
@@ -725,10 +725,10 @@ class PMemoryHeap {
     Validation InternalValidate(
       const void * ptr,       // Pointer to memory block to check
       const char * className, // Class name it should be.
-      std::ostream * error         // Stream to receive error message (may be NULL)
+      ostream * error         // Stream to receive error message (may be NULL)
     );
-    void InternalDumpStatistics(std::ostream & strm);
-    void InternalDumpObjectsSince(DWORD objectNumber, std::ostream & strm);
+    void InternalDumpStatistics(ostream & strm);
+    void InternalDumpObjectsSince(DWORD objectNumber, ostream & strm);
 
     class Wrapper {
       public:
@@ -798,7 +798,7 @@ class PMemoryHeap {
     DWORD peakObjects;
     DWORD totalObjects;
 
-    std::ostream * leakDumpStream;
+    ostream * leakDumpStream;
 
 #if defined(_WIN32)
     CRITICAL_SECTION mutex;

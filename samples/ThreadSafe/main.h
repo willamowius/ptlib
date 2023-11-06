@@ -27,7 +27,7 @@ class TestObject : public PSafeObject
     ~TestObject();
 
     Comparison Compare(const PObject & obj) const;
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     ThreadSafe & process;
     unsigned value;

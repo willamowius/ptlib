@@ -173,7 +173,7 @@ public:
   PString GetId() { return id; }
 
   /**Pretty print the id of this class */
-  virtual void PrintOn(std::ostream & strm) const;
+  virtual void PrintOn(ostream & strm) const;
 
 #ifdef DOC_PLUS_PLUS
   /**This method is where the delay is done */

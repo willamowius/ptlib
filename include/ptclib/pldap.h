@@ -469,7 +469,7 @@ class PLDAPStructBase : public PObject {
     PLDAPStructBase(const PLDAPStructBase & obj) : PObject(obj) { }
 
   public:
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     PINDEX GetNumAttributes() const { return attributes.GetSize(); }
     PLDAPAttributeBase & GetAttribute(PINDEX idx) const { return attributes.GetDataAt(idx); }
@@ -582,8 +582,8 @@ template <class className> class LDAPPluginServiceDescriptor : public PDevicePlu
         : PLDAPAttributeBase(#attribute, pointer, sizeof(type)), \
           instance(((base &)base::GetInitialiser()).attribute) \
         { init } \
-      virtual void PrintOn (std::ostream & s) const { s << instance; } \
-      virtual void ReadFrom(std::istream & s)       { s >> instance; } \
+      virtual void PrintOn (ostream & s) const { s << instance; } \
+      virtual void ReadFrom(istream & s)       { s >> instance; } \
       virtual void Copy(const PLDAPAttributeBase & other) \
                     { instance = ((PLDAPAttr_##attribute &)other).instance; } \
       type & instance; \

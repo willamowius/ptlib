@@ -232,7 +232,7 @@ class PXMLRPCArrayBase : public PXMLRPCVariableBase {
     PXMLRPCArrayBase & operator=(const PXMLRPCArrayBase &);
 
   public:
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
     virtual void Copy(const PXMLRPCVariableBase & other);
     virtual PBoolean IsArray() const;
     virtual PINDEX GetSize() const;
@@ -270,7 +270,7 @@ class PXMLRPCStructBase : public PObject {
     PXMLRPCStructBase(const PXMLRPCStructBase &) : PObject() { }
 
   public:
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     PINDEX GetNumVariables() const { return variablesByOrder.GetSize(); }
     PXMLRPCVariableBase & GetVariable(PINDEX idx) const { return variablesByOrder[idx]; }
@@ -303,8 +303,8 @@ class PXMLRPCStructBase : public PObject {
         : PXMLRPCVariableBase(#variable, xmltype), \
           instance(((base &)base::GetInitialiser()).variable) \
         { init } \
-      virtual void PrintOn (std::ostream & s) const { s << instance; } \
-      virtual void ReadFrom(std::istream & s)       { s >> instance; } \
+      virtual void PrintOn (ostream & s) const { s << instance; } \
+      virtual void ReadFrom(istream & s)       { s >> instance; } \
       virtual void Copy(const PXMLRPCVariableBase & other) \
                     { instance = ((PXMLRPCVar_##variable &)other).instance; } \
       extras \
@@ -454,7 +454,7 @@ class PXMLRPCStructBase : public PObject {
     private: struct var_class : public PXMLRPCVariableBase { \
       var_class(const name##_in & var) \
         : PXMLRPCVariableBase("variable", "struct"), instance(var) { } \
-      virtual void PrintOn (std::ostream & s) const { s << instance; } \
+      virtual void PrintOn (ostream & s) const { s << instance; } \
       virtual PXMLRPCStructBase * GetStruct(PINDEX) const { return (PXMLRPCStructBase *)&instance; } \
       virtual void Copy(const PXMLRPCVariableBase &) { } \
       const name##_in & instance; \
