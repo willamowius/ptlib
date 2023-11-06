@@ -19,7 +19,12 @@ html/
 cov-int
 cov-int.tgz
 a.out
+*.exe
+*.lib
+*.pdb
 *.proj
 *.save
 *.layout
+*.user
+.vs
 
