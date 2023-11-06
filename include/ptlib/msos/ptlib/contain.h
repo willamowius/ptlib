@@ -441,9 +441,41 @@ typedef DWORD PProcessIdentifier;
   #pragma warning(pop)
 #endif
 
+#include <iomanip>
+#include <iostream>
+#include <list>
+
 // VS.net won't work without this :(
 #if _MSC_VER>=1300
-  using namespace std;
+  using std::binary_function;
+  using std::cerr;
+  using std::cin;
+  using std::cout;
+  using std::dec;
+  using std::endl;
+  using std::ends;
+  using std::flush;
+  using std::hex;
+  using std::ios;
+  using std::ios_base;
+  using std::iostream;
+  using std::istream;
+  using std::left;
+  using std::list;
+  using std::numeric_limits;
+  using std::ofstream;
+  using std::ostream;
+  using std::ostringstream;
+  using std::pair;
+  using std::right;
+  using std::scientific;
+  using std::setfill;
+  using std::setprecision;
+  using std::setw;
+  using std::streambuf;
+  using std::string;
+  using std::wostream;
+  using std::ws;
 #endif
 
 #if defined(_MSC_VER)
