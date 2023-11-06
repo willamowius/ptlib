@@ -20,11 +20,16 @@ cov-int
 cov-int.tgz
 a.out
 *.exe
+*.layout
 *.lib
+*.pdb
+*.obj
+*.pch
 *.pdb
 *.proj
 *.save
-*.layout
+*.sbr
+*.tlog
 *.user
 .vs
 
