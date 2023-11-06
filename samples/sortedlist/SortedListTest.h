@@ -24,7 +24,7 @@ private:
 class PSafeString:public PSafeObject {
   PCLASSINFO(PSafeString, PSafeObject);
   PSafeString(const PString & _string);
-  void PrintOn(ostream &strm) const;
+  void PrintOn(std::ostream &strm) const;
 private:
   PString string;
 };

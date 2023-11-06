@@ -108,8 +108,8 @@ class PInt64 : public PInt64__ {
     DECL_OPS(PInt64, unsigned long)
     DECL_OPS(PInt64, const PInt64 &)
 
-    friend ostream & operator<<(ostream &, const PInt64 &);
-    friend istream & operator>>(istream &, PInt64 &);
+    friend std::ostream & operator<<(std::ostream &, const PInt64 &);
+    friend std::istream & operator>>(std::istream &, PInt64 &);
 
   protected:
     void Add(long v) { Add(PInt64(v)); }
@@ -149,8 +149,8 @@ class PUInt64 : public PInt64__ {
     DECL_OPS(PUInt64, unsigned long)
     DECL_OPS(PUInt64, const PUInt64 &)
 
-    friend ostream & operator<<(ostream &, const PUInt64 &);
-    friend istream & operator>>(istream &, PUInt64 &);
+    friend std::ostream & operator<<(std::ostream &, const PUInt64 &);
+    friend std::istream & operator>>(std::istream &, PUInt64 &);
 
   protected:
     void Add(long v) { Add(PUInt64(v)); }

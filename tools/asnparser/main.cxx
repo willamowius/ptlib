@@ -133,7 +133,7 @@ void yyerror(char * str)
   PError << StdError(Fatal) << str << " near token \"" << yytext <<"\"\n";
 }
 
-ostream & operator<<(ostream & out, const StdError & e)
+std::ostream & operator<<(std::ostream & out, const StdError & e)
 {
   out << fileName << '(' << lineNumber << ") : ";
   if (e.e == Fatal) {
@@ -217,7 +217,7 @@ class App : public PProcess
     void Main();
     PBoolean SetClassHeaderFile(PArgList & args);
     PBoolean SetClassHeader(PArgList & args);
-    void OutputAdditionalHeaders(ostream & hdr, const PString & className);
+    void OutputAdditionalHeaders(std::ostream & hdr, const PString & className);
   protected:
     PStringToString classToHeader;
 };
@@ -402,7 +402,7 @@ PBoolean App::SetClassHeader(PArgList & args)
 }
 
 
-void App::OutputAdditionalHeaders(ostream & hdr, const PString & className)
+void App::OutputAdditionalHeaders(std::ostream & hdr, const PString & className)
 {
   if (classToHeader.Contains(className)) {
     hdr << "// following code added by command line option\n"
@@ -423,7 +423,7 @@ class indent
 {
   public:
     indent() { }
-    friend ostream & operator<<(ostream & s, const indent &)
+    friend std::ostream & operator<<(std::ostream & s, const indent &)
     { return s << setw(Module->GetIndentLevel()*3) << ' '; }
 };
 
@@ -460,7 +460,7 @@ NamedNumber::NamedNumber(PString * nam, const PString & ref)
 }
 
 
-void NamedNumber::PrintOn(ostream & strm) const
+void NamedNumber::PrintOn(std::ostream & strm) const
 {
   strm << name << " (";
   if (reference.IsEmpty())
@@ -500,7 +500,7 @@ const char * Tag::modeNames[] = {
 };
 
 
-void Tag::PrintOn(ostream & strm) const
+void Tag::PrintOn(std::ostream & strm) const
 {
   if (type != Universal || number != IllegalUniversalTag) {
     strm << '[';
@@ -534,7 +534,7 @@ Constraint::Constraint(ConstraintElementList * stnd, PBoolean extend, Constraint
 }
 
 
-void Constraint::PrintOn(ostream & strm) const
+void Constraint::PrintOn(std::ostream & strm) const
 {
   strm << '(';
   for (PINDEX i = 0; i < standard.GetSize(); i++)
@@ -551,7 +551,7 @@ void Constraint::PrintOn(ostream & strm) const
 }
 
 
-void Constraint::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void Constraint::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   switch (standard.GetSize()) {
     case 0 :
@@ -603,7 +603,7 @@ ConstraintElementBase::ConstraintElementBase()
 }
 
 
-void ConstraintElementBase::GenerateCplusplus(const PString &, ostream &, ostream &)
+void ConstraintElementBase::GenerateCplusplus(const PString &, std::ostream &, std::ostream &)
 {
   PError << StdError(Warning) << "unsupported constraint, ignored." << endl;
 }
@@ -632,13 +632,13 @@ ElementListConstraintElement::ElementListConstraintElement(ConstraintElementList
 }
 
 
-void ElementListConstraintElement::PrintOn(ostream & strm) const
+void ElementListConstraintElement::PrintOn(std::ostream & strm) const
 {
   elements.PrintOn(strm);
 }
 
 
-void ElementListConstraintElement::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void ElementListConstraintElement::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   for (PINDEX i = 0; i < elements.GetSize(); i++)
     elements[i].GenerateCplusplus(fn, hdr, cxx);
@@ -669,13 +669,13 @@ SingleValueConstraintElement::~SingleValueConstraintElement()
 }
 
 
-void SingleValueConstraintElement::PrintOn(ostream & strm) const
+void SingleValueConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << *value;
 }
 
 
-void SingleValueConstraintElement::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void SingleValueConstraintElement::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   cxx << fn << ", ";
   value->GenerateCplusplus(hdr, cxx);
@@ -699,13 +699,13 @@ ValueRangeConstraintElement::~ValueRangeConstraintElement()
 }
 
 
-void ValueRangeConstraintElement::PrintOn(ostream & strm) const
+void ValueRangeConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << *lower << ".." << *upper;
 }
 
 
-void ValueRangeConstraintElement::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void ValueRangeConstraintElement::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   cxx << fn << ", ";
   lower->GenerateCplusplus(hdr, cxx);
@@ -729,13 +729,13 @@ SubTypeConstraintElement::~SubTypeConstraintElement()
 }
 
 
-void SubTypeConstraintElement::PrintOn(ostream & strm) const
+void SubTypeConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << subtype->GetTypeName();
 }
 
 
-void SubTypeConstraintElement::GenerateCplusplus(const PString &, ostream & hdr, ostream &)
+void SubTypeConstraintElement::GenerateCplusplus(const PString &, std::ostream & hdr, std::ostream &)
 {
   hdr << subtype->GetTypeName();
 }
@@ -778,13 +778,13 @@ SizeConstraintElement::SizeConstraintElement(Constraint * constraint)
 }
 
 
-void SizeConstraintElement::PrintOn(ostream & strm) const
+void SizeConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << "SIZE" << *constraint;
 }
 
 
-void SizeConstraintElement::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void SizeConstraintElement::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   constraint->GenerateCplusplus(fn, hdr, cxx);
 }
@@ -798,13 +798,13 @@ FromConstraintElement::FromConstraintElement(Constraint * constraint)
 }
 
 
-void FromConstraintElement::PrintOn(ostream & strm) const
+void FromConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << "FROM" << *constraint;
 }
 
 
-void FromConstraintElement::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void FromConstraintElement::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   PString newfn = fn;
   newfn.Replace("SetConstraints(", "SetCharacterSet(");
@@ -828,7 +828,7 @@ WithComponentConstraintElement::WithComponentConstraintElement(PString * newName
 }
 
 
-void WithComponentConstraintElement::PrintOn(ostream & strm) const
+void WithComponentConstraintElement::PrintOn(std::ostream & strm) const
 {
   if (name.IsEmpty())
     strm << "WITH COMPONENT";
@@ -852,7 +852,7 @@ void WithComponentConstraintElement::PrintOn(ostream & strm) const
 }
 
 
-void WithComponentConstraintElement::GenerateCplusplus(const PString &, ostream &, ostream & cxx)
+void WithComponentConstraintElement::GenerateCplusplus(const PString &, std::ostream &, std::ostream & cxx)
 {
   if (presence == Present)
     cxx << "  IncludeOptionalField(e_" << name << ");\n";
@@ -869,7 +869,7 @@ InnerTypeConstraintElement::InnerTypeConstraintElement(ConstraintElementList * l
 }
 
 
-void InnerTypeConstraintElement::PrintOn(ostream & strm) const
+void InnerTypeConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << "WITH COMPONENTS { ";
 
@@ -886,7 +886,7 @@ void InnerTypeConstraintElement::PrintOn(ostream & strm) const
 }
 
 
-void InnerTypeConstraintElement::GenerateCplusplus(const PString & fn, ostream & hdr, ostream & cxx)
+void InnerTypeConstraintElement::GenerateCplusplus(const PString & fn, std::ostream & hdr, std::ostream & cxx)
 {
   for (PINDEX i = 0; i < elements.GetSize(); i++)
     elements[i].GenerateCplusplus(fn, hdr, cxx);
@@ -904,7 +904,7 @@ UserDefinedConstraintElement::UserDefinedConstraintElement(TypesList * t)
 }
 
 
-void UserDefinedConstraintElement::PrintOn(ostream & strm) const
+void UserDefinedConstraintElement::PrintOn(std::ostream & strm) const
 {
   strm << "CONSTRAINED BY { ";
   for (PINDEX i = 0; i < types.GetSize(); i++) {
@@ -916,7 +916,7 @@ void UserDefinedConstraintElement::PrintOn(ostream & strm) const
 }
 
 
-void UserDefinedConstraintElement::GenerateCplusplus(const PString &, ostream &, ostream &)
+void UserDefinedConstraintElement::GenerateCplusplus(const PString &, std::ostream &, std::ostream &)
 {
 }
 
@@ -950,14 +950,14 @@ PObject::Comparison TypeBase::Compare(const PObject & obj) const
 }
 
 
-void TypeBase::PrintOn(ostream & strm) const
+void TypeBase::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   PrintFinish(strm);
 }
 
 
-void TypeBase::PrintStart(ostream & strm) const
+void TypeBase::PrintStart(std::ostream & strm) const
 {
   strm << indent();
   if (!name) {
@@ -978,7 +978,7 @@ void TypeBase::PrintStart(ostream & strm) const
 }
 
 
-void TypeBase::PrintFinish(ostream & strm) const
+void TypeBase::PrintFinish(std::ostream & strm) const
 {
   Module->SetIndentLevel(-1);
   strm << ' ' << constraints;
@@ -1071,7 +1071,7 @@ PBoolean TypeBase::IsPrimitiveType() const
 }
 
 
-void TypeBase::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void TypeBase::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   BeginGenerateCplusplus(hdr, cxx);
 
@@ -1084,12 +1084,12 @@ void TypeBase::GenerateCplusplus(ostream & hdr, ostream & cxx)
 }
 
 
-void TypeBase::GenerateForwardDecls(ostream &)
+void TypeBase::GenerateForwardDecls(std::ostream &)
 {
 }
 
 
-void TypeBase::GenerateOperators(ostream &, ostream &, const TypeBase &)
+void TypeBase::GenerateOperators(std::ostream &, std::ostream &, const TypeBase &)
 {
 }
 
@@ -1123,7 +1123,7 @@ PBoolean TypeBase::IsParameterisedImport() const
 }
 
 
-void TypeBase::BeginGenerateCplusplus(ostream & hdr, ostream & cxx)
+void TypeBase::BeginGenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   classNameString = GetIdentifier();
 
@@ -1179,7 +1179,7 @@ void TypeBase::BeginGenerateCplusplus(ostream & hdr, ostream & cxx)
 }
 
 
-void TypeBase::EndGenerateCplusplus(ostream & hdr, ostream & cxx)
+void TypeBase::EndGenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   cxx << "}\n"
          "\n"
@@ -1209,7 +1209,7 @@ void TypeBase::EndGenerateCplusplus(ostream & hdr, ostream & cxx)
 }
 
 
-void TypeBase::GenerateCplusplusConstructor(ostream &, ostream & cxx)
+void TypeBase::GenerateCplusplusConstructor(std::ostream &, std::ostream & cxx)
 {
   cxx << '(';
   if (HasNonStandardTag()) {
@@ -1225,7 +1225,7 @@ void TypeBase::GenerateCplusplusConstructor(ostream &, ostream & cxx)
 }
 
 
-void TypeBase::GenerateCplusplusConstraints(const PString & prefix, ostream & hdr, ostream & cxx)
+void TypeBase::GenerateCplusplusConstraints(const PString & prefix, std::ostream & hdr, std::ostream & cxx)
 {
   for (PINDEX i = 0; i < constraints.GetSize(); i++)
     constraints[i].GenerateCplusplus("  " + prefix + "SetConstraints(", hdr, cxx);
@@ -1285,7 +1285,7 @@ void DefinedType::ConstructFromType(TypeBase * refType, const PString & name)
 }
 
 
-void DefinedType::PrintOn(ostream & strm) const
+void DefinedType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   strm << referenceName << ' ';
@@ -1332,7 +1332,7 @@ PBoolean DefinedType::ReferencesType(const TypeBase & type)
 }
 
 
-void DefinedType::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void DefinedType::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   if (baseType != NULL)
     baseType->GenerateOperators(hdr, cxx, actualType);
@@ -1369,7 +1369,7 @@ ParameterizedType::ParameterizedType(PString * name, TypesList * args)
 }
 
 
-void ParameterizedType::PrintOn(ostream & strm) const
+void ParameterizedType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   strm << referenceName << " { ";
@@ -1433,7 +1433,7 @@ SelectionType::~SelectionType()
 }
 
 
-void SelectionType::PrintOn(ostream & strm) const
+void SelectionType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   strm << selection << '<' << *baseType;
@@ -1453,7 +1453,7 @@ TypeBase * SelectionType::FlattenThisType(const TypeBase & parent)
 }
 
 
-void SelectionType::GenerateCplusplus(ostream &, ostream &)
+void SelectionType::GenerateCplusplus(std::ostream &, std::ostream &)
 {
   PError << StdError(Fatal) << "Cannot generate code for Selection type" << endl;
   isGenerated = TRUE;
@@ -1486,7 +1486,7 @@ BooleanType::BooleanType()
 }
 
 
-void BooleanType::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void BooleanType::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   hdr << "    " << actualType.GetIdentifier() << " & operator=(PBoolean v)";
   if (Module->UsingInlines())
@@ -1528,7 +1528,7 @@ IntegerType::IntegerType(NamedNumberList * lst)
 }
 
 
-void IntegerType::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void IntegerType::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   hdr << "    " << actualType.GetIdentifier() << " & operator=(int v)";
   if (Module->UsingInlines())
@@ -1588,7 +1588,7 @@ EnumeratedType::EnumeratedType(NamedNumberList * enums, PBoolean extend, NamedNu
 }
 
 
-void EnumeratedType::PrintOn(ostream & strm) const
+void EnumeratedType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   strm << '\n';
@@ -1610,7 +1610,7 @@ TypeBase * EnumeratedType::FlattenThisType(const TypeBase & parent)
 }
 
 
-void EnumeratedType::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void EnumeratedType::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   PINDEX i;
   PArgList & args = PProcess::Current().GetArguments();
@@ -1727,7 +1727,7 @@ void EnumeratedType::GenerateCplusplus(ostream & hdr, ostream & cxx)
 }
 
 
-void EnumeratedType::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void EnumeratedType::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   hdr << "    " << actualType.GetIdentifier() << " & operator=(unsigned v)";
   if (Module->UsingInlines())
@@ -1808,7 +1808,7 @@ OctetStringType::OctetStringType()
 }
 
 
-void OctetStringType::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void OctetStringType::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   static const char * const types[] = {
     "char *", "PString &", "PBYTEArray &"
@@ -1898,7 +1898,7 @@ SequenceType::SequenceType(TypesList * stnd,
 }
 
 
-void SequenceType::PrintOn(ostream & strm) const
+void SequenceType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   strm << '\n';
@@ -1933,7 +1933,7 @@ PBoolean SequenceType::IsPrimitiveType() const
 }
 
 
-void SequenceType::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void SequenceType::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   PArgList & args = PProcess::Current().GetArguments();
   PBoolean xml_output = args.HasOption('x');
@@ -1990,7 +1990,7 @@ void SequenceType::GenerateCplusplus(ostream & hdr, ostream & cxx)
          "    PBoolean Decode(PASN_Stream & strm);\n"
          "    void Encode(PASN_Stream & strm) const;\n"
          "#ifndef PASN_NOPRINTON\n"
-         "    void PrintOn(ostream & strm) const;\n"
+         "    void PrintOn(std::ostream & strm) const;\n"
          "#endif\n";
 
   if (xml_output)
@@ -2019,7 +2019,7 @@ void SequenceType::GenerateCplusplus(ostream & hdr, ostream & cxx)
          "\n"
          "#ifndef PASN_NOPRINTON\n"
       << GetTemplatePrefix()
-      << "void " << GetClassNameString() << "::PrintOn(ostream & strm) const\n"
+      << "void " << GetClassNameString() << "::PrintOn(std::ostream & strm) const\n"
          "{\n"
          "  int indent = strm.precision() + 2;\n"
          "  strm << \"{\\n\";\n";
@@ -2248,7 +2248,7 @@ SequenceOfType::~SequenceOfType()
 }
 
 
-void SequenceOfType::PrintOn(ostream & strm) const
+void SequenceOfType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   if (baseType == NULL)
@@ -2287,7 +2287,7 @@ PBoolean SequenceOfType::IsPrimitiveType() const
 }
 
 
-void SequenceOfType::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void SequenceOfType::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   BeginGenerateCplusplus(hdr, cxx);
   cxx << ")\n"
@@ -2333,7 +2333,7 @@ void SequenceOfType::GenerateCplusplus(ostream & hdr, ostream & cxx)
 }
 
 
-void SequenceOfType::GenerateForwardDecls(ostream & hdr)
+void SequenceOfType::GenerateForwardDecls(std::ostream & hdr)
 {
   if (baseType->IsParameterizedType())
     return;
@@ -2404,7 +2404,7 @@ ChoiceType::ChoiceType(TypesList * stnd,
 {
 }
 
-void ChoiceType::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void ChoiceType::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   PINDEX i;
 
@@ -2668,7 +2668,7 @@ void ChoiceType::GenerateCplusplus(ostream & hdr, ostream & cxx)
 }
 
 
-void ChoiceType::GenerateForwardDecls(ostream & hdr)
+void ChoiceType::GenerateForwardDecls(std::ostream & hdr)
 {
   // Output forward declarations for choice pointers, but not standard classes
   PBoolean needExtraLine = FALSE;
@@ -2762,7 +2762,7 @@ AnyType::AnyType(PString * ident)
 }
 
 
-void AnyType::PrintOn(ostream & strm) const
+void AnyType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   if (!identifier)
@@ -2791,7 +2791,7 @@ int StringTypeBase::GetBraceTokenContext() const
 }
 
 
-static void GenerateOperator(const char * rhsType, ostream & hdr, ostream & cxx, const TypeBase & actualType)
+static void GenerateOperator(const char * rhsType, std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   hdr << "    " << actualType.GetIdentifier() << " & operator=(const " << rhsType << " v)";
   if (Module->UsingInlines())
@@ -2811,7 +2811,7 @@ static void GenerateOperator(const char * rhsType, ostream & hdr, ostream & cxx,
 }
 
 
-void StringTypeBase::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void StringTypeBase::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   GenerateOperator("char *", hdr, cxx, actualType);
   GenerateOperator("PString &", hdr, cxx, actualType);
@@ -2832,7 +2832,7 @@ const char * BMPStringType::GetAncestorClass() const
 }
 
 
-void BMPStringType::GenerateOperators(ostream & hdr, ostream & cxx, const TypeBase & actualType)
+void BMPStringType::GenerateOperators(std::ostream & hdr, std::ostream & cxx, const TypeBase & actualType)
 {
   StringTypeBase::GenerateOperators(hdr, cxx, actualType);
   GenerateOperator("PWCharArray &", hdr, cxx, actualType);
@@ -3094,7 +3094,7 @@ const char * ObjectClassFieldType::GetAncestorClass() const
 }
 
 
-void ObjectClassFieldType::PrintOn(ostream & strm) const
+void ObjectClassFieldType::PrintOn(std::ostream & strm) const
 {
   PrintStart(strm);
   strm << asnObjectClassName << '.' << asnObjectClassField;
@@ -3114,7 +3114,7 @@ PBoolean ObjectClassFieldType::IsPrimitiveType() const
 }
 
 
-void ObjectClassFieldType::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void ObjectClassFieldType::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   BeginGenerateCplusplus(hdr, cxx);
 
@@ -3173,7 +3173,7 @@ void ImportedType::AdjustIdentifier()
 }
 
 
-void ImportedType::GenerateCplusplus(ostream &, ostream &)
+void ImportedType::GenerateCplusplus(std::ostream &, std::ostream &)
 {
 }
 
@@ -3214,14 +3214,14 @@ void ValueBase::SetValueName(PString * name)
 }
 
 
-void ValueBase::PrintBase(ostream & strm) const
+void ValueBase::PrintBase(std::ostream & strm) const
 {
   if (!valueName)
     strm << '\n' << indent() << valueName << '=';
 }
 
 
-void ValueBase::GenerateCplusplus(ostream &, ostream &)
+void ValueBase::GenerateCplusplus(std::ostream &, std::ostream &)
 {
   PError << StdError(Warning) << "unsupported value type." << endl;
 }
@@ -3238,14 +3238,14 @@ DefinedValue::DefinedValue(PString * name)
 }
 
 
-void DefinedValue::PrintOn(ostream & strm) const
+void DefinedValue::PrintOn(std::ostream & strm) const
 {
   PrintBase(strm);
   strm << referenceName;
 }
 
 
-void DefinedValue::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void DefinedValue::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   if (unresolved) {
     unresolved = FALSE;
@@ -3274,14 +3274,14 @@ BooleanValue::BooleanValue(PBoolean newVal)
 }
 
 
-void BooleanValue::PrintOn(ostream & strm) const
+void BooleanValue::PrintOn(std::ostream & strm) const
 {
   PrintBase(strm);
   strm << (value ? "TRUE" : "FALSE");
 }
 
 
-void BooleanValue::GenerateCplusplus(ostream &, ostream & cxx)
+void BooleanValue::GenerateCplusplus(std::ostream &, std::ostream & cxx)
 {
   cxx << (value ? "TRUE" : "FALSE");
 }
@@ -3295,7 +3295,7 @@ IntegerValue::IntegerValue(PInt64 newVal)
 }
 
 
-void IntegerValue::PrintOn(ostream & strm) const
+void IntegerValue::PrintOn(std::ostream & strm) const
 {
   PrintBase(strm);
   
@@ -3303,7 +3303,7 @@ void IntegerValue::PrintOn(ostream & strm) const
 }
 
 
-void IntegerValue::GenerateCplusplus(ostream &, ostream & cxx)
+void IntegerValue::GenerateCplusplus(std::ostream &, std::ostream & cxx)
 {
   cxx << value;
   if (value > INT_MAX)
@@ -3364,13 +3364,13 @@ CharacterValue::CharacterValue(BYTE q1, BYTE q2, BYTE q3, BYTE q4)
 }
 
 
-void CharacterValue::PrintOn(ostream & strm) const
+void CharacterValue::PrintOn(std::ostream & strm) const
 {
   strm << "'\\x" << hex << value << '\'';
 }
 
 
-void CharacterValue::GenerateCplusplus(ostream &, ostream & cxx)
+void CharacterValue::GenerateCplusplus(std::ostream &, std::ostream & cxx)
 {
   cxx << value;
 }
@@ -3393,13 +3393,13 @@ CharacterStringValue::CharacterStringValue(PStringList * newVal)
 }
 
 
-void CharacterStringValue::PrintOn(ostream & strm) const
+void CharacterStringValue::PrintOn(std::ostream & strm) const
 {
   strm << value;
 }
 
 
-void CharacterStringValue::GenerateCplusplus(ostream &, ostream & cxx)
+void CharacterStringValue::GenerateCplusplus(std::ostream &, std::ostream & cxx)
 {
   cxx << value;
 }
@@ -3420,7 +3420,7 @@ ObjectIdentifierValue::ObjectIdentifierValue(PStringList * newVal)
 }
 
 
-void ObjectIdentifierValue::PrintOn(ostream & strm) const
+void ObjectIdentifierValue::PrintOn(std::ostream & strm) const
 {
   PrintBase(strm);
   if (value.IsEmpty())
@@ -3436,13 +3436,13 @@ void ObjectIdentifierValue::PrintOn(ostream & strm) const
 
 /////////////////////////////////////////////////////////
 
-void MinValue::PrintOn(ostream & strm) const
+void MinValue::PrintOn(std::ostream & strm) const
 {
   strm << "MIN";
 }
 
 
-void MinValue::GenerateCplusplus(ostream &, ostream & cxx)
+void MinValue::GenerateCplusplus(std::ostream &, std::ostream & cxx)
 {
   cxx << "MinimumValue";
 }
@@ -3450,13 +3450,13 @@ void MinValue::GenerateCplusplus(ostream &, ostream & cxx)
 
 /////////////////////////////////////////////////////////
 
-void MaxValue::PrintOn(ostream & strm) const
+void MaxValue::PrintOn(std::ostream & strm) const
 {
   strm << "MAX";
 }
 
 
-void MaxValue::GenerateCplusplus(ostream &, ostream & cxx)
+void MaxValue::GenerateCplusplus(std::ostream &, std::ostream & cxx)
 {
   cxx << "MaximumValue";
 }
@@ -3473,7 +3473,7 @@ SequenceValue::SequenceValue(ValuesList * list)
 }
 
 
-void SequenceValue::PrintOn(ostream & strm) const
+void SequenceValue::PrintOn(std::ostream & strm) const
 {
   strm << "{ ";
   for (PINDEX i = 0; i < values.GetSize(); i++) {
@@ -3543,7 +3543,7 @@ MibObject::~MibObject()
 }
 
 
-void MibObject::PrintOn(ostream & strm) const
+void MibObject::PrintOn(std::ostream & strm) const
 {
   strm << "  Object: " << name << "\n  " << *type
        << "    " << description << "\n"
@@ -3571,7 +3571,7 @@ MibTrap::~MibTrap()
 }
 
 
-void MibTrap::PrintOn(ostream & strm) const
+void MibTrap::PrintOn(std::ostream & strm) const
 {
   strm << "  Trap: " << name << "\n  " << *enterprise
        << "    " << description << "\n"
@@ -3607,7 +3607,7 @@ ImportModule::ImportModule(PString * name, TypesList * syms)
 }
 
 
-void ImportModule::PrintOn(ostream & strm) const
+void ImportModule::PrintOn(std::ostream & strm) const
 {
   strm << "  " << fullModuleName << " (" << shortModuleName << "):\n";
   for (PINDEX i = 0; i < symbols.GetSize(); i++)
@@ -3616,7 +3616,7 @@ void ImportModule::PrintOn(ostream & strm) const
 }
 
 
-void ImportModule::GenerateCplusplus(ostream & hdr, ostream & cxx)
+void ImportModule::GenerateCplusplus(std::ostream & hdr, std::ostream & cxx)
 {
   hdr << "#include \"" << directoryPrefix << filename << ".h\"\n";
 
@@ -3666,7 +3666,7 @@ void ModuleDefinition::SetExports(TypesList * syms)
 }
 
 
-void ModuleDefinition::PrintOn(ostream & strm) const
+void ModuleDefinition::PrintOn(std::ostream & strm) const
 {
   strm << moduleName << "\n"
           "Default Tags: " << Tag::modeNames[defaultTagMode] << "\n"

@@ -56,7 +56,7 @@ PObject::Comparison TestObject::Compare(const PObject & obj) const
 }
 
 
-void TestObject::PrintOn(ostream & strm) const
+void TestObject::PrintOn(std::ostream & strm) const
 {
   strm << value;
 }

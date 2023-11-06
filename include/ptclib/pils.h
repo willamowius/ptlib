@@ -72,8 +72,8 @@ class PILSSession : public PLDAPSession
         MSIPAddress & operator=(const PIPSocket::Address & a) { Address::operator=(a); return *this; }
         MSIPAddress & operator=(const PString & dotNotation)  { Address::operator=(dotNotation); return *this; }
 
-      friend istream & operator>>(istream & s, MSIPAddress & a);
-      friend ostream & operator<<(ostream & s, MSIPAddress & a);
+      friend std::istream & operator>>(std::istream & s, MSIPAddress & a);
+      friend std::ostream & operator<<(std::ostream & s, MSIPAddress & a);
     };
 
     PLDAP_STRUCT_BEGIN(RTPerson)
