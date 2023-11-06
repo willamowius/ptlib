@@ -441,6 +441,7 @@ typedef DWORD PProcessIdentifier;
   #pragma warning(pop)
 #endif
 
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <list>
@@ -467,13 +468,16 @@ typedef DWORD PProcessIdentifier;
   using std::ostream;
   using std::ostringstream;
   using std::pair;
+  using std::resetiosflags;
   using std::right;
   using std::scientific;
   using std::setfill;
+  using std::setiosflags;
   using std::setprecision;
   using std::setw;
   using std::streambuf;
   using std::string;
+  using std::vector;
   using std::wostream;
   using std::ws;
 #endif
