@@ -45,6 +45,7 @@
 
 #include <queue>
 #include <set>
+#include <functional>
 
 /**Create a process.
    This macro is used to create the components necessary for a user PWLib
