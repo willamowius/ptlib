@@ -54,7 +54,7 @@ PBoolean PChannelStreamBuffer::SetBufferSize(PINDEX newSize)
 }
 
 
-std::streambuf::int_type PChannelStreamBuffer::overflow(int_type c)
+streambuf::int_type PChannelStreamBuffer::overflow(int_type c)
 {
   if (pbase() == NULL) {
     char * p = output.GetPointer(1024);
@@ -77,7 +77,7 @@ std::streambuf::int_type PChannelStreamBuffer::overflow(int_type c)
 }
 
 
-std::streambuf::int_type PChannelStreamBuffer::underflow()
+streambuf::int_type PChannelStreamBuffer::underflow()
 {
   if (eback() == NULL) {
     char * p = input.GetPointer(1024);
@@ -116,7 +116,7 @@ int PChannelStreamBuffer::sync()
 }
 
 
-PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekoff(off_type off, std::ios_base::seekdir dir, std::ios_base::openmode)
+PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekoff(off_type off, ios_base::seekdir dir, ios_base::openmode)
 {
   sync();
   if (PIsDescendant(channel, PFile)) {
@@ -142,9 +142,9 @@ PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekoff(off_type off, std::
 }
 
 
-PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekpos(pos_type pos, std::ios_base::openmode mode)
+PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekpos(pos_type pos, ios_base::openmode mode)
 {
-  return seekoff(pos, std::ios_base::beg, mode);
+  return seekoff(pos, ios_base::beg, mode);
 }
 
 
@@ -154,7 +154,7 @@ PChannelStreamBuffer::pos_type PChannelStreamBuffer::seekpos(pos_type pos, std::
 
 PChannel::PChannel()
   // coverity[leaked_storage] false positive: ptr is saved in iostream and deleted in ~PStringStream
-  : std::iostream(new PChannelStreamBuffer(this)),
+  : iostream(new PChannelStreamBuffer(this)),
     readTimeout(PMaxTimeInterval), writeTimeout(PMaxTimeInterval)
 {
   os_handle = -1;

@@ -476,7 +476,7 @@ PObject::Comparison PSafePtrBase::Compare(const PObject & obj) const
 }
 
 
-void PSafePtrBase::PrintOn(std::ostream &strm) const
+void PSafePtrBase::PrintOn(ostream &strm) const
 {
   strm << currentObject;
 }

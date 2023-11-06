@@ -260,7 +260,7 @@ PBoolean PTelnetSocket::SendCommand(Command cmd, int opt)
 
   struct PTelnetTrace
   {
-    std::ostream & m_strm;
+    ostream & m_strm;
     PTelnetTrace(const char * file, int line) : m_strm(PTrace::Begin(3, file, line)) { }
     ~PTelnetTrace() { m_strm << PTrace::End; }
   };

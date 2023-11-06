@@ -103,7 +103,7 @@ PASNObject::PASNObject()
 }
 
 
-void PASNObject::PrintOn(std::ostream &) const
+void PASNObject::PrintOn(ostream &) const
 {
   PAssertAlways(cannotPerformOnBaseTypeMsg);
 }
@@ -455,11 +455,11 @@ PASNInteger::PASNInteger(const PBYTEArray & buffer, PINDEX & ptr)
 }
 
 
-void PASNInteger::PrintOn(std::ostream & strm) const
+void PASNInteger::PrintOn(ostream & strm) const
 {
   strm << "Integer: "
        << value
-       << std::endl;
+       << endl;
 }
 
 void PASNInteger::Encode(PBYTEArray & buffer)
@@ -554,12 +554,12 @@ PBoolean PASNString::Decode(const PBYTEArray & buffer, PINDEX & ptr, PASNObject:
 }
 
 
-void PASNString::PrintOn(std::ostream & strm) const
+void PASNString::PrintOn(ostream & strm) const
 {
   strm << GetTypeAsString()
        << ": "
        << value
-       << std::endl; 
+       << endl; 
 }
 
 
@@ -622,12 +622,12 @@ void PASNUnsignedInteger::Encode(PBYTEArray & buffer, PASNObject::ASNType theTyp
 }
 
 
-void PASNUnsignedInteger::PrintOn(std::ostream & strm) const
+void PASNUnsignedInteger::PrintOn(ostream & strm) const
 {
   strm << GetTypeAsString()
        << " : "
        << value
-       << std::endl; 
+       << endl; 
 }
 
 
@@ -698,7 +698,7 @@ PASNObjectID::PASNObjectID(const PBYTEArray & buffer, PINDEX & ptr)
 }
 
 
-void PASNObjectID::PrintOn(std::ostream & strm) const
+void PASNObjectID::PrintOn(ostream & strm) const
 {
   strm << "ObjectId: ";
   for (PINDEX i = 0 ; i < value.GetSize(); i++) {
@@ -706,7 +706,7 @@ void PASNObjectID::PrintOn(std::ostream & strm) const
     if (i != value.GetSize()-1)
       strm << '.';
   }
-  strm << std::endl;
+  strm << endl;
 }
 
 
@@ -955,12 +955,12 @@ void PASNSequence::AppendObjectID(PASNOid * val, BYTE len)
 }
 
 
-void PASNSequence::PrintOn(std::ostream & strm) const
+void PASNSequence::PrintOn(ostream & strm) const
 {
-  strm << "Sequence:" << std::endl;
+  strm << "Sequence:" << endl;
   for (PINDEX i = 0; i < sequence.GetSize(); i++)
     strm << sequence[i];
-  strm << "End Sequence" << std::endl; 
+  strm << "End Sequence" << endl; 
 }
 
 
@@ -1239,10 +1239,10 @@ PASNNull::PASNNull(const PBYTEArray & buffer, PINDEX & ptr)
   ptr += 2 ;
 }
 
-void PASNNull::PrintOn(std::ostream & strm) const
+void PASNNull::PrintOn(ostream & strm) const
 {
   strm << "Null"
-       << std::endl;
+       << endl;
 }
 
 void PASNNull::Encode(PBYTEArray & buffer)

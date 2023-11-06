@@ -218,7 +218,7 @@ PObject * PASN_Null::Clone() const
 }
 
 
-void PASN_Null::PrintOn(std::ostream & strm) const
+void PASN_Null::PrintOn(ostream & strm) const
 {
   strm << "<<null>>";
 }
@@ -278,7 +278,7 @@ PObject * PASN_Boolean::Clone() const
 }
 
 
-void PASN_Boolean::PrintOn(std::ostream & strm) const
+void PASN_Boolean::PrintOn(ostream & strm) const
 {
   if (value)
     strm << "true";
@@ -387,7 +387,7 @@ PObject * PASN_Integer::Clone() const
 }
 
 
-void PASN_Integer::PrintOn(std::ostream & strm) const
+void PASN_Integer::PrintOn(ostream & strm) const
 {
   if (constraint == Unconstrained || lowerLimit < 0)
     strm << (int)value;
@@ -499,7 +499,7 @@ PObject * PASN_Enumeration::Clone() const
 }
 
 
-void PASN_Enumeration::PrintOn(std::ostream & strm) const
+void PASN_Enumeration::PrintOn(ostream & strm) const
 {
   PINDEX idx = FindNameByValue(names, namesCount, value);
   if (idx != P_MAX_INDEX)
@@ -580,7 +580,7 @@ PObject * PASN_Real::Clone() const
 }
 
 
-void PASN_Real::PrintOn(std::ostream & strm) const
+void PASN_Real::PrintOn(ostream & strm) const
 {
   strm << value;
 }
@@ -704,7 +704,7 @@ PObject * PASN_ObjectId::Clone() const
 }
 
 
-void PASN_ObjectId::PrintOn(std::ostream & strm) const
+void PASN_ObjectId::PrintOn(ostream & strm) const
 {
   for (PINDEX i = 0; i < value.GetSize(); i++) {
     strm << (unsigned)value[i];
@@ -982,22 +982,22 @@ PObject * PASN_BitString::Clone() const
 }
 
 
-void PASN_BitString::PrintOn(std::ostream & strm) const
+void PASN_BitString::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
-  std::ios::fmtflags flags = strm.flags();
+  ios::fmtflags flags = strm.flags();
 
   if (totalBits > 128)
     strm << "Hex {\n"
-         << std::hex << std::setfill('0') << std::resetiosflags(std::ios::floatfield) << std::setiosflags(std::ios::fixed)
-         << std::setw(16) << std::setprecision(indent) << bitData
-         << std::dec << std::setfill(' ') << std::resetiosflags(std::ios::floatfield)
-         << std::setw(indent-1) << "}";
+         << hex << setfill('0') << resetiosflags(ios::floatfield) << setiosflags(ios::fixed)
+         << setw(16) << setprecision(indent) << bitData
+         << dec << setfill(' ') << resetiosflags(ios::floatfield)
+         << setw(indent-1) << "}";
   else if (totalBits > 32)
     strm << "Hex:"
-         << std::hex << std::setfill('0') << std::resetiosflags(std::ios::floatfield) << std::setiosflags(std::ios::fixed)
-         << std::setprecision(2) << std::setw(16) << bitData
-         << std::dec << std::setfill(' ') << std::resetiosflags(std::ios::floatfield);
+         << hex << setfill('0') << resetiosflags(ios::floatfield) << setiosflags(ios::fixed)
+         << setprecision(2) << setw(16) << bitData
+         << dec << setfill(' ') << resetiosflags(ios::floatfield);
   else {
     BYTE mask = 0x80;
     PINDEX offset = 0;
@@ -1143,26 +1143,26 @@ PObject * PASN_OctetString::Clone() const
 }
 
 
-void PASN_OctetString::PrintOn(std::ostream & strm) const
+void PASN_OctetString::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
-  std::ios::fmtflags flags = strm.flags();
+  ios::fmtflags flags = strm.flags();
 
   strm << ' ' << value.GetSize() << " octets {\n"
-       << std::hex << std::setfill('0') << std::resetiosflags(std::ios::floatfield)
-       << std::setprecision(indent) << std::setw(16);
+       << hex << setfill('0') << resetiosflags(ios::floatfield)
+       << setprecision(indent) << setw(16);
 
-  if (value.GetSize() <= 32 || (flags&std::ios::floatfield) != std::ios::fixed)
+  if (value.GetSize() <= 32 || (flags&ios::floatfield) != ios::fixed)
     strm << value << '\n';
   else {
     PBYTEArray truncatedArray(value, 32);
     strm << truncatedArray << '\n'
-         << std::setfill(' ')
-         << std::setw(indent+4) << "...\n";
+         << setfill(' ')
+         << setw(indent+4) << "...\n";
   }
 
-  strm << std::dec << std::setfill(' ')
-       << std::setw(indent-1) << "}";
+  strm << dec << setfill(' ')
+       << setw(indent-1) << "}";
 
   strm.flags(flags);
 }
@@ -1320,7 +1320,7 @@ PObject::Comparison PASN_ConstrainedString::Compare(const PObject & obj) const
 }
 
 
-void PASN_ConstrainedString::PrintOn(std::ostream & strm) const
+void PASN_ConstrainedString::PrintOn(ostream & strm) const
 {
   strm << value.ToLiteral();
 }
@@ -1608,18 +1608,18 @@ PObject::Comparison PASN_BMPString::Compare(const PObject & obj) const
 }
 
 
-void PASN_BMPString::PrintOn(std::ostream & strm) const
+void PASN_BMPString::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   PINDEX sz = value.GetSize();
   strm << ' ' << sz << " characters {\n";
   PINDEX i = 0;
   while (i < sz) {
-    strm << std::setw(indent) << " " << std::hex << std::setfill('0');
+    strm << setw(indent) << " " << hex << setfill('0');
     PINDEX j;
     for (j = 0; j < 8; j++)
       if (i+j < sz)
-        strm << std::setw(4) << value[i+j] << ' ';
+        strm << setw(4) << value[i+j] << ' ';
       else
         strm << "     ";
     strm << "  ";
@@ -1632,10 +1632,10 @@ void PASN_BMPString::PrintOn(std::ostream & strm) const
           strm << ' ';
       }
     }
-    strm << std::dec << std::setfill(' ') << '\n';
+    strm << dec << setfill(' ') << '\n';
     i += 8;
   }
-  strm << std::setw(indent-1) << "}";
+  strm << setw(indent-1) << "}";
 }
 
 
@@ -1935,7 +1935,7 @@ PObject::Comparison PASN_Choice::Compare(const PObject & obj) const
 }
 
 
-void PASN_Choice::PrintOn(std::ostream & strm) const
+void PASN_Choice::PrintOn(ostream & strm) const
 {
   strm << GetTagName();
 
@@ -2085,12 +2085,12 @@ PObject * PASN_Sequence::Clone() const
 }
 
 
-void PASN_Sequence::PrintOn(std::ostream & strm) const
+void PASN_Sequence::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   strm << "{\n";
   for (PINDEX i = 0; i < fields.GetSize(); i++) {
-    strm << std::setw(indent+6) << "field[" << i << "] <";
+    strm << setw(indent+6) << "field[" << i << "] <";
     switch (fields[i].GetTagClass()) {
       case UniversalTagClass :
         strm << "Universal";
@@ -2110,7 +2110,7 @@ void PASN_Sequence::PrintOn(std::ostream & strm) const
          << fields[i].GetTypeAsString() << "> = "
          << fields[i] << '\n';
   }
-  strm << std::setw(indent-1) << "}";
+  strm << setw(indent-1) << "}";
 }
 
 
@@ -2263,14 +2263,14 @@ PObject::Comparison PASN_Array::Compare(const PObject & obj) const
 }
 
 
-void PASN_Array::PrintOn(std::ostream & strm) const
+void PASN_Array::PrintOn(ostream & strm) const
 {
-  std::ios::fmtflags oldflags(strm.flags());
+  ios::fmtflags oldflags(strm.flags());
   int indent = (int)strm.precision() + 2;
   strm << array.GetSize() << " entries {\n";
   for (PINDEX i = 0; i < array.GetSize(); i++)
-    strm << std::setw(indent+1) << "[" << i << "]=" << std::setprecision(indent) << array[i] << '\n';
-  strm << std::setw(indent-1) << "}";
+    strm << setw(indent+1) << "[" << i << "]=" << setprecision(indent) << array[i] << '\n';
+  strm << setw(indent-1) << "}";
   strm.flags(oldflags);
 }
 
@@ -2352,7 +2352,7 @@ void PASN_Stream::Construct()
 }
 
 
-void PASN_Stream::PrintOn(std::ostream & strm) const
+void PASN_Stream::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   strm << " size=" << GetSize()
@@ -2360,11 +2360,11 @@ void PASN_Stream::PrintOn(std::ostream & strm) const
        << " {\n";
   PINDEX i = 0;
   while (i < GetSize()) {
-    strm << std::setw(indent) << " " << std::hex << std::setfill('0');
+    strm << setw(indent) << " " << hex << setfill('0');
     PINDEX j;
     for (j = 0; j < 16; j++)
       if (i+j < GetSize())
-        strm << std::setw(2) << (unsigned)(BYTE)theArray[i+j] << ' ';
+        strm << setw(2) << (unsigned)(BYTE)theArray[i+j] << ' ';
       else
         strm << "   ";
     strm << "  ";
@@ -2377,10 +2377,10 @@ void PASN_Stream::PrintOn(std::ostream & strm) const
           strm << ' ';
       }
     }
-    strm << std::dec << std::setfill(' ') << '\n';
+    strm << dec << setfill(' ') << '\n';
     i += 16;
   }
-  strm << std::setw(indent-1) << "}";
+  strm << setw(indent-1) << "}";
 }
 
 

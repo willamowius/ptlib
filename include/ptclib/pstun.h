@@ -299,7 +299,7 @@ class PSTUNClient : public PNatMethod
 };
 
 
-inline std::ostream & operator<<(std::ostream & strm, PSTUNClient::NatTypes type) { return strm << PSTUNClient::GetNatTypeString(type); }
+inline ostream & operator<<(ostream & strm, PSTUNClient::NatTypes type) { return strm << PSTUNClient::GetNatTypeString(type); }
 
 
 #endif // PTLIB_PSTUN_H

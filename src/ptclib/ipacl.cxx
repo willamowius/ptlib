@@ -88,7 +88,7 @@ PObject::Comparison PIpAccessControlEntry::Compare(const PObject & obj) const
 }
 
 
-void PIpAccessControlEntry::PrintOn(std::ostream & strm) const
+void PIpAccessControlEntry::PrintOn(ostream & strm) const
 {
   if (!allowed)
     strm << '-';
@@ -110,10 +110,10 @@ void PIpAccessControlEntry::PrintOn(std::ostream & strm) const
 }
 
 
-void PIpAccessControlEntry::ReadFrom(std::istream & strm)
+void PIpAccessControlEntry::ReadFrom(istream & strm)
 {
   char buffer[200];
-  strm >> std::ws >> buffer;
+  strm >> ws >> buffer;
   Parse(buffer);
 }
 

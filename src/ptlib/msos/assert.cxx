@@ -57,8 +57,8 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM thisProcess)
     return PTrue;
 
   PTRACE(4, "PTLib\tAwaiting key press on exit.");
-  std::cerr << "\nPress a key to continue . . .";
-  std::cerr.flush();
+  cerr << "\nPress a key to continue . . .";
+  cerr.flush();
 
   HANDLE in = GetStdHandle(STD_INPUT_HANDLE);
   SetConsoleMode(in, ENABLE_PROCESSED_INPUT);
@@ -158,7 +158,7 @@ PImageDLL::PImageDLL()
 
 void PAssertFunc(const char * msg)
 {
-  std::ostringstream str;
+  ostringstream str;
   str << msg;
 
 #if defined(_WIN32) && defined(_M_IX86)
@@ -225,11 +225,11 @@ void PAssertFunc(const char * msg)
             }
             else {
               str << "\n    0x"
-                  << std::hex << std::setfill('0')
-                  << std::setw(8) << frame.AddrPC.Offset
-                  << std::dec << std::setfill(' ');
+                  << hex << setfill('0')
+                  << setw(8) << frame.AddrPC.Offset
+                  << dec << setfill(' ');
             }
-            str << '(' << std::hex << std::setfill('0');
+            str << '(' << hex << setfill('0');
             for (PINDEX i = 0; i < PARRAYSIZE(frame.Params); i++) {
               if (i > 0)
                 str << ", ";
@@ -237,7 +237,7 @@ void PAssertFunc(const char * msg)
                 str << "0x";
               str << frame.Params[i];
             }
-            str << std::setfill(' ') << ')';
+            str << setfill(' ') << ')';
             if (displacement != 0)
               str << " + 0x" << displacement;
           }
@@ -266,7 +266,7 @@ void PAssertFunc(const char * msg)
   }
 #endif
 
-  str << std::ends;
+  str << ends;
   // Copy to local variable so char ptr does not become invalidated
   std::string sstr = str.str();
 
@@ -308,17 +308,17 @@ void PAssertFunc(const char * msg)
   }
 
   for (;;) {
-    std::cerr << sstr << "\n<A>bort, <B>reak, <I>gnore? ";
-    std::cerr.flush();
-    switch (std::cin.get()) {
+    cerr << sstr << "\n<A>bort, <B>reak, <I>gnore? ";
+    cerr.flush();
+    switch (cin.get()) {
       case 'A' :
       case 'a' :
-        std::cerr << "Aborted" << std::endl;
+        cerr << "Aborted" << endl;
         _exit(100);
         
       case 'B' :
       case 'b' :
-        std::cerr << "Break" << std::endl;
+        cerr << "Break" << endl;
 #if defined(_WIN32)
         ReleaseSemaphore(mutex, 1, NULL);
 #endif
@@ -329,7 +329,7 @@ void PAssertFunc(const char * msg)
       case 'I' :
       case 'i' :
       case EOF :
-        std::cerr << "Ignored" << std::endl;
+        cerr << "Ignored" << endl;
 #if defined(_WIN32)
         ReleaseSemaphore(mutex, 1, NULL);
 #endif

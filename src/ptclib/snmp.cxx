@@ -29,14 +29,14 @@ PSNMP_Message::PSNMP_Message(unsigned tag, PASN_Object::TagClass tagClass)
 
 
 #ifndef PASN_NOPRINTON
-void PSNMP_Message::PrintOn(std::ostream & strm) const
+void PSNMP_Message::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   strm << "{\n";
-  strm << std::setw(indent+10) << "version = " << std::setprecision(indent) << m_version << '\n';
-  strm << std::setw(indent+12) << "community = " << std::setprecision(indent) << m_community << '\n';
-  strm << std::setw(indent+7) << "data = " << std::setprecision(indent) << m_pdu << '\n';
-  strm << std::setw(indent-1) << std::setprecision(indent-2) << "}";
+  strm << setw(indent+10) << "version = " << setprecision(indent) << m_version << '\n';
+  strm << setw(indent+12) << "community = " << setprecision(indent) << m_community << '\n';
+  strm << setw(indent+7) << "data = " << setprecision(indent) << m_pdu << '\n';
+  strm << setw(indent-1) << setprecision(indent-2) << "}";
 }
 #endif
 
@@ -308,13 +308,13 @@ PSNMP_VarBind::PSNMP_VarBind(unsigned tag, PASN_Object::TagClass tagClass)
 
 
 #ifndef PASN_NOPRINTON
-void PSNMP_VarBind::PrintOn(std::ostream & strm) const
+void PSNMP_VarBind::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   strm << "{\n";
-  strm << std::setw(indent+7) << "name = " << std::setprecision(indent) << m_name << '\n';
-  strm << std::setw(indent+8) << "value = " << std::setprecision(indent) << m_value << '\n';
-  strm << std::setw(indent-1) << std::setprecision(indent-2) << "}";
+  strm << setw(indent+7) << "name = " << setprecision(indent) << m_name << '\n';
+  strm << setw(indent+8) << "value = " << setprecision(indent) << m_value << '\n';
+  strm << setw(indent-1) << setprecision(indent-2) << "}";
 }
 #endif
 
@@ -422,15 +422,15 @@ PSNMP_PDU::PSNMP_PDU(unsigned tag, PASN_Object::TagClass tagClass)
 
 
 #ifndef PASN_NOPRINTON
-void PSNMP_PDU::PrintOn(std::ostream & strm) const
+void PSNMP_PDU::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   strm << "{\n";
-  strm << std::setw(indent+13) << "request_id = " << std::setprecision(indent) << m_request_id << '\n';
-  strm << std::setw(indent+15) << "error_status = " << std::setprecision(indent) << m_error_status << '\n';
-  strm << std::setw(indent+14) << "error_index = " << std::setprecision(indent) << m_error_index << '\n';
-  strm << std::setw(indent+20) << "variable_bindings = " << std::setprecision(indent) << m_variable_bindings << '\n';
-  strm << std::setw(indent-1) << std::setprecision(indent-2) << "}";
+  strm << setw(indent+13) << "request_id = " << setprecision(indent) << m_request_id << '\n';
+  strm << setw(indent+15) << "error_status = " << setprecision(indent) << m_error_status << '\n';
+  strm << setw(indent+14) << "error_index = " << setprecision(indent) << m_error_index << '\n';
+  strm << setw(indent+20) << "variable_bindings = " << setprecision(indent) << m_variable_bindings << '\n';
+  strm << setw(indent-1) << setprecision(indent-2) << "}";
 }
 #endif
 
@@ -519,17 +519,17 @@ PSNMP_Trap_PDU::PSNMP_Trap_PDU(unsigned tag, PASN_Object::TagClass tagClass)
 
 
 #ifndef PASN_NOPRINTON
-void PSNMP_Trap_PDU::PrintOn(std::ostream & strm) const
+void PSNMP_Trap_PDU::PrintOn(ostream & strm) const
 {
   int indent = (int)strm.precision() + 2;
   strm << "{\n";
-  strm << std::setw(indent+13) << "enterprise = " << std::setprecision(indent) << m_enterprise << '\n';
-  strm << std::setw(indent+13) << "agent_addr = " << std::setprecision(indent) << m_agent_addr << '\n';
-  strm << std::setw(indent+15) << "generic_trap = " << std::setprecision(indent) << m_generic_trap << '\n';
-  strm << std::setw(indent+16) << "specific_trap = " << std::setprecision(indent) << m_specific_trap << '\n';
-  strm << std::setw(indent+13) << "time_stamp = " << std::setprecision(indent) << m_time_stamp << '\n';
-  strm << std::setw(indent+20) << "variable_bindings = " << std::setprecision(indent) << m_variable_bindings << '\n';
-  strm << std::setw(indent-1) << std::setprecision(indent-2) << "}";
+  strm << setw(indent+13) << "enterprise = " << setprecision(indent) << m_enterprise << '\n';
+  strm << setw(indent+13) << "agent_addr = " << setprecision(indent) << m_agent_addr << '\n';
+  strm << setw(indent+15) << "generic_trap = " << setprecision(indent) << m_generic_trap << '\n';
+  strm << setw(indent+16) << "specific_trap = " << setprecision(indent) << m_specific_trap << '\n';
+  strm << setw(indent+13) << "time_stamp = " << setprecision(indent) << m_time_stamp << '\n';
+  strm << setw(indent+20) << "variable_bindings = " << setprecision(indent) << m_variable_bindings << '\n';
+  strm << setw(indent-1) << setprecision(indent-2) << "}";
 }
 #endif
 

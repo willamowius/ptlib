@@ -171,7 +171,7 @@ PBoolean PHTTPClient::WriteCommand(const PString & cmdName,
                                        PMIMEInfo & outMIME,
                                    const PString & dataBody)
 {
-  std::ostream & this_stream = *this;
+  ostream & this_stream = *this;
   PINDEX len = dataBody.GetLength();
   if (!outMIME.Contains(ContentLengthTag()))
     outMIME.SetInteger(ContentLengthTag(), len);
@@ -185,7 +185,7 @@ PBoolean PHTTPClient::WriteCommand(const PString & cmdName,
 
 #if PTRACING
   if (PTrace::CanTrace(3)) {
-    std::ostream & strm = PTrace::Begin(3, __FILE__, __LINE__);
+    ostream & strm = PTrace::Begin(3, __FILE__, __LINE__);
     strm << "HTTP\tSending ";
     if (PTrace::CanTrace(4))
       strm << '\n';
@@ -208,7 +208,7 @@ PBoolean PHTTPClient::WriteCommand(const PString & cmdName,
 #endif
 
   this_stream << cmd << ' ' << (url.IsEmpty() ? "/" :  (const char*) url) << " HTTP/1.1\r\n"
-              << std::setfill('\r') << outMIME;
+              << setfill('\r') << outMIME;
 
   return Write((const char *)dataBody, len);
 }
@@ -245,7 +245,7 @@ PBoolean PHTTPClient::ReadResponse(PMIMEInfo & replyMIME)
 
 #if PTRACING
       if (PTrace::CanTrace(3)) {
-        std::ostream & strm = PTrace::Begin(3, __FILE__, __LINE__);
+        ostream & strm = PTrace::Begin(3, __FILE__, __LINE__);
         strm << "HTTP\tResponse ";
         if (PTrace::CanTrace(4))
           strm << '\n';
@@ -598,18 +598,18 @@ PString PHTTPClientAuthentication::GetAuthParam(const PString & auth, const char
 PString PHTTPClientAuthentication::AsHex(PMessageDigest5::Code & digest) const
 {
   PStringStream out;
-  out << std::hex << std::setfill('0');
+  out << hex << setfill('0');
   for (PINDEX i = 0; i < 16; i++)
-    out << std::setw(2) << (unsigned)((BYTE *)&digest)[i];
+    out << setw(2) << (unsigned)((BYTE *)&digest)[i];
   return out;
 }
 
 PString PHTTPClientAuthentication::AsHex(const PBYTEArray & data) const
 {
   PStringStream out;
-  out << std::hex << std::setfill('0');
+  out << hex << setfill('0');
   for (PINDEX i = 0; i < data.GetSize(); i++)
-    out << std::setw(2) << (unsigned)data[i];
+    out << setw(2) << (unsigned)data[i];
   return out;
 }
 

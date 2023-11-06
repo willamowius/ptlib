@@ -97,14 +97,14 @@ class PArgList : public PObject
     /**Output the string to the specified stream.
      */
     virtual void PrintOn(
-      std::ostream & strm  ///< I/O stream to output to.
+      ostream & strm  ///< I/O stream to output to.
     ) const;
 
     /**Input the string from the specified stream. This will read all
        characters until a end of line is reached, then parsing the arguments.
      */
     virtual void ReadFrom(
-      std::istream & strm  ///< I/O stream to input from. 
+      istream & strm  ///< I/O stream to input from. 
     );
   //@}
 

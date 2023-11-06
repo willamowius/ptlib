@@ -455,7 +455,7 @@ class PString : public PCharArray
     /**Output the string to the specified stream.
      */
     virtual void PrintOn(
-      std::ostream & strm  ///< I/O stream to output to.
+      ostream & strm  ///< I/O stream to output to.
     ) const;
 
     /**Input the string from the specified stream. This will read all
@@ -464,7 +464,7 @@ class PString : public PCharArray
        the stream.
      */
     virtual void ReadFrom(
-      std::istream & strm  ///< I/O stream to input from.
+      istream & strm  ///< I/O stream to input from.
     );
 
     /**Calculate a hash value for use in sets and dictionaries.
@@ -1674,14 +1674,14 @@ class PString : public PCharArray
 };
 
 
-inline std::ostream & operator<<(std::ostream & stream, const PString & string)
+inline ostream & operator<<(ostream & stream, const PString & string)
 {
   string.PrintOn(stream);
   return stream;
 }
 
 
-inline std::wostream & operator<<(std::wostream & stream, const PString & string)
+inline wostream & operator<<(wostream & stream, const PString & string)
 {
   return stream << (const char *)string;
 }
@@ -1702,7 +1702,7 @@ inline std::wostream & operator<<(std::wostream & stream, const PString & string
       PWideString & operator=(const PString     & str) { PWCharArray::operator=(str.AsUCS2()); return *this; }
       PWideString & operator=(const std::string & str) { PWCharArray::operator=(PString(str.c_str()).AsUCS2()); return *this; }
       PWideString & operator=(const char        * str) { PWCharArray::operator=(PString(str).AsUCS2()); return *this; }
-      friend inline std::ostream & operator<<(std::ostream & stream, const PWideString & string) { return stream << PString(string); }
+      friend inline ostream & operator<<(ostream & stream, const PWideString & string) { return stream << PString(string); }
 
     protected:
       PWideString(PContainerReference & reference) : PWCharArray(reference) { }
@@ -1897,7 +1897,7 @@ class PStringStream;
    All of the standard stream I/O operators, manipulators etc will operate on
    the PStringStream class.
  */
-class PStringStream : public PString, public std::iostream
+class PStringStream : public PString, public iostream
 {
   PCLASSINFO(PStringStream, PString);
 
@@ -2009,9 +2009,9 @@ class PStringStream : public PString, public std::iostream
     virtual void AssignContents(const PContainer & cont);
 
   private:
-    PStringStream(int, const PStringStream &) : std::iostream(std::cout.rdbuf()) { }
+    PStringStream(int, const PStringStream &) : iostream(cout.rdbuf()) { }
 
-    class Buffer : public std::streambuf {
+    class Buffer : public streambuf {
       public:
         Buffer(PStringStream & str, PINDEX size);
         Buffer(const Buffer & sbuf);
@@ -2121,7 +2121,7 @@ class PStringArray : public PArray {
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   // Stream to read the objects contents from.
+      istream &strm   // Stream to read the objects contents from.
     );
   //@}
 
@@ -2242,7 +2242,7 @@ PDECLARE_LIST(PStringList, PString);
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   // Stream to read the objects contents from.
+      istream &strm   // Stream to read the objects contents from.
     );
   //@}
 
@@ -2354,7 +2354,7 @@ PDECLARE_SORTED_LIST(PSortedStringList, PString);
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   // Stream to read the objects contents from.
+      istream &strm   // Stream to read the objects contents from.
     );
   //@}
 
@@ -2449,7 +2449,7 @@ PDECLARE_SET(PStringSet, PString, true);
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   ///< Stream to read the objects contents from.
+      istream &strm   ///< Stream to read the objects contents from.
     );
   //@}
 
@@ -2735,7 +2735,7 @@ PDECLARE_STRING_DICTIONARY(POrdinalToString, POrdinalKey);
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   // Stream to read the objects contents from.
+      istream &strm   // Stream to read the objects contents from.
     );
   //@}
 };
@@ -2783,7 +2783,7 @@ PDECLARE_ORDINAL_DICTIONARY(PStringToOrdinal, PString);
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   // Stream to read the objects contents from.
+      istream &strm   // Stream to read the objects contents from.
     );
   //@}
 };
@@ -2835,7 +2835,7 @@ PDECLARE_STRING_DICTIONARY(PStringToString, PString);
        <code>!strm.good()</code>.
      */
     virtual void ReadFrom(
-      std::istream &strm   // Stream to read the objects contents from.
+      istream &strm   // Stream to read the objects contents from.
     );
   //@}
 
@@ -3051,7 +3051,7 @@ class PRegularExpression : public PObject
     /**Output the regular expression to the specified stream.
      */
     virtual void PrintOn(
-      std::ostream & strm  ///< I/O stream to output to.
+      ostream & strm  ///< I/O stream to output to.
     ) const;
   //@}
 

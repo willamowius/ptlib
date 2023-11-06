@@ -81,37 +81,37 @@ void PvCard::Token::Validate()
 }
 
 
-void PvCard::Token::PrintOn(std::ostream & strm) const
+void PvCard::Token::PrintOn(ostream & strm) const
 {
   strm.iword(0) += GetLength();
   PCaselessString::PrintOn(strm);
 }
 
 
-void PvCard::Token::ReadFrom(std::istream & strm)
+void PvCard::Token::ReadFrom(istream & strm)
 {
   MakeEmpty();
 
   while (isspace(strm.peek())) {
     if (strm.get() == '\n' && !isspace(strm.peek())) {
       strm.putback('\n');
-      strm.setstate(std::ios::failbit);
+      strm.setstate(ios::failbit);
       return;
     }
   }
 
-  std::istream::int_type c;
+  istream::int_type c;
   while ((c = strm.get()) == '-' || isalnum(c))
     operator+=((char)c);
 
   strm.putback((char)c);
 
   if (IsEmpty())
-    strm.setstate(std::ios::failbit);
+    strm.setstate(ios::failbit);
 }
 
 
-void PvCard::Separator::PrintOn(std::ostream & strm) const
+void PvCard::Separator::PrintOn(ostream & strm) const
 {
   strm << m_separator;
   if (m_separator == '\n')
@@ -123,7 +123,7 @@ void PvCard::Separator::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::Separator::ReadFrom(std::istream & strm)
+void PvCard::Separator::ReadFrom(istream & strm)
 {
   do {
     strm.get(m_separator);
@@ -138,11 +138,11 @@ void PvCard::Separator::ReadFrom(std::istream & strm)
     }
   } while (m_separator < ' ' || isspace(m_separator));
 
-  strm.setstate(std::ios::failbit);
+  strm.setstate(ios::failbit);
 }
 
 
-void PvCard::ParamValue::PrintOn(std::ostream & strm) const
+void PvCard::ParamValue::PrintOn(ostream & strm) const
 {
   if (FindOneOf("\";:,") == P_MAX_INDEX) {
     strm.iword(0) += GetLength();
@@ -154,7 +154,7 @@ void PvCard::ParamValue::PrintOn(std::ostream & strm) const
   PINDEX lastPos = 0, pos;
   while ((pos = Find('"', lastPos)) != P_MAX_INDEX) {
     strm.iword(0) += pos - lastPos + 1;
-    strm << std::string(lastPos, pos-1) << "\\\"";
+    strm << string(lastPos, pos-1) << "\\\"";
     lastPos = pos+1;
   }
 
@@ -163,11 +163,11 @@ void PvCard::ParamValue::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::ParamValue::ReadFrom(std::istream & strm)
+void PvCard::ParamValue::ReadFrom(istream & strm)
 {
   MakeEmpty();
 
-  std::istream::int_type c;
+  istream::int_type c;
   do {
     c = strm.get();
     if (c == '\n' && !isspace(strm.peek())) {
@@ -198,7 +198,7 @@ void PvCard::ParamValue::ReadFrom(std::istream & strm)
 }
 
 
-void PvCard::ParamValues::PrintOn(std::ostream & strm) const
+void PvCard::ParamValues::PrintOn(ostream & strm) const
 {
   for (PINDEX i = 0; i < GetSize(); ++i) {
     if (i > 0)
@@ -208,7 +208,7 @@ void PvCard::ParamValues::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::ParamValues::ReadFrom(std::istream & strm)
+void PvCard::ParamValues::ReadFrom(istream & strm)
 {
   PvCard::ParamValue * paramValue = new PvCard::ParamValue;
   strm >> *paramValue;
@@ -222,7 +222,7 @@ void PvCard::ParamValues::ReadFrom(std::istream & strm)
 }
 
 
-void PvCard::TypeValues::PrintOn(std::ostream & strm) const
+void PvCard::TypeValues::PrintOn(ostream & strm) const
 {
   if (IsEmpty())
     return;
@@ -232,7 +232,7 @@ void PvCard::TypeValues::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::TextValue::PrintOn(std::ostream & strm) const
+void PvCard::TextValue::PrintOn(ostream & strm) const
 {
   PINDEX len = GetLength();
   PINDEX lastPos = 0, pos;
@@ -275,14 +275,14 @@ void PvCard::TextValue::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::TextValue::ReadFrom(std::istream & strm)
+void PvCard::TextValue::ReadFrom(istream & strm)
 {
   MakeEmpty();
 
   bool escaped = false;
 
   for (;;) {
-    std::istream::int_type c = strm.get();
+    istream::int_type c = strm.get();
     switch (c) {
       case EOF :
         return;
@@ -292,7 +292,7 @@ void PvCard::TextValue::ReadFrom(std::istream & strm)
           strm.putback('\n');
           return;
         }
-        strm >> std::ws;
+        strm >> ws;
         c = ' ';
         break;
 
@@ -328,7 +328,7 @@ void PvCard::TextValue::ReadFrom(std::istream & strm)
 }
 
 
-void PvCard::TextValues::PrintOn(std::ostream & strm) const
+void PvCard::TextValues::PrintOn(ostream & strm) const
 {
   for (PINDEX i = 0; i < GetSize(); ++i) {
     if (i > 0)
@@ -338,7 +338,7 @@ void PvCard::TextValues::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::TextValues::ReadFrom(std::istream & strm)
+void PvCard::TextValues::ReadFrom(istream & strm)
 {
   PvCard::TextValue * textValue = new PvCard::TextValue;
   strm >> *textValue;
@@ -352,7 +352,7 @@ void PvCard::TextValues::ReadFrom(std::istream & strm)
 }
 
 
-void PvCard::URIValue::PrintOn(std::ostream & strm) const
+void PvCard::URIValue::PrintOn(ostream & strm) const
 {
   PString str = AsString();
   strm.iword(0) += str.GetLength();
@@ -360,16 +360,16 @@ void PvCard::URIValue::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::URIValue::ReadFrom(std::istream & strm)
+void PvCard::URIValue::ReadFrom(istream & strm)
 {
   PvCard::TextValue value;
   strm >> value;
   if (!Parse(value))
-    strm.setstate(std::ios::failbit);
+    strm.setstate(ios::failbit);
 }
 
 
-void PvCard::InlineValue::PrintOn(std::ostream & strm) const
+void PvCard::InlineValue::PrintOn(ostream & strm) const
 {
   if (GetScheme() != "data")
     strm << Semicolon << TextValue("VALUE=url") << Colon << AsString();
@@ -383,10 +383,10 @@ void PvCard::InlineValue::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::InlineValue::ReadFrom(std::istream & strm)
+void PvCard::InlineValue::ReadFrom(istream & strm)
 {
   if (m_params == NULL) {
-    strm.setstate(std::ios::failbit);
+    strm.setstate(ios::failbit);
     return;
   }
 
@@ -425,7 +425,7 @@ void PvCard::MultiValue::SetTypes(const ParamMap & params)
 }
 
 
-void PvCard::Address::PrintOn(std::ostream & strm) const
+void PvCard::Address::PrintOn(ostream & strm) const
 {
   strm << Token(m_label ? "LABEL" : "ADR") << m_types << Colon
        << m_postOfficeBox << Semicolon
@@ -438,7 +438,7 @@ void PvCard::Address::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::Address::ReadFrom(std::istream & strm)
+void PvCard::Address::ReadFrom(istream & strm)
 {
   PvCard::Separator separator;
   strm >> m_postOfficeBox >> separator
@@ -451,19 +451,19 @@ void PvCard::Address::ReadFrom(std::istream & strm)
 }
 
 
-void PvCard::Telephone::PrintOn(std::ostream & strm) const
+void PvCard::Telephone::PrintOn(ostream & strm) const
 {
   strm << Token("TEL") << m_types << Colon << m_number << EndOfLine;
 }
 
 
-void PvCard::EMail::PrintOn(std::ostream & strm) const
+void PvCard::EMail::PrintOn(ostream & strm) const
 {
   strm << Token("EMAIL") << m_types << Colon << m_address << EndOfLine;
 }
 
 
-void PvCard::PrintOn(std::ostream & strm) const
+void PvCard::PrintOn(ostream & strm) const
 {
   if (!IsValid())
     return;
@@ -558,7 +558,7 @@ void PvCard::PrintOn(std::ostream & strm) const
 }
 
 
-void PvCard::ReadFrom(std::istream & strm)
+void PvCard::ReadFrom(istream & strm)
 {
   Token token;
   Separator separator;
@@ -570,13 +570,13 @@ void PvCard::ReadFrom(std::istream & strm)
     strm >> token >> separator;
   }
   if (separator != ':' || token != "BEGIN") {
-    strm.setstate(std::ios::failbit);
+    strm.setstate(ios::failbit);
     return;
   }
 
   strm >> token;
   if (token != "VCARD") {
-    strm.setstate(std::ios::failbit);
+    strm.setstate(ios::failbit);
     return;
   }
 
@@ -590,7 +590,7 @@ void PvCard::ReadFrom(std::istream & strm)
     strm >> token >> separator;
     if (separator == '.') {
       if (token != m_group) {
-        strm.setstate(std::ios::failbit);
+        strm.setstate(ios::failbit);
         return;
       }
       strm >> token >> separator;
@@ -611,7 +611,7 @@ void PvCard::ReadFrom(std::istream & strm)
     }
 
     if (separator != ':' || strm.fail()) {
-      strm.setstate(std::ios::failbit);
+      strm.setstate(ios::failbit);
       return;
     }
 
@@ -702,10 +702,10 @@ void PvCard::ReadFrom(std::istream & strm)
     else if (name == "END") {
       strm >> token;
       if (token == "VCARD") {
-        strm.clear(strm.rdstate()&~std::ios::failbit);
+        strm.clear(strm.rdstate()&~ios::failbit);
         return;
       }
-      strm.setstate(std::ios::failbit);
+      strm.setstate(ios::failbit);
     }
     else
       m_extensions[token] = info;
@@ -724,7 +724,7 @@ bool PvCard::Parse(const PString & str)
 PString PvCard::AsString(Format fmt)
 {
   PStringStream strm;
-  strm << std::setw(fmt) << *this;
+  strm << setw(fmt) << *this;
   return strm;
 }
 

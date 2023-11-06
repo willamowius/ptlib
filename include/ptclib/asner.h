@@ -192,7 +192,7 @@ class PASN_Null : public PASN_Object
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -217,7 +217,7 @@ class PASN_Boolean : public PASN_Object
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -245,7 +245,7 @@ class PASN_Integer : public PASN_ConstrainedObject
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual void SetConstraintBounds(ConstraintType type, int lower, unsigned upper);
     virtual PString GetTypeAsString() const;
@@ -298,7 +298,7 @@ class PASN_Enumeration : public PASN_Object
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -340,7 +340,7 @@ class PASN_Real : public PASN_Object
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -384,7 +384,7 @@ class PASN_ObjectId : public PASN_Object
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -426,7 +426,7 @@ class PASN_BitString : public PASN_ConstrainedObject
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual void SetConstraintBounds(ConstraintType type, int lower, unsigned upper);
     virtual PString GetTypeAsString() const;
@@ -484,7 +484,7 @@ class PASN_OctetString : public PASN_ConstrainedObject
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual void SetConstraintBounds(ConstraintType type, int lower, unsigned upper);
     virtual PString GetTypeAsString() const;
@@ -524,7 +524,7 @@ class PASN_ConstrainedString : public PASN_ConstrainedObject
     void SetCharacterSet(const char * charSet, PINDEX size, ConstraintType ctype);
 
     virtual Comparison Compare(const PObject & obj) const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual void SetConstraintBounds(ConstraintType type, int lower, unsigned upper);
     virtual PINDEX GetDataLength() const;
@@ -607,7 +607,7 @@ class PASN_BMPString : public PASN_ConstrainedObject
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -742,7 +742,7 @@ class PASN_Choice : public PASN_Object
     virtual PBoolean CreateObject() = 0;
 
     virtual Comparison Compare(const PObject & obj) const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -805,7 +805,7 @@ class PASN_Sequence : public PASN_Object
 
     virtual Comparison Compare(const PObject & obj) const;
     virtual PObject * Clone() const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual PString GetTypeAsString() const;
     virtual PINDEX GetDataLength() const;
@@ -889,7 +889,7 @@ class PASN_Array : public PASN_ConstrainedObject
     void RemoveAll() { array.RemoveAll(); }
 
     virtual Comparison Compare(const PObject & obj) const;
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
 
     virtual void SetConstraintBounds(ConstraintType type, int lower, unsigned upper);
     virtual PString GetTypeAsString() const;
@@ -924,7 +924,7 @@ class PASN_Stream : public PBYTEArray
     PASN_Stream(const PBYTEArray & bytes);
     PASN_Stream(const BYTE * buf, PINDEX size);
 
-    void PrintOn(std::ostream & strm) const;
+    void PrintOn(ostream & strm) const;
 
     PINDEX GetPosition() const { return byteOffset; }
     void SetPosition(PINDEX newPos);

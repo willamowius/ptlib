@@ -123,7 +123,7 @@ PString PSNMPVarBindingList::GetObjectID(PINDEX idx) const
 }
 
 
-void PSNMPVarBindingList::PrintOn(std::ostream & strm) const
+void PSNMPVarBindingList::PrintOn(ostream & strm) const
 {
   for (PINDEX i = 0; i < GetSize(); i++) 
     strm << objectIds[i] 

@@ -272,7 +272,7 @@ void PCLI::Context::OnCompletedLine()
 
   if (line.NumCompare(m_cli.GetRepeatCommand()) == EqualTo) {
     if (m_commandHistory.IsEmpty()) {
-      *this << m_cli.GetNoHistoryError() << std::endl;
+      *this << m_cli.GetNoHistoryError() << endl;
       return;
     }
 
@@ -290,7 +290,7 @@ void PCLI::Context::OnCompletedLine()
   if (line.NumCompare(m_cli.GetHistoryCommand()) == EqualTo) {
     PINDEX cmdNum = line.Mid(m_cli.GetHistoryCommand().GetLength()).AsUnsigned();
     if (cmdNum <= 0 || cmdNum > m_commandHistory.GetSize()) {
-      *this << m_cli.GetNoHistoryError() << std::endl;
+      *this << m_cli.GetNoHistoryError() << endl;
       return;
     }
 
@@ -337,7 +337,7 @@ PCLI::Arguments::Arguments(Context & context, const PString & rawLine)
 PCLI::Context & PCLI::Arguments::WriteUsage()
 {
   if (!m_usage.IsEmpty())
-    m_context << m_context.GetCLI().GetCommandUsagePrefix() << m_usage << std::endl;
+    m_context << m_context.GetCLI().GetCommandUsagePrefix() << m_usage << endl;
   return m_context;
 }
 
@@ -346,7 +346,7 @@ PCLI::Context & PCLI::Arguments::WriteError(const PString & error)
 {
   m_context << m_command << m_context.GetCLI().GetCommandErrorPrefix();
   if (!error.IsEmpty())
-    m_context << error << std::endl;
+    m_context << error << endl;
   return m_context;
 }
 
@@ -562,7 +562,7 @@ void PCLI::OnReceivedLine(Arguments & args)
     }
   }
 
-  args.GetContext() << GetUnknownCommandError() << std::endl;
+  args.GetContext() << GetUnknownCommandError() << endl;
 }
 
 
@@ -575,7 +575,7 @@ bool PCLI::OnLogIn(const PString & username, const PString & password)
 void PCLI::Broadcast(const PString & message) const
 {
   for (ContextList_t::const_iterator iter = m_contextList.begin(); iter != m_contextList.end(); ++iter)
-    **iter << message << std::endl;
+    **iter << message << endl;
   PTRACE(4, "PCLI\tBroadcast \"" << message << '"');
 }
 
@@ -615,7 +615,7 @@ void PCLI::ShowHelp(Context & context)
 {
   PINDEX i;
   CommandMap_t::const_iterator cmd;
-  std::ios::fmtflags oldflags(context.flags());
+  ios::fmtflags oldflags(context.flags());
 
   PINDEX maxCommandLength = GetHelpCommand().GetLength();
   for (cmd = m_commands.begin(); cmd != m_commands.end(); ++cmd) {
@@ -632,7 +632,7 @@ void PCLI::ShowHelp(Context & context)
     if (cmd->second.m_help.IsEmpty() && cmd->second.m_usage.IsEmpty())
       context << cmd->first;
     else {
-      context << std::left << std::setw(maxCommandLength) << cmd->first << "   ";
+      context << left << setw(maxCommandLength) << cmd->first << "   ";
 
       if (cmd->second.m_help.IsEmpty())
         context << GetCommandUsagePrefix(); // Earlier conditon says must have usage
@@ -640,12 +640,12 @@ void PCLI::ShowHelp(Context & context)
         lines = cmd->second.m_help.Lines();
         context << lines[0];
         for (i = 1; i < lines.GetSize(); ++i)
-          context << '\n' << std::setw(maxCommandLength+3) << ' ' << lines[i];
+          context << '\n' << setw(maxCommandLength+3) << ' ' << lines[i];
       }
 
       lines = cmd->second.m_usage.Lines();
       for (i = 0; i < lines.GetSize(); ++i)
-        context << '\n' << std::setw(maxCommandLength+5) << ' ' << lines[i];
+        context << '\n' << setw(maxCommandLength+5) << ' ' << lines[i];
     }
     context << '\n';
   }

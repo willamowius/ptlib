@@ -46,14 +46,14 @@
 #endif
 
 
-std::ostream & operator<<(std::ostream & s, PInt64 v)
+ostream & operator<<(ostream & s, PInt64 v)
 {
   char buffer[25];
 
-  if ((s.flags()&std::ios::hex) != 0)
+  if ((s.flags()&ios::hex) != 0)
     return s << _ui64toa(v, buffer, 16);
 
-  if ((s.flags()&std::ios::oct) != 0)
+  if ((s.flags()&ios::oct) != 0)
     return s << _ui64toa(v, buffer, 8);
 
   if (v < 0) {
@@ -65,16 +65,16 @@ std::ostream & operator<<(std::ostream & s, PInt64 v)
 }
 
 
-std::ostream & operator<<(std::ostream & s, PUInt64 v)
+ostream & operator<<(ostream & s, PUInt64 v)
 {
   char buffer[25];
-  return s << _ui64toa(v, buffer, (s.flags()&std::ios::oct) ? 8 : ((s.flags()&std::ios::hex) ? 16 : 10));
+  return s << _ui64toa(v, buffer, (s.flags()&ios::oct) ? 8 : ((s.flags()&ios::hex) ? 16 : 10));
 }
 
 
 const int MaxDigits = (64+2)/3+1; // Maximum is 22 digit octal number, plus sign
 
-static void GetDigits(PBoolean sign, std::istream & s, char * buffer)
+static void GetDigits(PBoolean sign, istream & s, char * buffer)
 {
   PINDEX count = 0;
 
@@ -86,11 +86,11 @@ static void GetDigits(PBoolean sign, std::istream & s, char * buffer)
   else if (sign && s.peek() == '-')
     s.get(buffer[count++]);
 
-  if ((s.flags()&std::ios::oct) != 0) {
+  if ((s.flags()&ios::oct) != 0) {
     while (isdigit(s.peek()) && s.peek() < '8' && count < MaxDigits)
       s.get(buffer[count++]);
   }
-  else if ((s.flags()&std::ios::hex) != 0) {
+  else if ((s.flags()&ios::hex) != 0) {
     while (isxdigit(s.peek()) && count < MaxDigits)
       s.get(buffer[count++]);
   }
@@ -104,11 +104,11 @@ static void GetDigits(PBoolean sign, std::istream & s, char * buffer)
   if (count > (buffer[0] == '-' ? 1 : 0))
     return;
 
-  s.clear(std::ios::failbit);
+  s.clear(ios::failbit);
 }
 
 
-std::istream & operator>>(std::istream & s, PInt64 & v)
+istream & operator>>(istream & s, PInt64 & v)
 {
   char b[MaxDigits+1];
   GetDigits(PTrue, s, b);
@@ -117,7 +117,7 @@ std::istream & operator>>(std::istream & s, PInt64 & v)
 }
 
 
-std::istream & operator>>(std::istream & s, PUInt64 & v)
+istream & operator>>(istream & s, PUInt64 & v)
 {
   char b[MaxDigits+1];
   GetDigits(PFalse, s, b);
@@ -1061,7 +1061,7 @@ void SignalHandler(int sig)
 
 void PProcess::Construct()
 {
-  PSetErrorStream(&std::cerr);
+  PSetErrorStream(&cerr);
 
 #if !defined(_WIN32) && defined(_MSC_VER) && defined(_WINDOWS)
   _wsetscreenbuf(1, _WINBUFINF);

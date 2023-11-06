@@ -506,7 +506,7 @@ PString PInternetProtocol::GetLastResponseInfo() const
 //////////////////////////////////////////////////////////////////////////////
 // PMIMEInfo
 
-PMIMEInfo::PMIMEInfo(std::istream & strm)
+PMIMEInfo::PMIMEInfo(istream & strm)
 {
   ReadFrom(strm);
 }
@@ -539,7 +539,7 @@ PString PMIMEInfo::AsString() const
 }
 
 
-void PMIMEInfo::PrintOn(std::ostream &strm) const
+void PMIMEInfo::PrintOn(ostream &strm) const
 {
   bool crlf = strm.fill() == '\r';
   PrintContents(strm);
@@ -548,7 +548,7 @@ void PMIMEInfo::PrintOn(std::ostream &strm) const
   strm << '\n';
 }
 
-std::ostream & PMIMEInfo::PrintContents(std::ostream &strm) const
+ostream & PMIMEInfo::PrintContents(ostream &strm) const
 {
   PBoolean output_cr = strm.fill() == '\r';
   strm.fill(' ');
@@ -575,7 +575,7 @@ std::ostream & PMIMEInfo::PrintContents(std::ostream &strm) const
 }
 
 
-void PMIMEInfo::ReadFrom(std::istream &strm)
+void PMIMEInfo::ReadFrom(istream &strm)
 {
   RemoveAll();
 

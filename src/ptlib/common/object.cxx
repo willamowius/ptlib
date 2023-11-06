@@ -133,7 +133,7 @@ void PAssertFunc(const char * file, int line, const char * className, const char
   int err = errno;
 #endif
 
-  std::ostringstream str;
+  ostringstream str;
   str << "Assertion fail: ";
   if (msg != NULL)
     str << msg << ", ";
@@ -142,7 +142,7 @@ void PAssertFunc(const char * file, int line, const char * className, const char
     str << ", class " << className;
   if (err != 0)
     str << ", Error=" << err;
-  str << std::ends;
+  str << ends;
   
   PAssertFunc(str.str().c_str());
 }
@@ -185,13 +185,13 @@ PObject::Comparison PObject::Compare(const PObject & obj) const
 }
 
 
-void PObject::PrintOn(std::ostream & strm) const
+void PObject::PrintOn(ostream & strm) const
 {
   strm << GetClass();
 }
 
 
-void PObject::ReadFrom(std::istream &)
+void PObject::ReadFrom(istream &)
 {
 }
 

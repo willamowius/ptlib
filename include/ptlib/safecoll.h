@@ -534,7 +534,7 @@ class PSafePtrBase : public PObject
        The default behaviour is to print the class name.
      */
     virtual void PrintOn(
-      std::ostream &strm   // Stream to print the object into.
+      ostream &strm   // Stream to print the object into.
     ) const;
   //@}
 

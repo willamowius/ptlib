@@ -44,7 +44,7 @@ class PSystemLogTarget;
     To send messages to the system error log, the PSYSTEMLOG macro should be used. 
   */
 
-class PSystemLog : public PObject, public std::iostream
+class PSystemLog : public PObject, public iostream
 {
     PCLASSINFO(PSystemLog, PObject);
   public:
@@ -105,7 +105,7 @@ class PSystemLog : public PObject, public std::iostream
     PSystemLog(const PSystemLog & other);
     PSystemLog & operator=(const PSystemLog &);
 
-    class Buffer : public std::streambuf {
+    class Buffer : public streambuf {
       public:
         Buffer();
         virtual int_type overflow(int_type=EOF);
@@ -161,7 +161,7 @@ class PSystemLogTarget : public PObject
     /** Log an error into the specified stream.
      */
     void OutputToStream(
-      std::ostream & strm,           ///< Stream to output
+      ostream & strm,           ///< Stream to output
       PSystemLog::Level level,  ///< Level of this message
       const char * msg          ///< Message to be logged
     );

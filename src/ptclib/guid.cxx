@@ -188,38 +188,38 @@ PINDEX PGloballyUniqueID::HashFunction() const
 }
 
 
-void PGloballyUniqueID::PrintOn(std::ostream & strm) const
+void PGloballyUniqueID::PrintOn(ostream & strm) const
 {
   PAssert(GetSize() == GUID_SIZE, "PGloballyUniqueID is invalid size");
 
   char fillchar = strm.fill();
-  strm << std::hex << std::setfill('0')
-       << std::setw(2) << (unsigned)(BYTE)theArray[0]
-       << std::setw(2) << (unsigned)(BYTE)theArray[1]
-       << std::setw(2) << (unsigned)(BYTE)theArray[2]
-       << std::setw(2) << (unsigned)(BYTE)theArray[3] << '-'
-       << std::setw(2) << (unsigned)(BYTE)theArray[4]
-       << std::setw(2) << (unsigned)(BYTE)theArray[5] << '-'
-       << std::setw(2) << (unsigned)(BYTE)theArray[6]
-       << std::setw(2) << (unsigned)(BYTE)theArray[7] << '-'
-       << std::setw(2) << (unsigned)(BYTE)theArray[8]
-       << std::setw(2) << (unsigned)(BYTE)theArray[9] << '-'
-       << std::setw(2) << (unsigned)(BYTE)theArray[10]
-       << std::setw(2) << (unsigned)(BYTE)theArray[11]
-       << std::setw(2) << (unsigned)(BYTE)theArray[12]
-       << std::setw(2) << (unsigned)(BYTE)theArray[13]
-       << std::setw(2) << (unsigned)(BYTE)theArray[14]
-       << std::setw(2) << (unsigned)(BYTE)theArray[15]
-       << std::dec << std::setfill(fillchar);
+  strm << hex << setfill('0')
+       << setw(2) << (unsigned)(BYTE)theArray[0]
+       << setw(2) << (unsigned)(BYTE)theArray[1]
+       << setw(2) << (unsigned)(BYTE)theArray[2]
+       << setw(2) << (unsigned)(BYTE)theArray[3] << '-'
+       << setw(2) << (unsigned)(BYTE)theArray[4]
+       << setw(2) << (unsigned)(BYTE)theArray[5] << '-'
+       << setw(2) << (unsigned)(BYTE)theArray[6]
+       << setw(2) << (unsigned)(BYTE)theArray[7] << '-'
+       << setw(2) << (unsigned)(BYTE)theArray[8]
+       << setw(2) << (unsigned)(BYTE)theArray[9] << '-'
+       << setw(2) << (unsigned)(BYTE)theArray[10]
+       << setw(2) << (unsigned)(BYTE)theArray[11]
+       << setw(2) << (unsigned)(BYTE)theArray[12]
+       << setw(2) << (unsigned)(BYTE)theArray[13]
+       << setw(2) << (unsigned)(BYTE)theArray[14]
+       << setw(2) << (unsigned)(BYTE)theArray[15]
+       << dec << setfill(fillchar);
 }
 
 
-void PGloballyUniqueID::ReadFrom(std::istream & strm)
+void PGloballyUniqueID::ReadFrom(istream & strm)
 {
   PAssert(GetSize() == GUID_SIZE, "PGloballyUniqueID is invalid size");
   SetSize(16);
 
-  strm >> std::ws;
+  strm >> ws;
 
   PINDEX count = 0;
 
@@ -247,7 +247,7 @@ void PGloballyUniqueID::ReadFrom(std::istream & strm)
 
   if (count < 2*GUID_SIZE) {
     memset(theArray, 0, GUID_SIZE);
-    strm.clear(std::ios::failbit);
+    strm.clear(ios::failbit);
   }
 }
 

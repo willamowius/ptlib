@@ -1704,7 +1704,7 @@ PBoolean PDynaLink::GetFunction(const PString & name, Function & func)
 // PDebugStream
 
 PDebugStream::PDebugStream()
-  : std::ostream(&buffer)
+  : ostream(&buffer)
 {
 }
 

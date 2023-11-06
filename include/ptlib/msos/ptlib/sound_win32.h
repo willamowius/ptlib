@@ -54,8 +54,8 @@ class PWaveFormat : public PObject
     PWaveFormat(const PWaveFormat & fmt);
     PWaveFormat & operator=(const PWaveFormat & fmt);
 
-    void PrintOn(std::ostream &) const;
-    void ReadFrom(std::istream &);
+    void PrintOn(ostream &) const;
+    void ReadFrom(istream &);
 
     void SetFormat(unsigned numChannels, unsigned sampleRate, unsigned bitsPerSample);
     void SetFormat(const void * data, PINDEX size);

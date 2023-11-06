@@ -66,7 +66,7 @@ class PNatMethod  : public PObject
   /**@name Overrides from PObject */
   //@{
     virtual void PrintOn(
-      std::ostream & strm
+      ostream & strm
     ) const;
   //@}
 

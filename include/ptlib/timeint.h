@@ -110,14 +110,14 @@ class PTimeInterval : public PObject
        milliseconds as a signed decimal integer number.
      */
     virtual void PrintOn(
-      std::ostream & strm    ///< I/O stream to output the time interval.
+      ostream & strm    ///< I/O stream to output the time interval.
     ) const;
 
     /** Input the time interval from the I/O stream. This expects the input
        to be a signed decimal integer number.
      */
     virtual void ReadFrom(
-      std::istream & strm    ///< I/O stream to input the time interval from.
+      istream & strm    ///< I/O stream to input the time interval from.
     );
   //@}
 

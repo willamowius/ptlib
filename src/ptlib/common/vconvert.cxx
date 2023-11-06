@@ -303,7 +303,7 @@ void PColourConverter::Construct(const PVideoFrameInfo & src, const PVideoFrameI
 }
 
 
-void PColourConverter::PrintOn(std::ostream & strm) const
+void PColourConverter::PrintOn(ostream & strm) const
 {
   strm << srcColourFormat << ':' << srcFrameWidth << 'x' << srcFrameHeight << "->"
        << dstColourFormat << ':' << dstFrameWidth << 'x' << dstFrameHeight << '/'

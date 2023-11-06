@@ -922,7 +922,7 @@ PBoolean PVideoInputDevice_VideoForWindows::InitialiseCapture()
 
 #if PTRACING
   if (PTrace::CanTrace(4)) { // list available video capture drivers
-    std::ostream & trace = PTrace::Begin(5, __FILE__, __LINE__);
+    ostream & trace = PTrace::Begin(5, __FILE__, __LINE__);
     trace << "PVidInp\tEnumerating available video capture drivers:\n";
     for (devId = 0; devId < 10; devId++) { 
       char name[100];

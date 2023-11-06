@@ -48,7 +48,7 @@ PDEFINE_POOL_ALLOCATOR(PHashTableElement)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void PCollection::PrintOn(std::ostream &strm) const
+void PCollection::PrintOn(ostream &strm) const
 {
   char separator = strm.fill();
   int width = (int)strm.width();
@@ -1094,7 +1094,7 @@ PINDEX POrdinalKey::HashFunction() const
 }
 
 
-void POrdinalKey::PrintOn(std::ostream & strm) const
+void POrdinalKey::PrintOn(ostream & strm) const
 {
   strm << theKey;
 }
@@ -1575,7 +1575,7 @@ void PAbstractDictionary::AbstractGetKeys(PArrayObjects & keys) const
 }
 
 
-void PAbstractDictionary::PrintOn(std::ostream &strm) const
+void PAbstractDictionary::PrintOn(ostream &strm) const
 {
   char separator = strm.fill();
   if (separator == ' ')

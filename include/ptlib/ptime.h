@@ -140,7 +140,7 @@ class PTime : public PObject
        with the <code>ShortDateTime</code> parameter.
      */
     virtual void PrintOn(
-      std::ostream & strm    ///< Stream to output the time to.
+      ostream & strm    ///< Stream to output the time to.
     ) const;
 
     /**Input the time from the specified stream. If a parse error occurs the
@@ -160,7 +160,7 @@ class PTime : public PObject
           "2 weeks"
      */
     virtual void ReadFrom(
-      std::istream & strm    ///< Stream to input the time from.
+      istream & strm    ///< Stream to input the time from.
     );
   //@}
 

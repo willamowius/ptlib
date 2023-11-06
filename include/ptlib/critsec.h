@@ -201,7 +201,7 @@ class PAtomicInteger : PAtomicBase
     /// Test if atomic integer has a non-zero value.
     __inline bool operator!() const { return m_value != 0; }
 
-    friend __inline std::ostream & operator<<(std::ostream & strm, const PAtomicInteger & i)
+    friend __inline ostream & operator<<(ostream & strm, const PAtomicInteger & i)
     {
       return strm << i.m_value;
     }
@@ -263,7 +263,7 @@ class PAtomicBoolean : PAtomicBase
       bool value  ///< value to set
     );
 
-    friend __inline std::ostream & operator<<(std::ostream & strm, const PAtomicBoolean & b)
+    friend __inline ostream & operator<<(ostream & strm, const PAtomicBoolean & b)
     {
       return strm << (b.m_value != 0 ? "true" : "false");
     }

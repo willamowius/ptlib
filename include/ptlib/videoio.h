@@ -58,7 +58,7 @@ class PVideoFrameInfo : public PObject
       eCropTopLeft,
       eMaxResizeMode
     };
-    friend std::ostream & operator<<(std::ostream & strm, ResizeMode mode);
+    friend ostream & operator<<(ostream & strm, ResizeMode mode);
 
     enum StandardSizes {
       SQCIFWidth = 128,  SQCIFHeight = 96,
@@ -93,7 +93,7 @@ class PVideoFrameInfo : public PObject
        The default behaviour is to print the class name.
      */
     virtual void PrintOn(
-      std::ostream & strm   // Stream to print the object into.
+      ostream & strm   // Stream to print the object into.
     ) const;
 
     /**Set the frame size to be used.
@@ -451,7 +451,7 @@ class PVideoDevice : public PVideoFrameInfo
 
 
 #if PTRACING
-    friend std::ostream & operator<<(std::ostream &, VideoFormat);
+    friend ostream & operator<<(ostream &, VideoFormat);
 #endif
 
     /**Set the video format to be used.

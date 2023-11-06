@@ -117,7 +117,7 @@ void PInterfaceMonitor::Start()
   if (m_changedDetector == NULL) {
     m_interfacesMutex.Wait();
     PIPSocket::GetInterfaceTable(m_interfaces);
-    PTRACE(3, "IfaceMon\tInitial interface list:\n" << std::setfill('\n') << m_interfaces << std::setfill(' '));
+    PTRACE(3, "IfaceMon\tInitial interface list:\n" << setfill('\n') << m_interfaces << setfill(' '));
     m_interfacesMutex.Signal();
 
     if (m_runMonitorThread) {
@@ -218,7 +218,7 @@ void PInterfaceMonitor::RefreshInterfaceList()
   PIPSocket::InterfaceTable oldInterfaces = m_interfaces;
   m_interfaces = newInterfaces;
 
-  PTRACE(3, "IfaceMon\tInterface change detected, new list:\n" << std::setfill('\n') << newInterfaces << std::setfill(' '));
+  PTRACE(3, "IfaceMon\tInterface change detected, new list:\n" << setfill('\n') << newInterfaces << setfill(' '));
   
   m_interfacesMutex.Signal();
 

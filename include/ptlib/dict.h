@@ -95,7 +95,7 @@ class POrdinalKey : public PObject
        @return
        stream that the index was output to.
      */
-    virtual void PrintOn(std::ostream & strm) const;
+    virtual void PrintOn(ostream & strm) const;
   //@}
 
   /**@name New functions for class */
@@ -658,7 +658,7 @@ class PAbstractDictionary : public PHashTable
        The default behaviour is to print the class name.
      */
     virtual void PrintOn(
-      std::ostream &strm   ///< Stream to print the object into.
+      ostream &strm   ///< Stream to print the object into.
     ) const;
   //@}
 

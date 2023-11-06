@@ -59,7 +59,7 @@ template <> PVideoOutputDevice * PDevicePluginFactory<PVideoOutputDevice>::Worke
 ///////////////////////////////////////////////////////////////////////////////
 
 #if PTRACING
-std::ostream & operator<<(std::ostream & strm, PVideoDevice::VideoFormat fmt)
+ostream & operator<<(ostream & strm, PVideoDevice::VideoFormat fmt)
 {
   static const char * const VideoFormatNames[PVideoDevice::NumVideoFormats] = {
     "PAL",
@@ -166,7 +166,7 @@ static VideoDevice * CreateDeviceWithDefaults(PString & adjustedDeviceName,
 ///////////////////////////////////////////////////////////////////////////////
 // PVideoDevice
 
-std::ostream & operator<<(std::ostream & strm, PVideoFrameInfo::ResizeMode mode)
+ostream & operator<<(ostream & strm, PVideoFrameInfo::ResizeMode mode)
 {
   switch (mode) {
     case PVideoFrameInfo::eScale :
@@ -209,7 +209,7 @@ PVideoFrameInfo::PVideoFrameInfo(unsigned        width,
 }
 
 
-void PVideoFrameInfo::PrintOn(std::ostream & strm) const
+void PVideoFrameInfo::PrintOn(ostream & strm) const
 {
   if (!colourFormat.IsEmpty())
     strm << colourFormat << ':';

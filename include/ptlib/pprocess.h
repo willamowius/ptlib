@@ -192,7 +192,7 @@ class PTimerList : public PObject
     };
 
 	  struct TimerExpiryInfo_compare
-		  : public std::binary_function<TimerExpiryInfo, TimerExpiryInfo, bool>
+		  : public binary_function<TimerExpiryInfo, TimerExpiryInfo, bool>
 	  {	
 	    bool operator()(const TimerExpiryInfo & _Left, const TimerExpiryInfo & _Right) const
 		  {	return (_Left.m_expireTime < _Right.m_expireTime); }
