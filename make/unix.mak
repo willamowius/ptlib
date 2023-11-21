@@ -96,7 +96,7 @@ P_SHAREDLIB=1
 endif
 
 # why do we need this hack to get the following ifeq working ???
-STDCCFLAGS += -DCXXHACK=$(CXX)
+STDCCFLAGS += -DCXXHACK=c++
 # get gcc/g++ version
 ifeq ($(shell $(CXX) -v 2>&1 | grep -c "gcc.[Vv]ersion"), 1)
 	GCCMAJORGTEQ5 := $(shell expr 5 \<= `$(CXX) -dumpversion | cut -f1 -d.`)
@@ -115,6 +115,7 @@ ifeq ($(USE_GCC),yes)
 # avoid warning from clang
 ifeq ($(USE_CLANG),"1")
 STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-private-field -Wno-overloaded-virtual
+CXX += -std=c++14
 else
 # avoid warnings from gcc >= 5 / gcc >= 10
 ifeq "$(GCCMAJORGTEQ5)" "1"
