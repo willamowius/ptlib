@@ -949,7 +949,8 @@ void PMemoryHeap::SetAllocationBreakpoint(DWORD objectNumber)
 
 #if !defined(P_VXWORKS) && !defined(_WIN32_WCE)
 
-#if (__clang_major__ >= 16)
+#if (__cplusplus >= 201703L)
+// C++17
 //_GLIBCXX_NODISCARD void* operator new[](std::size_t nSize) _GLIBCXX_THROW (std::bad_alloc)
 void* operator new[](std::size_t nSize) _GLIBCXX_THROW (std::bad_alloc)
 #else
