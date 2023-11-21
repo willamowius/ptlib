@@ -192,6 +192,7 @@ class PTimerList : public PObject
       PAtomicInteger::IntegerType m_serialNumber;
     };
 
+      // TODO the use of binary_function needs a patch for C++17
 	  struct TimerExpiryInfo_compare
 		  : public binary_function<TimerExpiryInfo, TimerExpiryInfo, bool>
 	  {	
