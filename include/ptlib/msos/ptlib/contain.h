@@ -447,8 +447,12 @@ typedef DWORD PProcessIdentifier;
 #include <list>
 
 #if _MSC_VER>=1300
+#if (__cplusplus >= 201703L) // C++17
+  using std::mem_fn;
+#endif
 #if (__cplusplus < 201703L) // before C++17
   using std::binary_function;
+  using std::iterator;
 #endif
   using std::cerr;
   using std::cin;
@@ -462,7 +466,6 @@ typedef DWORD PProcessIdentifier;
   using std::ios_base;
   using std::iostream;
   using std::istream;
-  using std::iterator;
   using std::left;
   using std::list;
   using std::map;
