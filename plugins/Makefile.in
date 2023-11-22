@@ -2,6 +2,10 @@ all ::
 
 TARGETDIR=@TARGETDIR@
 
+ifndef PTLIBDIR
+PTLIBDIR=$(CURDIR)/..
+endif
+
 include ../make/ptlib.mak
 
 ###############################Alsa
