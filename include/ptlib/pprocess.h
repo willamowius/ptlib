@@ -192,13 +192,23 @@ class PTimerList : public PObject
       PAtomicInteger::IntegerType m_serialNumber;
     };
 
-      // TODO the use of binary_function needs a patch for C++17
+#if (__cplusplus >= 201703L)
+	  struct TimerExpiryInfo_compare
+	  {
+		typedef TimerExpiryInfo first_argument_type;
+        typedef TimerExpiryInfo second_argument_type;
+        typedef bool result_type;
+	    bool operator()(const TimerExpiryInfo & _Left, const TimerExpiryInfo & _Right) const
+		  {	return (_Left.m_expireTime < _Right.m_expireTime); }
+	  };
+#else
 	  struct TimerExpiryInfo_compare
 		  : public binary_function<TimerExpiryInfo, TimerExpiryInfo, bool>
 	  {	
 	    bool operator()(const TimerExpiryInfo & _Left, const TimerExpiryInfo & _Right) const
 		  {	return (_Left.m_expireTime < _Right.m_expireTime); }
 	  };
+#endif
 
     typedef std::multiset<TimerExpiryInfo, TimerExpiryInfo_compare> TimerExpiryInfoList;
     TimerExpiryInfoList m_expiryList;

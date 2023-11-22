@@ -115,7 +115,6 @@ ifeq ($(USE_GCC),yes)
 # avoid warning from clang
 ifeq ($(USE_CLANG),"1")
 STDCCFLAGS += -Wno-deprecated-declarations -Wno-unused-result -Wno-unused-variable -Wno-unknown-pragmas -Wno-unused-private-field -Wno-overloaded-virtual
-CXX += -std=c++14
 else
 # avoid warnings from gcc >= 5 / gcc >= 10
 ifeq "$(GCCMAJORGTEQ5)" "1"
