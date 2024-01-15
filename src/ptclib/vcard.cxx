@@ -554,7 +554,7 @@ void PvCard::PrintOn(ostream & strm) const
       strm << "END:vCard\n";
   }
 
-  strm.iword(previous_iword);
+  strm.iword(0) = previous_iword;
 }
 
 
