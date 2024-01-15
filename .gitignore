@@ -30,6 +30,7 @@ a.out
 *.save
 *.sbr
 *.tlog
+*.log
 *.user
 .vs
 
