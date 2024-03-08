@@ -60,10 +60,11 @@ class PSharedPtr : public PContainer
       : PContainer(c)
     { CopyContents(c); } 
 
-#if (__cplusplus >= 201703L)
+#if (__cplusplus >= 201103L)
     PSharedPtr(std::unique_ptr<element_type> & v)
     { ptr = v.release(); }
-#else
+#endif
+#if (__cplusplus < 201703L)
     PSharedPtr(std::auto_ptr<element_type> & v)
     { ptr = v.release(); }
 #endif
