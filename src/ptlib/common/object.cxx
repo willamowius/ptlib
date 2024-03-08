@@ -944,35 +944,6 @@ void PMemoryHeap::SetAllocationBreakpoint(DWORD objectNumber)
   _CrtSetBreakAlloc(objectNumber);
 }
 
-
-#else // defined(_MSC_VER) && defined(_DEBUG)
-
-#if !defined(P_VXWORKS) && !defined(_WIN32_WCE)
-
-#if (__cplusplus >= 201703L) // C++17
-void* operator new[](std::size_t nSize, std::align_val_t al) noexcept(false)
-#else
-#if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
-void * operator new[](size_t nSize) throw ()
-#else
-void * operator new[](size_t nSize)
-#endif
-#endif
-{
-  return malloc(nSize);
-}
-
-#if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
-void operator delete[](void * ptr) throw ()
-#else
-void operator delete[](void * ptr)
-#endif
-{
-  free(ptr);
-}
-
-#endif // !P_VXWORKS
-
 #endif // defined(_MSC_VER) && defined(_DEBUG)
 
 #endif // PMEMORY_CHECK
