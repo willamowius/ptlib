@@ -73,7 +73,7 @@ PFactoryBase::FactoryMap::~FactoryMap()
   for (entry = begin(); entry != end(); ++entry){
     delete entry->second;
     entry->second = NULL;
-  }  
+  }
 }
 
 #if !P_USE_ASSERTS
@@ -143,7 +143,7 @@ void PAssertFunc(const char * file, int line, const char * className, const char
   if (err != 0)
     str << ", Error=" << err;
   str << ends;
-  
+
   PAssertFunc(str.str().c_str());
 }
 
@@ -255,20 +255,28 @@ PObject::Comparison PSmartPointer::Compare(const PObject & obj) const
 #undef realloc
 #undef free
 
+#if (__cplusplus >= 201402L) // C++14
+void* operator new(std::size_t nSize) noexcept(false)
+#else
 #if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
 void * operator new(size_t nSize) throw (std::bad_alloc)
 #else
 void * operator new(size_t nSize)
+#endif
 #endif
 {
   return PMemoryHeap::Allocate(nSize, (const char *)NULL, 0, NULL);
 }
 
 
+#if (__cplusplus >= 201402L) // C++14
+void* operator new[](std::size_t nSize) noexcept(false)
+#else
 #if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
 void * operator new[](size_t nSize) throw (std::bad_alloc)
 #else
 void * operator new[](size_t nSize)
+#endif
 #endif
 {
   return PMemoryHeap::Allocate(nSize, (const char *)NULL, 0, NULL);
@@ -302,7 +310,7 @@ char PMemoryHeap::Header::GuardBytes[NumGuardBytes];
 PMemoryHeap::Wrapper::Wrapper()
 {
   // The following is done like this to get over brain dead compilers that cannot
-  // guarentee that a static global is contructed before it is used.
+  // guarantee that a static global is constructed before it is used.
   static PMemoryHeap real_instance;
   instance = &real_instance;
   if (instance->isDestroyed)
@@ -449,7 +457,7 @@ void * PMemoryHeap::InternalAllocate(size_t nSize, const char * file, int line, 
     kill(taskIdSelf(), SIGABRT);
 #else
     kill(getpid(), SIGABRT);
-#endif 
+#endif
   }
 
   currentMemoryUsage += nSize;
@@ -521,7 +529,7 @@ void * PMemoryHeap::Reallocate(void * ptr, size_t nSize, const char * file, int 
     kill(taskIdSelf(), SIGABRT);
 #else
     kill(getpid(), SIGABRT);
-#endif 
+#endif
   }
 
   mem->currentMemoryUsage -= obj->size;
@@ -585,7 +593,7 @@ void PMemoryHeap::Deallocate(void * ptr, const char * className)
   mem->currentMemoryUsage -= obj->size;
   mem->currentObjects--;
 
-  memset(ptr, mem->freeFillChar, obj->size);  // Make use of freed data noticable
+  memset(ptr, mem->freeFillChar, obj->size);  // Make use of freed data noticeable
   free(obj);
 }
 
@@ -611,9 +619,9 @@ PMemoryHeap::Validation PMemoryHeap::InternalValidate(const void * ptr,
 
   Header * obj = ((Header *)ptr)-1;
 
-  Header * link = listTail;  
-  while (link != NULL && link != obj) 
-    link = link->prev;  
+  Header * link = listTail;
+  while (link != NULL && link != obj)
+    link = link->prev;
 
   if (link == NULL) {
     if (error != NULL)
@@ -626,13 +634,13 @@ PMemoryHeap::Validation PMemoryHeap::InternalValidate(const void * ptr,
       *error << "Underrun at " << ptr << '[' << obj->size << "] #" << obj->request << endl;
     return Bad;
   }
-  
+
   if (memcmp((char *)ptr+obj->size, obj->GuardBytes, sizeof(obj->guard)) != 0) {
     if (error != NULL)
       *error << "Overrun at " << ptr << '[' << obj->size << "] #" << obj->request << endl;
     return Bad;
   }
-  
+
   if (!(className == NULL && obj->className == NULL) &&
        (className == NULL || obj->className == NULL ||
        (className != obj->className && strcmp(obj->className, className) != 0))) {
@@ -662,7 +670,7 @@ PBoolean PMemoryHeap::ValidateHeap(ostream * error)
         *error << "Underrun at " << (obj+1) << '[' << obj->size << "] #" << obj->request << endl;
       return PFalse;
     }
-  
+
     if (memcmp((char *)(obj+1)+obj->size, obj->GuardBytes, sizeof(obj->guard)) != 0) {
       if (error != NULL)
         *error << "Overrun at " << (obj+1) << '[' << obj->size << "] #" << obj->request << endl;
@@ -944,36 +952,7 @@ void PMemoryHeap::SetAllocationBreakpoint(DWORD objectNumber)
   _CrtSetBreakAlloc(objectNumber);
 }
 
-
-#else // defined(_MSC_VER) && defined(_DEBUG)
-
-#if !defined(P_VXWORKS) && !defined(_WIN32_WCE)
-
-#if (__cplusplus >= 201703L) // C++17
-void* operator new[](std::size_t nSize, std::align_val_t al) noexcept(false)
-#else
-#if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
-void * operator new[](size_t nSize) throw ()
-#else
-void * operator new[](size_t nSize)
 #endif
-#endif
-{
-  return malloc(nSize);
-}
-
-#if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
-void operator delete[](void * ptr) throw ()
-#else
-void operator delete[](void * ptr)
-#endif
-{
-  free(ptr);
-}
-
-#endif // !P_VXWORKS
-
-#endif // defined(_MSC_VER) && defined(_DEBUG)
 
 #endif // PMEMORY_CHECK
 
@@ -1234,7 +1213,7 @@ istream & operator>>(istream & stream, PUInt64 & v)
 
 #ifdef P_TORNADO
 
-// the library provided with Tornado 2.0 does not contain implementation 
+// the library provided with Tornado 2.0 does not contain implementation
 // for the functions defined below, therefor the own implementation
 
 ostream & ostream::operator<<(PInt64 v)
