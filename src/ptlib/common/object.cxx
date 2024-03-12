@@ -284,7 +284,7 @@ void * operator new[](size_t nSize)
 
 
 #if (__cplusplus >= 201103L) // C++11
-void operator delete(void * ptr) noexcept(false)
+void operator delete(void * ptr) noexcept
 #else
 #if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
 void operator delete(void * ptr) throw()
@@ -298,7 +298,7 @@ void operator delete(void * ptr)
 
 
 #if (__cplusplus >= 201103L) // C++11
-void operator delete[](void * ptr) noexcept(false)
+void operator delete[](void * ptr) noexcept
 #else
 #if (__GNUC__ >= 3) || ((__GNUC__ == 2)&&(__GNUC_MINOR__ >= 95)) //2.95.X & 3.X
 void operator delete[](void * ptr) throw()
