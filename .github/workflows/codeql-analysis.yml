@@ -24,7 +24,7 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       # Override language selection by uncommenting this and choosing your languages
       with:
          languages: cpp
