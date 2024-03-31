@@ -251,12 +251,14 @@ void IPV6Test::Main()
   {
     // test #8b - check if route table contains IPV6 addresses
     cout << "\n\ntest #8b: check if route table contains IPV6 addresses";
+    cout << endl;
 
     PIPSocket::RouteTable rt_table;
-    PIPSocket::GetRouteTable( rt_table );
+    if (!PIPSocket::GetRouteTable( rt_table )) {
+        cout << "Error getting route table" << endl;
+    }
 
     // Display the route table
-    cout << endl;
     cout << "The route table has " << rt_table.GetSize()
          <<" entries" << endl;
 
