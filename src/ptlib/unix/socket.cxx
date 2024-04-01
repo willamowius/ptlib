@@ -1271,6 +1271,14 @@ PBoolean PIPSocket::GetRouteTable(RouteTable & table)
 PBoolean process_rtentry(struct rt_msghdr *rtm, char *ptr, PIPSocket::Address & net_addr,
                      PIPSocket::Address & net_mask, PIPSocket::Address & dest_addr, int & metric) {
 
+// obsolete since NetBSD 8.0, not defined any more in NetBSD 10.0, re-add them here to keep the code portable accross versions
+#ifndef RTF_LLINFO
+#define RTF_LLINFO    0x400
+#endif
+#ifndef RTF_CLONED
+#define RTF_CLONED    0x2000
+#endif
+
   struct sockaddr_in *sa_in = (struct sockaddr_in *)(rtm + 1);
 
   // Check for zero length entry
