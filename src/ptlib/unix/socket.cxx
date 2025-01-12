@@ -1066,6 +1066,7 @@ PBoolean PEthSocket::Read(void * buf, PINDEX len)
 PBoolean PEthSocket::Write(const void * buf, PINDEX len)
 {
   sockaddr to;
+  to.sa_family = AF_INET;
   strncpy((char *)to.sa_data, channelName, sizeof(to.sa_data)-1);
   to.sa_data[sizeof(to.sa_data)-1] = '\0';
   return os_sendto(buf, len, 0, &to, sizeof(to)) && lastWriteCount >= len;
