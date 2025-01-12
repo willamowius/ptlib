@@ -56,6 +56,16 @@ void PSoundChannelSNDIO::Construct()
 {
   os_handle = -1;
   hdl = NULL;
+  sio_initpar(&par);
+  mNumChannels = 0;
+  mSampleRate = 0;
+  mBitsPerSample = 0;
+  mFragCount = 0;
+  mFragSize = 0;
+  mBytesPerFrame = 0;
+  mDirection = Player;
+  mDevice = "";
+
   isInitialised = FALSE;
 }
 

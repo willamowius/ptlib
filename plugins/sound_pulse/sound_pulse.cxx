@@ -148,6 +148,7 @@ void PSoundChannelPulse::Construct()
   PTRACE(6, "Pulse\tConstruct ");
   os_handle = -1;
   s = NULL;
+  ss.rate = 0;
   ss.format = PA_SAMPLE_S16LE;
   mNumChannels = 0;
   mSampleRate = 0;
