@@ -366,8 +366,6 @@ PBoolean PSoundChannelSunAudio::WaitForPlayCompletion()
 
 PBoolean PSoundChannelSunAudio::Read(void * buffer, PINDEX length)
 {
- 
-  int ret;
   if (os_handle < 0)
     return SetErrorValues(NotOpen, EBADF);
 

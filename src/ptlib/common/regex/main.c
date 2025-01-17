@@ -499,7 +499,6 @@ efind(name)
 char *name;
 {
 	static char efbuf[100];
-	size_t n;
 	regex_t re;
 
 	sprintf(efbuf, "REG_%s", name);
