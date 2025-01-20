@@ -19,7 +19,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
       - name: Run Build Wrapper
         run: |
-          ./configure --enable-ipv6 --disable-odbc --disable-sdl --disable-lua --disable-expat && make optnoshared
+          ./configure --enable-ipv6 --disable-odbc --disable-sdl --disable-lua --disable-expat
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make optnoshared
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
