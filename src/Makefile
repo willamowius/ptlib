@@ -460,7 +460,7 @@ $(OBJDIR)/switch.o: $(PLATFORM_SRC_DIR)/switch.cxx
 endif
 
 $(OBJDIR)/getdate.tab.o: $(GETDATE_SOURCE)
-	$(Q_CC)$(CC) -Wno-write-strings -std=c17 $(STDCCFLAGS) $(CFLAGS) -c $< -o $@
+	$(Q_CC)$(CC) -Wno-write-strings -std=c99 $(STDCCFLAGS) $(CFLAGS) -c $< -o $@
 
 $(DEPDIR)/getdate.tab.dep: $(GETDATE_SOURCE)
 	$(Q_CC)$(CC) $(STDCCFLAGS) -M $< >> $@
