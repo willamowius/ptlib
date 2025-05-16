@@ -509,34 +509,40 @@ bool TreeWalk(const string & directory)
 {
   bool foundAll = false;
 
-  if (DirExcluded(directory))
-    return false;
+  // Don't test for DirExcluded here!
+  // We only get here if the given directory was specified by the user
+  // (perhaps with the intention of overriding a previous exclude)
+  // or if our caller (most likely: us, recursively) already checked that
+  // the directory isn't excluded.
+  
+  foundAll = true;
+  vector<Feature>::iterator feature;
+  for (feature = features.begin(); feature != features.end(); feature++) {
+    if (!feature->Locate(directory.c_str()))
+      foundAll = false;
+  }
 
-  string wildcard = directory;
-  wildcard += "*.*";
+  if (!foundAll) {
+    // Make sure the directory name that we work with, ends in a backslash
+    string dir = directory;
+    if (dir[dir.length() - 1] != '\\')
+      dir += '\\';
 
-  WIN32_FIND_DATA fileinfo;
-  HANDLE hFindFile = FindFirstFile(wildcard.c_str(), &fileinfo);
-  if (hFindFile != INVALID_HANDLE_VALUE) {
-    do {
-      string subdir = GetFullPathNameString(directory + fileinfo.cFileName);
-      if (IsUsableDirectory(fileinfo) && !DirExcluded(subdir)) {
-        subdir += '\\';
+    string wildcard = dir + "*.*";
 
-        foundAll = true;
-        vector<Feature>::iterator feature;
-        for (feature = features.begin(); feature != features.end(); feature++) {
-          if (!feature->Locate(subdir.c_str()))
-            foundAll = false;
+    // Recurse into any subdirectories
+    WIN32_FIND_DATA fileinfo;
+    HANDLE hFindFile = FindFirstFile(wildcard.c_str(), &fileinfo);
+    if (hFindFile != INVALID_HANDLE_VALUE) {
+      do {
+        string subdir = dir + fileinfo.cFileName;
+        if (IsUsableDirectory(fileinfo) && !DirExcluded(subdir)) {
+          foundAll = TreeWalk(subdir);
         }
+      } while (!foundAll && FindNextFile(hFindFile, &fileinfo));
 
-        if (foundAll)
-          break;
-        TreeWalk(subdir);
-      }
-    } while (FindNextFile(hFindFile, &fileinfo));
-
-    FindClose(hFindFile);
+      FindClose(hFindFile);
+    }
   }
 
   return foundAll;
@@ -738,7 +744,7 @@ int main(int argc, char* argv[])
   const char EXCLUDE_ENV[] = "--exclude-env=";
 
   bool searchDisk = true;
-  char *externDir = NULL;
+  list<string> externDirs;
   char *externEnv = NULL;
   int i;
   for (i = 1; i < argc; i++) {
@@ -748,7 +754,8 @@ int main(int argc, char* argv[])
         externEnv = argv[i] + sizeof(EXCLUDE_ENV) - 1;
     }
     else if (strnicmp(argv[i], EXTERN_DIR, sizeof(EXTERN_DIR) - 1) == 0){
-        externDir = argv[i] + sizeof(EXTERN_DIR) - 1;
+        externDirs.push_back(GetFullPathNameString(argv[i] + sizeof(EXTERN_DIR) - 1));
+        searchDisk = true;
     }
     else if (strnicmp(argv[i], EXCLUDE_DIR, sizeof(EXCLUDE_DIR) - 1) == 0) {
       string dir(argv[i] + sizeof(EXCLUDE_DIR) - 1);
@@ -793,6 +800,7 @@ int main(int argc, char* argv[])
             xable = str.substr(offs);
             offs += str.length();
           }
+          cout << "Got environment option: " << xable << endl;
           envConfigureList.push_back(ToLower(xable));
         }
       }
@@ -868,6 +876,7 @@ int main(int argc, char* argv[])
       list<string>::iterator dir;
       for (dir = feature->checkDirectories.begin(); dir != feature->checkDirectories.end(); dir++) {
         if (!DirExcluded(*dir) && feature->Locate(dir->c_str())) {
+          cout << "Found " << feature->featureName << endl;
           foundOne = true;
           break;
         }
@@ -878,25 +887,30 @@ int main(int argc, char* argv[])
   }
 
   if (searchDisk && !foundAll) {
-    // Do search of entire system
-    char drives[1024];
-    if (!externDir){
-      if (!GetLogicalDriveStrings(sizeof(drives), drives))
-        strcpy(drives, "C:\\");
-    }
-    else {
-      strcpy(drives, externDir);
-      drives[strlen(externDir)+1] = '\0';
+    if (externDirs.empty()) {
+      // Do search of entire system
+      char drives[1024];
+      if (GetLogicalDriveStrings(sizeof(drives), drives)) {
+        for (char* drive = drives; *drive; drive += strlen(drive) + 1) {
+          if (GetDriveType(drive) == DRIVE_FIXED) {
+            externDirs.push_back(drive);
+          }
+        }
+      }
     }
 
-    const char * drive = drives;
-    while (*drive != '\0') {
-      if (externDir || GetDriveType(drive) == DRIVE_FIXED) {
-        cout << "Searching " << drive << endl;
-        if (TreeWalk(drive))
+    for (list<string>::iterator item = externDirs.begin(); item != externDirs.end(); item++) {
+      // Make sure the item is an existing directory
+      DWORD attr = GetFileAttributes(item->c_str());
+      if ((attr != INVALID_FILE_ATTRIBUTES) && ((attr & FILE_ATTRIBUTE_DIRECTORY) != 0)) {
+        cout << "Searching: " << *item << endl;
+        if (TreeWalk(*item)) {
           break;
+        }
       }
-      drive += strlen(drive)+1;
+      else {
+        cout << "Not a dir: " << *item << endl;
+      }
     }
   }
 
