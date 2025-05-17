@@ -44,7 +44,7 @@
 #include <io.h>
 
 
-#define VERSION "1.21"
+#define VERSION "1.22"
 
 static char * VersionTags[] = { "MAJOR_VERSION", "MINOR_VERSION", "BUILD_NUMBER", "BUILD_TYPE" };
 
@@ -630,7 +630,7 @@ bool AllFeaturesAre(bool state, const list<string> & features, string & breaker)
 int main(int argc, char* argv[])
 {
   // open and scan configure.ac
-  cout << "PWLib Configure " VERSION " - ";
+  cout << "PTLib Configure " VERSION " - ";
   ifstream conf("configure.ac", ios::in);
   if (conf.is_open()) {
     cout << "opened configure.ac" << endl;
