@@ -215,7 +215,7 @@ class PSystemLogToEvent : public PSystemLogTarget
 
     char thrdbuf[16];
     if (threadName.IsEmpty())
-      sprintf(thrdbuf, "0x%08X", thread);
+      sprintf(thrdbuf, "0x%p", thread);
     else {
       strncpy(thrdbuf, threadName, sizeof(thrdbuf)-1);
       thrdbuf[sizeof(thrdbuf)-1] = '\0';
