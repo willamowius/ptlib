@@ -301,6 +301,9 @@
     #pragma include_alias(<openssl/x509err.h>,    <@SSL_DIR@/include/openssl/x509err.h>)
     #pragma include_alias(<openssl/x509v3.h>,     <@SSL_DIR@/include/openssl/x509v3.h>)
     #pragma include_alias(<openssl/x509v3err.h>,  <@SSL_DIR@/include/openssl/x509v3err.h>)
+    #pragma include_alias(<openssl/e_ostime.h>,   <@SSL_DIR@/include/openssl/e_ostime.h>)
+    #pragma include_alias(<openssl/indicator.h>,  <@SSL_DIR@/include/openssl/indicator.h>)
+    #pragma include_alias(<openssl/quic.h>,       <@SSL_DIR@/include/openssl/quic.h>)
 
     #ifdef _WIN64
       #ifdef _DEBUG
