@@ -988,6 +988,7 @@ dnl but needs resolv.h included which defines res_search as __res_search
 
 dnl MSWIN_DISPLAY    resolver,DNS Resolver
 dnl MSWIN_CHECK_FILE resolver,include\windns.h,P_DNS=1
+dnl MSWIN_CHECK_FILE resolver,um\windns.h,P_DNS=1
 
 AC_ARG_ENABLE([resolver],
 	      AS_HELP_STRING([--disable-resolver],[disable DNS resolver support]),
@@ -1276,6 +1277,7 @@ dnl look for IPV6 functions
 
 dnl MSWIN_DISPLAY    ipv6,IPv6 Support
 dnl MSWIN_CHECK_FILE ipv6,include\ws2tcpip.h,P_HAS_IPV6=1
+dnl MSWIN_CHECK_FILE ipv6,um\ws2tcpip.h,P_HAS_IPV6=1
 
 AC_ARG_ENABLE(ipv6, AS_HELP_STRING([--enable-ipv6],[enable IPV6 support]))
 
@@ -1503,6 +1505,7 @@ dnl look for QoS functions
 
 dnl MSWIN_DISPLAY    qos,QoS Support
 dnl MSWIN_CHECK_FILE qos,include\qossp.h|QOS_DESTADDR,P_QOS=1
+dnl MSWIN_CHECK_FILE qos,shared\qossp.h|QOS_DESTADDR,P_QOS=1
 
 PTLIB_SIMPLE_OPTION([qos], [QOS], [enable QOS support])
 
@@ -1644,6 +1647,7 @@ dnl look for Direct Sound
 
 dnl MSWIN_DISPLAY    dsound,Direct Sound Support
 dnl MSWIN_CHECK_FILE dsound,include\dsound.h,P_DIRECTSOUND=1
+dnl MSWIN_CHECK_FILE dsound,um\dsound.h,P_DIRECTSOUND=1
 dnl MSWIN_FIND_FILE  dsound,P_DIRECTSOUND_DXERR_H,dxerr.h,include
 dnl MSWIN_FIND_FILE  dsound,P_DIRECTSOUND_LIB,dsound.lib,lib
 
@@ -1653,6 +1657,7 @@ dnl look for Direct Show (video)
 
 dnl MSWIN_DISPLAY    dshow,Direct Show Support
 dnl MSWIN_CHECK_FILE dshow,include\dshow.h,P_DIRECTSHOW=1
+dnl MSWIN_CHECK_FILE dshow,um\dshow.h,P_DIRECTSHOW=1
 dnl MSWIN_FIND_FILE  dshow,P_DIRECTSHOW_QEDIT_H,Qedit.h,include
 
 
@@ -1674,6 +1679,7 @@ dnl look for ODBC code
 
 dnl MSWIN_DISPLAY    odbc,ODBC support
 dnl MSWIN_CHECK_FILE odbc,include\odbcinst.h,P_ODBC=1
+dnl MSWIN_CHECK_FILE odbc,um\odbcinst.h,P_ODBC=1
 
 AC_ARG_ENABLE([odbc],
 	      AS_HELP_STRING([--disable-odbc],[disable ODBC support]),
