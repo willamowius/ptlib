@@ -38,6 +38,8 @@
 #pragma interface
 #endif
 
+#include <cstddef>
+#include <iterator>
 
 ///////////////////////////////////////////////////////////////////////////////
 // PList container class
@@ -345,7 +347,14 @@ template <class T> class PList : public PAbstractList
 
   /**@name Iterators */
   //@{
-    class iterator_base : public std::iterator<std::bidirectional_iterator_tag, T> {
+    class iterator_base {
+    public:
+      typedef std::bidirectional_iterator_tag iterator_category;
+      typedef std::ptrdiff_t difference_type;
+      typedef T value_type;
+      typedef value_type& reference;
+      typedef value_type* pointer;
+
     protected:
       iterator_base(PListElement * e) : element(e) { }
       PListElement * element;
