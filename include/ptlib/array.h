@@ -449,6 +449,43 @@ template <class T> class PBaseArray : public PAbstractArray
     PBaseArray(PContainerReference & reference) : PAbstractArray(reference, sizeof(T)) { }
 };
 
+// Promote non-char character types to integer types before outputting for compatibility with C++20
+template< >
+inline void PBaseArray<wchar_t>::PrintElementOn(
+  ostream & stream,
+  PINDEX index
+) const {
+  stream << +GetAt(index);
+}
+
+#if (defined(__cpp_unicode_characters) && (__cpp_unicode_characters >= 200704)) || (__cplusplus >= 201103)
+template< >
+inline void PBaseArray<char16_t>::PrintElementOn(
+  ostream & stream,
+  PINDEX index
+) const {
+  stream << +GetAt(index);
+}
+
+template< >
+inline void PBaseArray<char32_t>::PrintElementOn(
+  ostream & stream,
+  PINDEX index
+) const {
+  stream << +GetAt(index);
+}
+#endif
+
+#if (defined(__cpp_char8_t) && (__cpp_char8_t >= 201811)) || (__cplusplus >= 202002)
+template< >
+inline void PBaseArray<char8_t>::PrintElementOn(
+  ostream & stream,
+  PINDEX index
+) const {
+  stream << +GetAt(index);
+}
+#endif
+
 /**Declare a dynamic array base type.
    This macro is used to declare a descendent of <code>PAbstractArray</code> class,
    customised for a particular element type \b T. This macro closes the
