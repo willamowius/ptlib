@@ -786,7 +786,7 @@ void PHTTPFieldArray::ExpandFieldNames(PString & text, PINDEX start, PINDEX & fi
                                          PRegularExpression::Extended|PRegularExpression::IgnoreCase);
     while (text.FindRegEx(RowCheck, pos, len, start, finish)) {
       PStringStream checkbox;
-      if (canAddElements) {
+      if (canAddElements && (text.Find("row", start) < P_MAX_INDEX)) {
         PINDEX titlepos = text.Find("row", start)+3;
         PBoolean adding = text[titlepos] == 'a';
         if (( adding && fld >= fields.GetSize()-1) ||
