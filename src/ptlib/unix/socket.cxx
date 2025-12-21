@@ -255,7 +255,7 @@ PBoolean PSocket::os_connect(struct sockaddr * addr, PINDEX size)
   // A successful select() call does not necessarily mean the socket connected OK.
   int optval = -1;
   socklen_t optlen = sizeof(optval);
-  getsockopt(os_handle, SOL_SOCKET, SO_ERROR, (char *)&optval, &optlen);
+  (void)getsockopt(os_handle, SOL_SOCKET, SO_ERROR, (char *)&optval, &optlen);
   if (optval != 0) {
     errno = optval;
     return ConvertOSError(-1);
