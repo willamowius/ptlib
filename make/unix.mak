@@ -107,6 +107,10 @@ endif
 ifeq ($(shell $(CXX) -v 2>&1 | grep -c "clang version"), 1)
 	USE_CLANG := "1"
 endif
+ifeq ($(shell $(CXX) -v 2>&1 | grep -c "oneAPI DPC"), 1)
+	# use same compiler flags for Intel C++ as for Clang
+	USE_CLANG := "1"
+endif
 
 # -Wall must be at the start of the options otherwise
 # any -W overrides won't have any effect
