@@ -786,26 +786,29 @@ void PHTTPFieldArray::ExpandFieldNames(PString & text, PINDEX start, PINDEX & fi
                                          PRegularExpression::Extended|PRegularExpression::IgnoreCase);
     while (text.FindRegEx(RowCheck, pos, len, start, finish)) {
       PStringStream checkbox;
-      if (canAddElements && (text.Find("row", start) < P_MAX_INDEX)) {
-        PINDEX titlepos = text.Find("row", start)+3;
-        PBoolean adding = text[titlepos] == 'a';
-        if (( adding && fld >= fields.GetSize()-1) ||
-            (!adding && fld <  fields.GetSize()-1)) {
-          titlepos += adding ? 3 : 6;
-          PINDEX dashes = text.Find("--", titlepos);
-          PString title = text(titlepos, dashes-1).Trim();
-          if (title.IsEmpty() && adding)
-            title = "Add";
-          checkbox << title
-                   << "<INPUT TYPE=checkbox NAME=\""
-                   << fields[fld].GetName()
-                   << ArrayControlBox
-                   << "\" VALUE="
-                   << (adding ? ArrayControlAdd : ArrayControlRemove)
-                   << '>';
+      if (canAddElements) {
+        PINDEX titlepos = text.Find("row", start);
+        if (titlepos < P_MAX_INDEX) {
+          titlepos += 3; // skip over "row"
+          PBoolean adding = text[titlepos] == 'a';
+          if (( adding && fld >= fields.GetSize()-1) ||
+              (!adding && fld <  fields.GetSize()-1)) {
+            titlepos += adding ? 3 : 6;
+            PINDEX dashes = text.Find("--", titlepos);
+            PString title = text(titlepos, dashes-1).Trim();
+            if (title.IsEmpty() && adding)
+              title = "Add";
+            checkbox << title
+                    << "<INPUT TYPE=checkbox NAME=\""
+                    << fields[fld].GetName()
+                    << ArrayControlBox
+                    << "\" VALUE="
+                    << (adding ? ArrayControlAdd : ArrayControlRemove)
+                    << '>';
+          }
         }
+        SpliceAdjust(checkbox, text, pos, len, finish);
       }
-      SpliceAdjust(checkbox, text, pos, len, finish);
     }
 
     static PRegularExpression SelectRow("<select[ \t\r\n][^>]*name[ \t\r\n]*=[ \t\r\n]*\"!--#form[ \t\r\n]+rowselect[ \t\r\n]*--\"[^>]*>",
