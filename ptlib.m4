@@ -369,7 +369,7 @@ AC_DEFUN([PTLIB_FIND_OPENLDAP],
                             ptlib_openldap_libs="-lposix4"
                             ;;
                             * )
-                            ptlib_openldap_libs="-llber -lldap_r"
+                            ptlib_openldap_libs="-llber"
             esac
 
             if test "x${with_ldap_dir}" != "x"; then  
@@ -384,14 +384,22 @@ AC_DEFUN([PTLIB_FIND_OPENLDAP],
 
             AC_CHECK_HEADERS([ldap.h], [ptlib_openldap=yes], [ptlib_openldap=no])
             if test "x${ptlib_openldap}" = "xyes" ; then
-              AC_CHECK_LIB([ldap], [ldap_open], [ptlib_openldap=yes], [ptlib_openldap=no])
+              AC_CHECK_LIB([ldap], [ldap_initialize], [ptlib_openldap=yes], [ptlib_openldap=no])
             fi
 
             LIBS="$old_LIBS"
             CFLAGS="$old_CFLAGS"
 
             if test "x${ptlib_openldap}" = "xyes" ; then
-              OPENLDAP_LIBS="-lldap ${ptlib_openldap_libs}"
+              dnl Prefer libldap_r (thread-safe) but fall back to libldap if not available
+              dnl (newer OpenLDAP 2.5+ distributions ship only libldap with thread safety built in)
+              AC_CHECK_LIB([ldap_r], [ldap_initialize], [ptlib_has_ldap_r=yes], [ptlib_has_ldap_r=no])
+              if test "x${ptlib_has_ldap_r}" = "xyes" ; then
+                OPENLDAP_LIBS="-lldap_r ${ptlib_openldap_libs}"
+              else
+                AC_MSG_NOTICE([libldap_r not found, using libldap instead])
+                OPENLDAP_LIBS="-lldap ${ptlib_openldap_libs}"
+              fi
               OPENLDAP_CFLAGS="${ptlib_openldap_cflags}"
             fi
           fi
