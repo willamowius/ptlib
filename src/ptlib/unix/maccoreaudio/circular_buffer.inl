@@ -131,7 +131,7 @@ class CircularBuffer
    PINDEX head_next()
    {
       //return (head + 1 == capacity) ? 0 : (head + 1);
-      return (head + 1 % capacity);
+      return (head + 1) % capacity;
    }
 
    void increment_index(PINDEX &index, PINDEX inc)
