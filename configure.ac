@@ -308,6 +308,13 @@ case "$target_cpu" in
         LIB64=1
 	;;
 
+   aarch64 | arm64)
+	MACHTYPE=aarch64
+	P_64BIT=1
+        LIB64=1
+	PBYTE_ORDER=PLITTLE_ENDIAN
+	;;
+
    alpha | alphaev56 | alphaev6 | alphaev67 | alphaev7)
 	MACHTYPE=alpha
 	P_64BIT=1
