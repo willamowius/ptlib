@@ -288,7 +288,8 @@ PProcess::~PProcess()
     PWaitAndSignal m(housekeepingMutex);
     if ((housekeepingThread != NULL) && (PThread::Current() != housekeepingThread)) {
       housekeepingThread->SetClosing();
-      SignalTimerChange();
+      // wake up the housekeeper directly, SignalTimerChange() does nothing once m_shuttingDown is set
+      breakBlock.Signal();
       housekeepingThread->WaitForTermination();
       delete housekeepingThread;
     }
