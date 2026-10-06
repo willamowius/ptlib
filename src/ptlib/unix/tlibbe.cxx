@@ -460,7 +460,7 @@ void PHouseKeepingThread::Main()
 void PProcess::SignalTimerChange()
 {
   if (!PAssert(IsInitialised(), PLogicError) || m_shuttingDown) 
-    return false;
+    return;
 
   if (housekeepingThread == NULL)
   {  

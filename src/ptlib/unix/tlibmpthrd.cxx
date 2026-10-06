@@ -442,7 +442,7 @@ long PThread::PX_ThreadStart(void * arg)
 void PProcess::SignalTimerChange()
 {
   if (!PAssert(IsInitialised(), PLogicError) || m_shuttingDown) 
-    return false;
+    return;
 
   if (housekeepingThread == NULL) {
 #if PMEMORY_CHECK
