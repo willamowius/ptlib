@@ -179,13 +179,17 @@ struct PSTUNAttribute
     ERROR_CODE = 0x0009,
     UNKNOWN_ATTRIBUTES = 0x000a,
     REFLECTED_FROM = 0x000b,
+    XOR_MAPPED_ADDRESS = 0x0020,     // RFC 5389
+    XOR_MAPPED_ADDRESS_OLD = 0x8020, // pre-RFC drafts
     MaxValidCode
   };
   
   PUInt16b type;
   PUInt16b length;
   
-  PSTUNAttribute * GetNext() const { return (PSTUNAttribute *)(((const BYTE *)this)+length+4); }
+  // RFC 5389: attribute values are padded to a multiple of 4 bytes, length excludes padding
+  int GetTotalSize() const { return ((length + 3) & ~3) + 4; }
+  PSTUNAttribute * GetNext() const { return (PSTUNAttribute *)(((const BYTE *)this)+GetTotalSize()); }
 };
 
 class PSTUNAddressAttribute : public PSTUNAttribute
@@ -270,6 +274,8 @@ public:
   bool IsValid() const { return type == MESSAGE_INTEGRITY && length == sizeof(hmac); }
 };
 
+static const DWORD STUNMagicCookie = 0x2112A442;
+
 struct PSTUNMessageHeader
 {
   PUInt16b       msgType;
@@ -310,46 +316,64 @@ public:
     hdr->msgType = (WORD)newType;
     for (PINDEX i = 0; i < ((PINDEX)sizeof(hdr->transactionId)); i++)
       hdr->transactionId[i] = id != NULL ? id[i] : (BYTE)PRandom::Number();
+    if (id == NULL) {
+      // RFC 5389 request: first 4 bytes of the transaction ID are the magic cookie
+      hdr->transactionId[0] = (BYTE)(STUNMagicCookie >> 24);
+      hdr->transactionId[1] = (BYTE)(STUNMagicCookie >> 16);
+      hdr->transactionId[2] = (BYTE)(STUNMagicCookie >> 8);
+      hdr->transactionId[3] = (BYTE)STUNMagicCookie;
+    }
   }
 
   const PSTUNMessageHeader * operator->() const { return (PSTUNMessageHeader *)theArray; }
   
   PSTUNAttribute * GetFirstAttribute() { 
 
-    if (theArray == NULL)
+    if (theArray == NULL || GetSize() < (PINDEX)sizeof(PSTUNMessageHeader))
       return NULL;
+    // msgLength excludes the 20 byte header
     int length = ((PSTUNMessageHeader *)theArray)->msgLength;
-    if (length < (int) sizeof(PSTUNMessageHeader))
+    if (length <= 0 || (length & 3) != 0 || length + (int)sizeof(PSTUNMessageHeader) > GetSize())
       return NULL;
 
-    PSTUNAttribute * attr = (PSTUNAttribute *)(theArray+sizeof(PSTUNMessageHeader)); 
+    PSTUNAttribute * attr = (PSTUNAttribute *)(theArray+sizeof(PSTUNMessageHeader));
     PSTUNAttribute * ptr = attr;
 
-    if (attr->length > GetSize() || attr->type >= PSTUNAttribute::MaxValidCode)
-      return NULL;
-
-    while (ptr && (BYTE*) ptr < (BYTE*)(theArray+GetSize()) && length >= (int) ptr->length+4) {
-
-      length -= ptr->length + 4;
+    // unknown (eg. comprehension-optional) attribute types are skipped, not rejected
+    while (length >= 4 && length >= ptr->GetTotalSize()) {
+      length -= ptr->GetTotalSize();
       ptr = ptr->GetNext();
     }
 
     if (length != 0)
       return NULL;
 
-    return attr; 
+    return attr;
+  }
+
+  // returns MAPPED-ADDRESS, or an XOR-MAPPED-ADDRESS decoded in place
+  PSTUNAddressAttribute * FindMappedAddress()
+  {
+    PSTUNAddressAttribute * addr = (PSTUNAddressAttribute *)FindAttribute(PSTUNAttribute::MAPPED_ADDRESS);
+    if (addr != NULL)
+      return addr->length >= 8 && addr->family == 1 ? addr : NULL;
+
+    addr = (PSTUNAddressAttribute *)FindAttribute(PSTUNAttribute::XOR_MAPPED_ADDRESS);
+    if (addr == NULL)
+      addr = (PSTUNAddressAttribute *)FindAttribute(PSTUNAttribute::XOR_MAPPED_ADDRESS_OLD);
+    if (addr == NULL || addr->length < 8 || addr->family != 1) // IPv4 only
+      return NULL;
+
+    addr->port = (WORD)(addr->port ^ (WORD)(STUNMagicCookie >> 16));
+    for (int i = 0; i < 4; i++)
+      addr->ip[i] ^= (BYTE)(STUNMagicCookie >> (24 - 8*i));
+    addr->type = PSTUNAttribute::MAPPED_ADDRESS; // don't decode twice
+    return addr;
   }
 
   bool Validate(const PSTUNMessage & request)
   {
-    int length = ((PSTUNMessageHeader *)theArray)->msgLength;
-    PSTUNAttribute * attrib = GetFirstAttribute();
-    while (attrib && length > 0) {
-      length -= attrib->length + 4;
-      attrib = attrib->GetNext();
-    }
-
-    if (length != 0) {
+    if (GetFirstAttribute() == NULL) {
       PTRACE(2, "STUN\tInvalid reply packet received, incorrect attribute length.");
       return false;
     }
@@ -378,7 +402,7 @@ public:
   {
     int length = ((PSTUNMessageHeader *)theArray)->msgLength;
     PSTUNAttribute * attrib = GetFirstAttribute();
-    while (length > 0) {
+    while (attrib != NULL && length > 0) {
       if (attrib->type == attribute.type) {
         if (attrib->length == attribute.length)
           *attrib = attribute;
@@ -388,7 +412,7 @@ public:
         return;
       }
 
-      length -= attrib->length + 4;
+      length -= attrib->GetTotalSize();
       attrib = attrib->GetNext();
     }
 
@@ -399,11 +423,11 @@ public:
   {
     int length = ((PSTUNMessageHeader *)theArray)->msgLength;
     PSTUNAttribute * attrib = GetFirstAttribute();
-    while (length > 0) {
+    while (attrib != NULL && length > 0) {
       if (attrib->type == type)
         return attrib;
 
-      length -= attrib->length + 4;
+      length -= attrib->GetTotalSize();
       attrib = attrib->GetNext();
     }
     return NULL;
@@ -555,7 +579,7 @@ PSTUNClient::NatTypes PSTUNClient::GetNatType(PBoolean force)
 
   replySocket->GetLocalAddress(interfaceAddress);
 
-  PSTUNMappedAddress * mappedAddress = (PSTUNMappedAddress *)responseI.FindAttribute(PSTUNAttribute::MAPPED_ADDRESS);
+  PSTUNAddressAttribute * mappedAddress = responseI.FindMappedAddress();
   if (mappedAddress == NULL) {
     PTRACE(2, "STUN\tExpected mapped address attribute from " << *this);
     return natType = UnknownNat; // Protocol error
@@ -600,7 +624,7 @@ PSTUNClient::NatTypes PSTUNClient::GetNatType(PBoolean force)
     return natType = PartialBlockedNat;
   }
 
-  mappedAddress = (PSTUNMappedAddress *)responseI2.FindAttribute(PSTUNAttribute::MAPPED_ADDRESS);
+  mappedAddress = responseI2.FindMappedAddress();
   if (mappedAddress == NULL) {
     PTRACE(2, "STUN\tExpected mapped address attribute from " << *this);
     return UnknownNat; // Protocol error
@@ -686,7 +710,7 @@ PBoolean PSTUNClient::GetExternalAddress(PIPSocket::Address & externalAddress,
     return false;
   }
 
-  PSTUNMappedAddress * mappedAddress = (PSTUNMappedAddress *)response.FindAttribute(PSTUNAttribute::MAPPED_ADDRESS);
+  PSTUNAddressAttribute * mappedAddress = response.FindMappedAddress();
   if (mappedAddress == NULL)
   {
     PTRACE(2, "STUN\tExpected mapped address attribute from " << *this);
@@ -767,7 +791,7 @@ PBoolean PSTUNClient::CreateSocket(PUDPSocket * & socket, const PIPSocket::Addre
 
     if (response.Poll(*stunSocket, request, pollRetries))
     {
-      PSTUNMappedAddress * mappedAddress = (PSTUNMappedAddress *)response.FindAttribute(PSTUNAttribute::MAPPED_ADDRESS);
+      PSTUNAddressAttribute * mappedAddress = response.FindMappedAddress();
       if (mappedAddress != NULL)
       {
         stunSocket->externalIP = mappedAddress->GetIP();
@@ -854,7 +878,7 @@ PBoolean PSTUNClient::CreateSocketPair(PUDPSocket * & socket1,
 
   for (i = 0; i < numSocketsForPairing; i++)
   {
-    PSTUNMappedAddress * mappedAddress = (PSTUNMappedAddress *)response[i].FindAttribute(PSTUNAttribute::MAPPED_ADDRESS);
+    PSTUNAddressAttribute * mappedAddress = response[i].FindMappedAddress();
     if (mappedAddress == NULL)
     {
       PTRACE(2, "STUN\tExpected mapped address attribute from " << *this);
