@@ -751,7 +751,14 @@ void PASN_Choice::EncodePER(PPER_Stream & strm) const
 
 PBoolean PPER_Stream::ChoiceDecode(PASN_Choice & value)
 {
-  return value.DecodePER(*this);
+  if (m_decodeDepth >= MaximumDecodeDepth) {
+    PTRACE(2, "PER\tNesting too deep, aborting decode");
+    return PFalse;
+  }
+  ++m_decodeDepth;
+  PBoolean ok = value.DecodePER(*this);
+  --m_decodeDepth;
+  return ok;
 }
 
 
@@ -950,6 +957,11 @@ void PPER_Stream::SequenceUnknownEncode(const PASN_Sequence & seq)
 
 PBoolean PPER_Stream::ArrayDecode(PASN_Array & array)
 {
+  if (m_decodeDepth >= MaximumDecodeDepth) {
+    PTRACE(2, "PER\tNesting too deep, aborting decode");
+    return PFalse;
+  }
+  struct DepthGuard { unsigned & d; DepthGuard(unsigned & x) : d(x) { ++d; } ~DepthGuard() { --d; } } guard(m_decodeDepth);
   array.RemoveAll();
 
   unsigned size = 0;
@@ -981,6 +993,7 @@ void PPER_Stream::ArrayEncode(const PASN_Array & array)
 PPER_Stream::PPER_Stream(int alignment)
 {
   aligned = alignment;
+  m_decodeDepth = 0;
 }
 
 
@@ -988,6 +1001,7 @@ PPER_Stream::PPER_Stream(const PBYTEArray & bytes, PBoolean alignment)
   : PASN_Stream(bytes)
 {
   aligned = alignment;
+  m_decodeDepth = 0;
 }
 
 
@@ -995,6 +1009,7 @@ PPER_Stream::PPER_Stream(const BYTE * buf, PINDEX size, PBoolean alignment)
   : PASN_Stream(buf, size)
 {
   aligned = alignment;
+  m_decodeDepth = 0;
 }
 
 
@@ -1003,6 +1018,7 @@ PPER_Stream & PPER_Stream::operator=(const PBYTEArray & bytes)
   PBYTEArray::operator=(bytes);
   ResetDecoder();
   aligned = PTrue;
+  m_decodeDepth = 0;
   return *this;
 }
 
