@@ -45,6 +45,18 @@
 
 PRandom::PRandom()
 {
+#ifndef _WIN32
+  // seed the whole generator state from the OS, the tick count alone is predictable
+  FILE * urandom = fopen("/dev/urandom", "rb");
+  if (urandom != NULL) {
+    size_t ok = fread(randrsl, sizeof(randrsl), 1, urandom);
+    fclose(urandom);
+    if (ok == 1) {
+      Initialise();
+      return;
+    }
+  }
+#endif
   SetSeed(PTimer::Tick().GetInterval());
 }
 
@@ -70,15 +82,21 @@ PRandom::PRandom(DWORD seed)
 
 void PRandom::SetSeed(DWORD seed)
 {
+   for (int i=0; i<RandSize; i++)
+     randrsl[i] = seed++;
+
+   Initialise();
+}
+
+
+void PRandom::Initialise()
+{
    int i;
    DWORD a,b,c,d,e,f,g,h;
    DWORD *m,*r;
    randa = randb = randc = 0;
    m=randmem;
    r=randrsl;
-
-   for (i=0; i<RandSize; i++)
-     r[i] = seed++;
 
    a=b=c=d=e=f=g=h=0x9e3779b9;  /* the golden ratio */
 

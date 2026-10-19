@@ -57,8 +57,8 @@ class PRandom
 {
   public:
     /**Construct the random number generator.
-       This version will seed the random number generator with a value based
-       on the system time as returned by time() and clock().
+       This version seeds the random number generator from /dev/urandom,
+       or with a value based on the system tick count if that is not available.
       */
     PRandom();
 
@@ -117,6 +117,8 @@ class PRandom
     static unsigned Number(unsigned minimum, unsigned maximum);
 
   protected:
+    void Initialise();  ///< set up the generator state from the seed in randrsl
+
     enum {
       RandBits = 8, ///< I recommend 8 for crypto, 4 for simulations
       RandSize = 1<<RandBits
