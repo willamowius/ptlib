@@ -2389,7 +2389,7 @@ void PASN_Stream::SetPosition(PINDEX newPos)
   if (!CheckByteOffset(byteOffset))
     return;
 
-  if (newPos > GetSize())
+  if (newPos < 0 || newPos > GetSize())
     byteOffset = GetSize();
   else
     byteOffset = newPos;
