@@ -431,7 +431,7 @@ PBoolean PASN_OctetString::DecodePER(PPER_Stream & strm)
     return PFalse;
 
   if ((int)upperLimit != lowerLimit)
-    return strm.BlockDecode(value.GetPointer(), nBytes) == nBytes;
+    return strm.BlockDecode(value.GetPointer(nBytes), nBytes) == nBytes;
 
   unsigned theBits;
   switch (nBytes) {
@@ -454,7 +454,7 @@ PBoolean PASN_OctetString::DecodePER(PPER_Stream & strm)
       break;
 
     default: // 16.7
-      return strm.BlockDecode(value.GetPointer(), nBytes) == nBytes;
+      return strm.BlockDecode(value.GetPointer(nBytes), nBytes) == nBytes;
   }
 
   return PTrue;
