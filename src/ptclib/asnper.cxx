@@ -970,11 +970,12 @@ PBoolean PPER_Stream::ArrayDecode(PASN_Array & array)
   if (!array.ConstrainedLengthDecode(*this, size))
     return PFalse;
 
-  if (!array.SetSize(size))
+  if (size > (unsigned)PASN_Object::GetMaximumArraySize())
     return PFalse;
 
+  // create elements one at a time, so the peer has to pay for every object with stream data
   for (PINDEX i = 0; i < (PINDEX)size; i++) {
-    if (!array[i].Decode(*this))
+    if (!array.SetSize(i+1) || !array[i].Decode(*this))
       return PFalse;
   }
 
