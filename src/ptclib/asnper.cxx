@@ -1398,7 +1398,7 @@ void PPER_Stream::AnyTypeEncode(const PASN_Object * value)
   if (nBytes == 0) {
     const BYTE null[1] = { 0 };
     nBytes = sizeof(null);
-    substream = PBYTEArray(null, nBytes, PFalse);
+    substream = PBYTEArray(null, nBytes, PTrue);
   }
 
   LengthEncode(nBytes, 0, INT_MAX);
