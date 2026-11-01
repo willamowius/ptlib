@@ -117,13 +117,16 @@ PBoolean PASN_Integer::DecodePER(PPER_Stream & strm)
       if (!strm.LengthDecode(0, INT_MAX, len))
         return PFalse;
 
+      if (len == 0 || len > sizeof(value)) // 12.2.6: at least one octet
+        return PFalse;
+
       len *= 8;
       if (!strm.MultiBitDecode(len, value))
         return PFalse;
 
       if (IsUnsigned())
         value += lowerLimit;
-      else if ((value&(1<<(len-1))) != 0) // Negative
+      else if (len < sizeof(value)*8 && (value&(1U<<(len-1))) != 0) // Negative
         value |= UINT_MAX << len;         // Sign extend
       return PTrue;
   }
@@ -149,10 +152,10 @@ void PASN_Integer::EncodePER(PPER_Stream & strm) const
     PINDEX nBits = 1; // Allow for sign bit
     if (IsUnsigned())
       nBits = CountBits(adjusted_value+1);
-    else if ((int)adjusted_value > 0)
+    else if ((int)adjusted_value >= 0)
       nBits += CountBits(adjusted_value+1);
     else
-      nBits += CountBits(-(int)adjusted_value+1);
+      nBits += CountBits(0U - adjusted_value);
 
     // Round up to nearest number of whole octets
     PINDEX nBytes = (nBits+7)/8;
