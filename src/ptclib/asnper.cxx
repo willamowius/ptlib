@@ -273,15 +273,17 @@ void PPER_Stream::ObjectIdEncode(const PASN_ObjectId & value)
 
 PBoolean PASN_BitString::DecodeSequenceExtensionBitmap(PPER_Stream & strm)
 {
-  if (!strm.SmallUnsignedDecode(totalBits))
+  unsigned nBits;
+  if (!strm.SmallUnsignedDecode(nBits))
     return PFalse;
 
-  totalBits++;
+  nBits++;
 
-  if (!SetSize(totalBits))
+  // validate before touching totalBits, a bogus count must not survive a failed decode
+  if (nBits == 0 || nBits > strm.GetBitsLeft())
     return PFalse;
 
-  if (totalBits > strm.GetBitsLeft())
+  if (!SetSize(nBits))
     return PFalse;
 
   unsigned theBits;
