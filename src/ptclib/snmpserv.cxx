@@ -276,6 +276,11 @@ PBoolean PSNMPServer::ProcessPDU(const PBYTEArray & readBuffer, PBYTEArray & sen
   switch (msg.m_pdu.GetTag()) {
     case PSNMP_PDUs::e_get_request:
       DecodeOID<PSNMP_GetRequest_PDU>(msg.m_pdu, reqID, varlist);
+      if (varlist.empty()) {
+        PTRACE(4, "SNMPsrv\tIgnoring GetRequest without variable bindings");
+        retval = PFalse;
+        break;
+      }
       retval = OnGetRequest(reqID, varlist, errCode);
       if (retval == PTrue){
         sendpdu.SetTag(PSNMP_PDUs::e_get_response);
@@ -294,6 +299,11 @@ PBoolean PSNMPServer::ProcessPDU(const PBYTEArray & readBuffer, PBYTEArray & sen
     break;
     case PSNMP_PDUs::e_get_next_request:
       DecodeOID<PSNMP_GetNextRequest_PDU>(msg.m_pdu, reqID, varlist);
+      if (varlist.empty()) {
+        PTRACE(4, "SNMPsrv\tIgnoring GetNextRequest without variable bindings");
+        retval = PFalse;
+        break;
+      }
       retval = OnGetNextRequest(reqID,varlist,errCode);
       if (retval == PTrue){
         sendpdu.SetTag(PSNMP_PDUs::e_get_response);
@@ -312,6 +322,11 @@ PBoolean PSNMPServer::ProcessPDU(const PBYTEArray & readBuffer, PBYTEArray & sen
 
     case PSNMP_PDUs::e_set_request:
       DecodeOID<PSNMP_SetRequest_PDU>(msg.m_pdu, reqID, varlist);
+      if (varlist.empty()) {
+        PTRACE(4, "SNMPsrv\tIgnoring SetRequest without variable bindings");
+        retval = PFalse;
+        break;
+      }
       retval = OnSetRequest(reqID, varlist, errCode);
       if (retval == PTrue){
         sendpdu.SetTag(PSNMP_PDUs::e_get_response); // yes, a SET gets a get-response
