@@ -2512,7 +2512,9 @@ PBoolean PIPDatagramSocket::WriteTo(const void * buf, PINDEX len,
     SetOption(SO_BROADCAST, 0);
 #endif
 
-  return ok && lastWriteCount >= len;
+  // a datagram is sent completely or not at all, so a successful os_sendto() means all of it was sent;
+  // don't check lastWriteCount: another thread writing to this socket may have changed it in the meantime
+  return ok;
 }
 
 
