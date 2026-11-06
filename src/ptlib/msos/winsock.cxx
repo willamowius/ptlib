@@ -198,7 +198,8 @@ PBoolean PSocket::Read(void * buf, PINDEX len)
 PBoolean PSocket::Write(const void * buf, PINDEX len)
 {
   flush();
-  return os_sendto(buf, len, 0, NULL, 0) && lastWriteCount >= len;
+  // don't check lastWriteCount: another thread writing to this socket may have changed it in the meantime
+  return os_sendto(buf, len, 0, NULL, 0);
 }
 
 
