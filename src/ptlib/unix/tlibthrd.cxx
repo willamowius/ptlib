@@ -586,6 +586,17 @@ void PThread::Restart()
   // lock the thread list
   process.m_activeThreadMutex.Wait();
 
+  // a restart (the thread ran before) gets a new thread id: drop the entry of the old id, nothing else removes it
+  // and the housekeeping thread would use it after this PThread is deleted, and release the old thread's resources
+  if (m_threadIdValid) {
+    PProcess::ThreadMap::iterator old = process.m_activeThreads.find(m_threadId);
+    if (old != process.m_activeThreads.end() && old->second == this)
+      process.m_activeThreads.erase(old);
+    if (m_originalStackSize != 0)
+      pthread_detach(m_threadId);
+    m_threadIdValid = false;
+  }
+
   // create the thread
   PAssertPTHREAD(pthread_create, (&m_threadId, &threadAttr, PX_ThreadStart, this));
   m_threadIdValid = true;
