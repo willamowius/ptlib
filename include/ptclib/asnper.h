@@ -78,7 +78,7 @@ class PPER_Stream : public PASN_Stream
     void AnyTypeEncode(const PASN_Object * value);
 
   protected:
-    enum { MaximumDecodeDepth = 1024 };   // limit nesting of choices/arrays, prevents stack overflow on crafted PDUs
+    enum { MaximumDecodeDepth = 64 };   // limit nesting of choices/arrays, prevents stack overflow on crafted PDUs
     unsigned m_decodeDepth;
 
     PBoolean aligned;
