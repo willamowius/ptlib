@@ -120,12 +120,16 @@ static PBoolean ProcessDNSRecords(
     //DWORD ttl;
     WORD  dlen;
 
+    // type, class, ttl and data length must be inside the reply
+    if (replyEnd - cp < RRFIXEDSZ)
+      return PFalse;
+
     GETSHORT(type, cp);
     cp += 2; // GETSHORT(dnsClass, cp);
     cp += 4; // GETLONG (ttl,      cp);
     GETSHORT(dlen, cp);
-	// sanity check, don't process records larger than ~10K
-    if (dlen > 10240)
+	// sanity check, don't process records larger than ~10K or reaching beyond the end of the reply
+    if (dlen > 10240 || dlen > replyEnd - cp)
       return PFalse;
 
     BYTE * data = cp;
@@ -141,6 +145,8 @@ static PBoolean ProcessDNSRecords(
         break;
 
       case T_SRV:
+        if (dlen < 6) // priority, weight, port
+          return PFalse;
         newRecord = (PDNS_RECORD)malloc(sizeof(DnsRecord)); 
         memset(newRecord, 0, sizeof(DnsRecord));
         GETSHORT(newRecord->Data.SRV.wPriority, data);
@@ -153,6 +159,8 @@ static PBoolean ProcessDNSRecords(
         break;
 
       case T_MX:
+        if (dlen < 2) // preference
+          return PFalse;
         newRecord = (PDNS_RECORD)malloc(sizeof(DnsRecord)); 
         memset(newRecord, 0, sizeof(DnsRecord));
         GETSHORT(newRecord->Data.MX.wPreference,  data);
@@ -163,12 +171,16 @@ static PBoolean ProcessDNSRecords(
         break;
 
       case T_A:
+        if (dlen < 4)
+          return PFalse;
         newRecord = (PDNS_RECORD)malloc(sizeof(DnsRecord)); 
         memset(newRecord, 0, sizeof(DnsRecord));
         GETLONG(newRecord->Data.A.IpAddress, data);
         break;
 
       case T_AAAA:
+        if (dlen < 16)
+          return PFalse;
         newRecord = (PDNS_RECORD)malloc(sizeof(DnsRecord)); 
         memset(newRecord, 0, sizeof(DnsRecord));
         GETLONG(newRecord->Data.AAAA.Ip6Address[0], data);
@@ -254,6 +266,10 @@ DNS_STATUS DnsQuery_A(const char * service,
 
   if (replyLen < 1)
     return -1;
+  // res_nsearch() returns the size of the complete reply, even if only a part
+  // of it fit into the buffer (eg. a large reply via TCP): don't parse a cut off reply
+  if (replyLen > (int)sizeof(reply))
+    return -1;
 
   BYTE * replyStart = reply.buf;
   BYTE * replyEnd   = reply.buf + replyLen;
@@ -277,6 +293,7 @@ DNS_STATUS DnsQuery_A(const char * service,
        ntohs(reply.hdr.arcount),
        results)) {
     DnsRecordListFree(*results, DnsFreeRecordList);
+    *results = NULL; // the caller keeps the pointer in its cache
     return -1;
   }
 
