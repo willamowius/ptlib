@@ -277,6 +277,7 @@ DNS_STATUS DnsQuery_A(const char * service,
 
   // ignore questions in response
   uint16_t i;
+    *results = NULL; // don't hand the freed list back to the caller, Cached_DnsQuery() keeps it
   for (i = 0; i < ntohs(reply.hdr.qdcount); i++) {
     char qName[MAXDNAME];
     if (!GetDN(replyStart, replyEnd, cp, qName))
