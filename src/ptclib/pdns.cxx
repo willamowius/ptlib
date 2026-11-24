@@ -743,13 +743,17 @@ DNS_STATUS PDNS::Cached_DnsQuery(
     PTRACE(5, "DNS\tSRV physical lookup \"" << key << '"');
 
     // else do the lookup and put it into the cache
+    // the name server may take many seconds to answer: don't keep the mutex
+    // during the query, all other lookups (also cached ones) would wait for it
     DNSCacheInfo info;
+    GetDNSMutex().Signal();
     info.m_status = DnsQuery_A((const char *)name, 
                                type,
                                DNS_QUERY_STANDARD, 
                                NULL, 
                                &info.m_results, 
                                NULL);
+    GetDNSMutex().Wait();
 #if PTRACING
     if (info.m_status != 0)
       PTRACE(3, "DNS\tQuery failed: error=" << info.m_status);
@@ -762,7 +766,11 @@ DNS_STATUS PDNS::Cached_DnsQuery(
     }
 #endif
 
-    r = g_dnsCache.insert(DNSCache::value_type(key, info)).first;
+    // another thread may have looked up the same name in the meantime
+    std::pair<DNSCache::iterator, bool> inserted = g_dnsCache.insert(DNSCache::value_type(key, info));
+    if (!inserted.second && (info.m_status == 0))
+      DnsRecordListFree(info.m_results, DnsFreeRecordList);
+    r = inserted.first;
   }
 
   *queryResults = DnsRecordSetCopy(r->second.m_results);
