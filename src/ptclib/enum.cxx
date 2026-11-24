@@ -88,16 +88,16 @@ struct NAPTR_DNS {
   char info[1];
 
   char * GetFlagsBase() const       { return (char *)&info; }
-  int GetFlagsLen() const           { return (int)GetFlagsBase()[0]; }
+  int GetFlagsLen() const           { return (BYTE)GetFlagsBase()[0]; }
 
   char * GetServiceBase() const     { return GetFlagsBase() + 1 + GetFlagsLen(); }
-  int GetServiceLen() const         { return (int)GetServiceBase()[0]; }
+  int GetServiceLen() const         { return (BYTE)GetServiceBase()[0]; }
 
   char * GetRegexBase() const       { return GetServiceBase() + 1 + GetServiceLen(); }
-  int GetRegexLen() const           { return (int)GetRegexBase()[0]; }
+  int GetRegexLen() const           { return (BYTE)GetRegexBase()[0]; }
 
   char * GetReplacementBase() const { return GetRegexBase() + 1 + GetRegexLen(); }
-  int GetReplacementLen() const     { return (int)GetReplacementBase()[0]; }
+  int GetReplacementLen() const     { return (BYTE)GetReplacementBase()[0]; }
 
   PString GetFlags() const          { return PString(GetFlagsBase()+1,       GetFlagsLen()); }
   PString GetService() const        { return PString(GetServiceBase()+1,     GetServiceLen()); }
