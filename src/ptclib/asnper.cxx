@@ -705,6 +705,12 @@ PBoolean PASN_Choice::DecodePER(PPER_Stream & strm)
       if (CreateObject()) {
         PINDEX nextPos = strm.GetPosition() + len;
         ok = choice->Decode(strm);
+        // the value must end inside its open type, otherwise the octets behind it get decoded again
+        strm.ByteAlign();
+        if (strm.GetPosition() > nextPos) {
+          PTRACE(2, "PER\tOpen type value exceeds its length, aborting decode");
+          return PFalse;
+        }
         strm.SetPosition(nextPos);
       }
       else {
@@ -854,6 +860,12 @@ PBoolean PASN_Sequence::KnownExtensionDecodePER(PPER_Stream & strm, PINDEX fld, 
 
   PINDEX nextExtensionPosition = strm.GetPosition() + len;
   PBoolean ok = field.Decode(strm);
+  // the value must end inside its open type, otherwise the octets behind it get decoded again
+  strm.ByteAlign();
+  if (strm.GetPosition() > nextExtensionPosition) {
+    PTRACE(2, "PER\tOpen type value exceeds its length, aborting decode");
+    return PFalse;
+  }
   strm.SetPosition(nextExtensionPosition);
   return ok;
 }
