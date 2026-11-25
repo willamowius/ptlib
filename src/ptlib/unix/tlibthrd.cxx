@@ -985,8 +985,17 @@ void PThread::WaitForTermination() const
 
 PBoolean PThread::WaitForTermination(const PTimeInterval & maxWait) const
 {
-  pthread_t id = m_threadId;
-  if (!m_threadIdValid || this == Current()) {
+  // m_threadId and m_threadIdValid are written under m_activeThreadMutex (Restart(), housekeeping thread),
+  // so take a consistent snapshot under the same lock; release it before calling Current(), which also locks it
+  pthread_t id = 0;
+  bool idValid = false;
+  if (PProcess::IsInitialised()) {
+    PWaitAndSignal mutex(PProcess::Current().m_activeThreadMutex);
+    id = m_threadId;
+    idValid = m_threadIdValid;
+  }
+
+  if (!idValid || this == Current()) {
     PTRACE(2, "WaitForTermination on 0x" << hex << id << dec << " short circuited");
     return true;
   }
